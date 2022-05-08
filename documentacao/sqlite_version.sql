@@ -1,5 +1,14 @@
 -- DROP EM TUDO
 
+
+DROP VIEW IF EXISTS caixa_item_aberto;
+
+DROP VIEW IF EXISTS item_atual;
+
+DROP VIEW IF EXISTS caixa_item_view;
+
+DROP VIEW IF EXISTS item_view;
+
 DROP TABLE IF EXISTS config;
 
 DROP TABLE IF EXISTS estoque_item;
@@ -14,8 +23,6 @@ DROP TABLE IF EXISTS venda;
 
 DROP TABLE IF EXISTS caixa;
 
-DROP VIEW IF EXISTS caixa_atual;
-
 DROP TABLE IF EXISTS forma_pagamento;
 
 DROP TABLE IF EXISTS receita_item;
@@ -25,8 +32,6 @@ DROP TABLE IF EXISTS insumo;
 DROP TABLE IF EXISTS unidade_medida;
 
 DROP TABLE IF EXISTS status_item;
-
-DROP VIEW IF EXISTS item_atual;
 
 DROP TABLE IF EXISTS item;
 
@@ -138,20 +143,79 @@ CREATE TABLE IF NOT EXISTS insumo_item(
 	FOREIGN KEY (item_id) REFERENCES item (id) ON UPDATE CASCADE
 );
 
--- VIEWS E TRIGGERS
-		
+-- VIEWS COM REDUNDANCIAS
+
+CREATE VIEW IF NOT EXISTS item_view (
+	id,
+	nome,
+	qtd_item,
+	custo_item,
+	preco_item,
+	data_alteracao,
+	status_item_id,
+	status,
+	unidade_medida
+) AS
+	SELECT  i.id, i.nome, i.qtd, i.custo, i.preco, i.data_alteracao, si.id, si.nome, um.nome
+	FROM item AS i
+	INNER JOIN status_item AS si ON si.id = i.status_item_id 
+	INNER JOIN unidade_medida AS um ON um.id = i.unidade_medida_id;
+
+CREATE VIEW IF NOT EXISTS caixa_item_view (
+	id,
+	item_id,
+	nome_item,
+	qtd_no_caixa,
+	custo_item,
+	preco_item,
+	status_item,
+	unidade_medida,
+	caixa_id,
+	data_abertura,
+	estoque_id,
+	estoque_data
+) AS
+	SELECT ci.id, i.id, i.nome, ci.qtd, i.custo_item, i.preco_item, i.status, i.unidade_medida,
+			c.id, c.data_abertura, c.data_fechamento,
+			e.id, e.data_alteracao
+	FROM caixa_item AS ci
+	INNER JOIN item_view AS i ON i.id = ci.item_id
+	INNER JOIN caixa AS c ON c.id = ci.caixa_id
+		INNER JOIN estoque AS e ON e.id = c.estoque_id;
+
+-- VIEWS DO ULTIMO
+
+CREATE VIEW IF NOT EXISTS item_atual 
+AS
+	SELECT * FROM item_view
+	WHERE status_item_id > 0;
+
+CREATE VIEW IF NOT EXISTS caixa_item_aberto
+AS
+	SELECT civ.* FROM caixa_item_view AS civ
+	INNER JOIN caixa AS c ON c.id = civ.caixa_id
+	WHERE c.data_fechamento = NULL
+	LIMIT 1;
+
+-- TRIGGERS
+
 CREATE TRIGGER IF NOT EXISTS insert_item
 	BEFORE INSERT
 	ON item
 	WHEN EXISTS(SELECT 1 FROM item WHERE nome = NEW.nome AND NEW.status_item_id > 0 LIMIT 1)
 	BEGIN
-		SELECT RAISE(ROLLBACK, 'item with the same "nome" already exists');
+		SELECT RAISE(ROLLBACK, 'Item com mesmo "nome" ja existe!');
 	END;
 
-CREATE VIEW IF NOT EXISTS item_atual 
-AS
-	SELECT * FROM item
-	WHERE status_item_id > 0;
+CREATE TRIGGER IF NOT EXISTS insert_caixa
+	BEFORE INSERT
+	ON caixa
+	WHEN EXISTS(SELECT 1 FROM caixa WHERE data_fechamento = NULL LIMIT 1)
+	BEGIN
+		SELECT RAISE(ROLLBACK, 'Ainda ha um caixa aberto!');
+	END;
+
+-- TRIGGERS INSTEAD OF
 	
 CREATE TRIGGER IF NOT EXISTS update_item
 	INSTEAD OF UPDATE
@@ -176,12 +240,6 @@ CREATE TRIGGER IF NOT EXISTS delete_item
 		DELETE FROM item
 		WHERE id = OLD.id;
 	END;
-
-CREATE VIEW caixa_atual
-AS
-	SELECT * FROM caixa
-	WHERE data_fechamento = NULL
-	LIMIT 1;
 	
 -- INSERTS BASICOS
 
