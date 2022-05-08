@@ -1,8 +1,14 @@
 package com.tcc.zipzop.entity;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
 public class VendaItem {
 
+    @PrimaryKey(autoGenerate = true)
     private Long id;
+
     private Integer qtd;
     private Float preco_venda;
     private Integer venda_id; //FK

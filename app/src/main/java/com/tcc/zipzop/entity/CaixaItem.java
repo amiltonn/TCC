@@ -1,8 +1,14 @@
 package com.tcc.zipzop.entity;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
 public class CaixaItem {
 
+    @PrimaryKey(autoGenerate = true)
     private Long id;
+
     private Integer qtd;
     private Integer item_id; //FK
     private Integer caixa_id; //FK

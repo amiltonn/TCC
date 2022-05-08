@@ -1,10 +1,16 @@
 package com.tcc.zipzop.entity;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.time.LocalDateTime;
 
+@Entity
 public class InsumoItem {
 
+    @PrimaryKey(autoGenerate = true)
     private Long id;
+
     private Integer qtd_insumo_intem;
     private LocalDateTime data_alteracao;
     private Integer insumo_id; //FK

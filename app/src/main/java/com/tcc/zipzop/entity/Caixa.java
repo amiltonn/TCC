@@ -1,10 +1,16 @@
 package com.tcc.zipzop.entity;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.time.LocalDateTime;
 
+@Entity
 public class Caixa {
 
+    @PrimaryKey(autoGenerate = true)
     private Long id;
+
     private Float fundo;
     private LocalDateTime data_abertura;
     private LocalDateTime data_fechamento;

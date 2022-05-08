@@ -1,8 +1,14 @@
 package com.tcc.zipzop.entity;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
 public class Insumo {
 
+    @PrimaryKey(autoGenerate = true)
     private Long id;
+
     private Integer item_id;
 
     public Long getId() {

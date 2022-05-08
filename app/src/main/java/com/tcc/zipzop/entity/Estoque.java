@@ -1,10 +1,16 @@
 package com.tcc.zipzop.entity;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.time.LocalDateTime;
 
+@Entity
 public class Estoque {
 
+    @PrimaryKey(autoGenerate = true)
     private Long id;
+
     private LocalDateTime data_alteracao; //UQ
 
     public Long getId() {
