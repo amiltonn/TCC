@@ -4,10 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@color/blue">
 
     <TextView
         android:id="@+id/textView"
+        android:textColor="@color/darkblue"
         android:layout_width="284dp"
         android:layout_height="70dp"
         android:text="ZipZop"
