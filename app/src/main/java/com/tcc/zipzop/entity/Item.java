@@ -1,15 +1,22 @@
 package com.tcc.zipzop.entity;
 
-import java.time.LocalDateTime;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+
+@Entity
 public class Item {
 
+    @PrimaryKey(autoGenerate = true)
     private Long id;
+
     private String nome;
     private Integer qtd;
     private Float custo;
     private Float preco;
-    private LocalDateTime data_alteracao;
+    private String data_alteracao;
     private Integer item_antes_id;
     private Integer status_item_id; //FK
     private Integer unidade_medida_id; //FK
@@ -54,11 +61,11 @@ public class Item {
         this.preco = preco;
     }
 
-    public LocalDateTime getData_alteracao() {
+    public String getData_alteracao() {
         return data_alteracao;
     }
 
-    public void setData_alteracao(LocalDateTime data_alteracao) {
+    public void setData_alteracao(String data_alteracao) {
         this.data_alteracao = data_alteracao;
     }
 
