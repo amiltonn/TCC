@@ -176,7 +176,7 @@ CREATE VIEW IF NOT EXISTS caixa_item_view (
 	estoque_data
 ) AS
 	SELECT ci.id, i.id, i.nome, ci.qtd, i.custo_item, i.preco_item, i.status, i.unidade_medida,
-			c.id, c.data_abertura, c.data_fechamento,
+			c.id, c.data_abertura,
 			e.id, e.data_alteracao
 	FROM caixa_item AS ci
 	INNER JOIN item_view AS i ON i.id = ci.item_id
