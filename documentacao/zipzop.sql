@@ -9,8 +9,6 @@ DROP VIEW IF EXISTS caixa_item_view;
 
 DROP VIEW IF EXISTS item_view;
 
-DROP TABLE IF EXISTS config;
-
 DROP TABLE IF EXISTS estoque_item;
 
 DROP TABLE IF EXISTS estoque;
@@ -36,15 +34,6 @@ DROP TABLE IF EXISTS status_item;
 DROP TABLE IF EXISTS item;
 
 -- CREATES
-
-CREATE TABLE IF NOT EXISTS config(
-	id INTEGER PRIMARY KEY CHECK (id = 0),
-	usuario TEXT DEFAULT NULL,	
-	logado BOOLEAN NOT NULL DEFAULT false,
-	backup_schedule_hrs INTEGER NOT NULL DEFAULT 0,
-	moeda TEXT NOT NULL DEFAULT 'R$',
-	tem_insumo BOOLEAN NOT NULL DEFAULT false
-);
 
 CREATE TABLE IF NOT EXISTS status_item(
 	id INTEGER PRIMARY KEY NOT NULL,
@@ -143,61 +132,7 @@ CREATE TABLE IF NOT EXISTS insumo_item(
 	FOREIGN KEY (item_id) REFERENCES item (id) ON UPDATE CASCADE
 );
 
--- VIEWS COM REDUNDANCIAS
-
-CREATE VIEW IF NOT EXISTS item_view (
-	id,
-	nome,
-	qtd_item,
-	custo_item,
-	preco_item,
-	data_alteracao,
-	status_item_id,
-	status,
-	unidade_medida
-) AS
-	SELECT  i.id, i.nome, i.qtd, i.custo, i.preco, i.data_alteracao, si.id, si.nome, um.nome
-	FROM item AS i
-	INNER JOIN status_item AS si ON si.id = i.status_item_id 
-	INNER JOIN unidade_medida AS um ON um.id = i.unidade_medida_id;
-
-CREATE VIEW IF NOT EXISTS caixa_item_view (
-	id,
-	item_id,
-	nome_item,
-	qtd_no_caixa,
-	custo_item,
-	preco_item,
-	status_item,
-	unidade_medida,
-	caixa_id,
-	data_abertura,
-	estoque_id,
-	estoque_data
-) AS
-	SELECT ci.id, i.id, i.nome, ci.qtd, i.custo_item, i.preco_item, i.status, i.unidade_medida,
-			c.id, c.data_abertura,
-			e.id, e.data_alteracao
-	FROM caixa_item AS ci
-	INNER JOIN item_view AS i ON i.id = ci.item_id
-	INNER JOIN caixa AS c ON c.id = ci.caixa_id
-		INNER JOIN estoque AS e ON e.id = c.estoque_id;
-
--- VIEWS DO ULTIMO
-
-CREATE VIEW IF NOT EXISTS item_atual 
-AS
-	SELECT * FROM item_view
-	WHERE status_item_id > 0;
-
-CREATE VIEW IF NOT EXISTS caixa_item_aberto
-AS
-	SELECT civ.* FROM caixa_item_view AS civ
-	INNER JOIN caixa AS c ON c.id = civ.caixa_id
-	WHERE c.data_fechamento = NULL
-	LIMIT 1;
-
--- TRIGGERS
+-- TRIGGERS ITEM
 
 CREATE TRIGGER IF NOT EXISTS insert_item
 	BEFORE INSERT
@@ -207,6 +142,28 @@ CREATE TRIGGER IF NOT EXISTS insert_item
 		SELECT RAISE(ROLLBACK, 'Item com mesmo "nome" ja existe!');
 	END;
 
+CREATE TRIGGER IF NOT EXISTS update_item
+	BEFORE UPDATE
+	ON item
+	BEGIN
+		INSERT INTO item (nome, qtd, custo, preco, data_alteracao, item_antes_id, status_item_id, unidade_medida_id)
+			VALUES (NEW.nome, NEW.qtd, NEW.custo, NEW.preco, NEW.data_alteracao, OLD.id, NEW.status_item_id, NEW.unidade_medida_id);
+		
+		UPDATE item
+		SET status_item_id = -OLD.status_item_id
+		WHERE id = OLD.id;
+		SELECT RAISE(IGNORE);
+	END;
+
+CREATE TRIGGER IF NOT EXISTS delete_item
+	BEFORE DELETE
+	ON item
+	BEGIN
+		SELECT RAISE(ROLLBACK, 'Item nao pode ser deletado, altere "status_item_id" para seu inverso!');
+	END;
+
+-- TRIGGER CAIXA
+
 CREATE TRIGGER IF NOT EXISTS insert_caixa
 	BEFORE INSERT
 	ON caixa
@@ -215,35 +172,90 @@ CREATE TRIGGER IF NOT EXISTS insert_caixa
 		SELECT RAISE(ROLLBACK, 'Ainda ha um caixa aberto!');
 	END;
 
--- TRIGGERS INSTEAD OF
-	
-CREATE TRIGGER IF NOT EXISTS update_item
-	INSTEAD OF UPDATE
-	ON item_atual
-	BEGIN
-		INSERT INTO item (nome, qtd, custo, preco, status_item_id, data_alteracao, item_antes_id, unidade_medida_id)
-			VALUES (NEW.nome, NEW.qtd, NEW.custo, NEW.preco, NEW.status_item_id, datetime('now'), OLD.id, NEW.unidade_medida_id);
-		
-		UPDATE item
-		SET status_item_id = -OLD.status_item_id
-		WHERE id = OLD.id;
-	END;
+-- VIEWS COM REDUNDANCIAS
 
-CREATE TRIGGER IF NOT EXISTS delete_item
-	INSTEAD OF DELETE
-	ON item_atual
-	BEGIN
-		UPDATE item
-		SET status_item_id = -OLD.status_item_id
-		WHERE id = OLD.item_antes_id;
+CREATE VIEW IF NOT EXISTS item_view (
+	id,
+	nome,
+	qtd_item,
+	custo_item,
+	preco_item,
+	data_alteracao,
+	status,
+	unidade_medida
+) AS
+	SELECT  i.id, i.nome, i.qtd, i.custo, i.preco, i.data_alteracao,
+	si.nome,
+	um.nome
+	FROM item AS i
+	INNER JOIN status_item AS si ON si.id = i.status_item_id 
+	INNER JOIN unidade_medida AS um ON um.id = i.unidade_medida_id;
+
+CREATE VIEW IF NOT EXISTS caixa_item_view (
+	id,
+	item_id,
+	nome_item,
+	qtd_caixa_item,
+	custo_item,
+	preco_item,
+	status_item,
+	unidade_medida,
+	caixa_id,
+	data_abertura,
+	estoque_id,
+	estoque_data
+) AS
+	SELECT ci.id,
+			iv.id, iv.nome,
+			ci.qtd,
+			iv.custo_item, iv.preco_item, iv.status, iv.unidade_medida,
+			c.id, c.data_abertura,
+			e.id, e.data_alteracao
+	FROM caixa_item AS ci
+	INNER JOIN item_view AS iv ON iv.id = ci.item_id
+	INNER JOIN caixa AS c ON c.id = ci.caixa_id
+		INNER JOIN estoque AS e ON e.id = c.estoque_id;
 	
-		DELETE FROM item
-		WHERE id = OLD.id;
-	END;
-	
+CREATE VIEW IF NOT EXISTS venda_item_view (
+	id,
+	item_id,
+	caixa_item_id,
+	nome_item,
+	qtd_venda_item,
+	preco_venda_item,
+	custo_item,
+	preco_item,
+	status_item,
+	unidade_medida,
+	desconto_venda_item,
+	venda_id,
+	data_pagamento
+) AS
+	SELECT vi.id,
+	civ.item_id, civ.id, civ.nome_item,
+	vi.qtd, vi.preco_venda,
+	civ.custo_item, civ.preco_item, civ.status_item, civ.unidade_medida,
+	civ.preco_item-vi.preco_venda,
+	v.id, v.data_pagamento
+	FROM venda_item AS vi
+	INNER JOIN caixa_item_view AS civ ON civ.id = vi.caixa_item_id
+	INNER JOIN venda AS v ON v.id = vi.venda_id;
+
+-- VIEWSS DE ULTIMOS
+
+CREATE VIEW IF NOT EXISTS item_atual 
+AS
+	SELECT iv.* FROM item_view AS iv
+	INNER JOIN item AS i ON i.id = iv.id
+	WHERE i.status_item_id > 0;
+
+CREATE VIEW IF NOT EXISTS caixa_item_aberto
+AS
+	SELECT civ.* FROM caixa_item_view AS civ
+	INNER JOIN caixa AS c ON c.id = civ.caixa_id
+	WHERE c.data_fechamento = NULL;
+
 -- INSERTS BASICOS
-
-INSERT INTO config (id) VALUES (0);
 
 INSERT INTO status_item (id, nome)
 	VALUES	(-3, 'APENAS_INSUMO_ANTERIOR'),
@@ -269,3 +281,4 @@ INSERT INTO forma_pagamento (nome)
 			('PIX'),
 			('CARTAO_DEBITO'),
 			('CARTAO_CREDITO');
+
