@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Zipzop">
         <activity
+            android:name=".TesteActivity"
+            android:exported="false" />
+        <activity
             android:name=".NovoItemActivity"
             android:exported="false" />
         <activity

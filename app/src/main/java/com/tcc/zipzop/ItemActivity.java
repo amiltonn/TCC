@@ -38,7 +38,6 @@ public class ItemActivity extends AppCompatActivity {
     }
 
 
-
     public boolean onOptionsItemSelected(MenuItem menuItem){
 
         switch (menuItem.getItemId()){
