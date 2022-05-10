@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="@color/blue">
+    android:background="@color/darkblue">
 
     <TextView
         android:id="@+id/textView"
@@ -15,7 +15,7 @@
         android:layout_marginBottom="16dp"
         android:text="ZipZop"
         android:textAlignment="center"
-        android:textColor="@color/darkblue"
+        android:textColor="@color/blue"
         android:textSize="48sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

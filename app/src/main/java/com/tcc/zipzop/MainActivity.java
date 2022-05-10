@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
         botaoitem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,Item.class);
+                Intent intent = new Intent(MainActivity.this, ItemActivity.class);
                 startActivity(intent);
             }
         });
