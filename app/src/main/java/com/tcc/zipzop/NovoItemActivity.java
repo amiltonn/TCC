@@ -1,13 +1,16 @@
 package com.tcc.zipzop;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 public class NovoItemActivity extends AppCompatActivity {
-
+    private AppCompatButton  bt_cadastrar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -16,18 +19,17 @@ public class NovoItemActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Novo Item");
 
-    }
-    public boolean onOptionsItemSelected(MenuItem menuItem){
 
-        switch (menuItem.getItemId()){
-            case android.R.id.home:
-                finish();
-                return true;
-        }
-        return super.onOptionsItemSelected(menuItem);
-    }
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return true;
+        bt_cadastrar= findViewById(R.id.Bt_Cadastrar);
+        bt_cadastrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(NovoItemActivity.this,ItemActivity.class);
+                startActivity(intent);
+            }
+
+        });
+
     }
 
 }

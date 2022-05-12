@@ -14,10 +14,12 @@
             android:exported="false" />
         <activity
             android:name=".NovoItemActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".ItemActivity"/>
         <activity
             android:name=".ItemActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".MainActivity"
             android:exported="true">

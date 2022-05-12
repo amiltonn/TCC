@@ -38,17 +38,4 @@ public class ItemActivity extends AppCompatActivity {
     }
 
 
-    public boolean onOptionsItemSelected(MenuItem menuItem){
-
-        switch (menuItem.getItemId()){
-            case android.R.id.home:
-                finish();
-                return true;
-        }
-        return super.onOptionsItemSelected(menuItem);
-    }
-
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return true;
-    }
 }

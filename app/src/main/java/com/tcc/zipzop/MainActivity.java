@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
-    private Button botaoitem;
+    private Button bt_Item;
     private Button botaoTeste;
 
     @Override
@@ -16,8 +16,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        botaoitem = findViewById(R.id.buttonItem);
-        botaoitem.setOnClickListener(new View.OnClickListener() {
+        bt_Item = findViewById(R.id.buttonItem);
+        bt_Item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this,ItemActivity.class);
