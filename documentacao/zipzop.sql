@@ -205,7 +205,7 @@ CREATE TRIGGER IF NOT EXISTS after_insert_caixa_item
 	BEGIN
 		INSERT INTO caixa_fundo (valor, caixa_id)
 			SELECT valor, caixa_id FROM caixa_fundo AS cf
-				WHERE cf.data_alteracao = (SELECT MAX(data_alteracao) FROM caixa_fundo) LIMIT 1;
+				WHERE cf.data_alteracao = (SELECT MAX(data_alteracao) FROM caixa_fundo WHERE caixa_id = NEW.caixa_id) LIMIT 1;
 	END;
 
 CREATE TRIGGER IF NOT EXISTS update_caixa_item
