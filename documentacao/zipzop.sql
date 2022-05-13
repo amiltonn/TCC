@@ -159,6 +159,13 @@ CREATE TRIGGER IF NOT EXISTS validate_atual_update_item
 		SELECT RAISE(ROLLBACK, 'Não é possível dar UPDATE em "item" não "atual"!');
 	END;
 
+CREATE TRIGGER IF NOT EXISTS validate_delete_item
+	BEFORE DELETE
+	ON item
+	BEGIN
+		SELECT RAISE(ROLLBACK, '"item" nao pode ser deletado, desative-o trocando "ativo" para "false"!');
+	END;
+
 CREATE TRIGGER IF NOT EXISTS update_item
 	BEFORE UPDATE
 	ON item
@@ -169,34 +176,20 @@ CREATE TRIGGER IF NOT EXISTS update_item
 		WHERE id = OLD.id;
 	
 		INSERT INTO item (nome, qtd, custo, preco, item_antes_id, ativo, unidade_medida_id)
-			VALUES (NEW.nome, NEW.qtd, NEW.custo, NEW.preco, OLD.id, NEW.ativo, NEW.unidade_medida_id);	
+			VALUES (NEW.nome, NEW.qtd, NEW.custo, NEW.preco, OLD.id, NEW.ativo, NEW.unidade_medida_id);
+		
 		SELECT RAISE(IGNORE);
-	END;
-
-CREATE TRIGGER IF NOT EXISTS validate_delete_item
-	BEFORE DELETE
-	ON item
-	BEGIN
-		SELECT RAISE(ROLLBACK, '"item" nao pode ser deletado, desative-o trocando "ativo" para "false"!');
 	END;
 
 
 -- TRIGGER CAIXA_ITEM
 
--- novas_inserções_no_mesmo_id_atualizam_o_item_por_padrão
-CREATE TRIGGER IF NOT EXISTS update_caixa_item
+CREATE TRIGGER IF NOT EXISTS validate_update_caixa_item
 	BEFORE UPDATE
 	ON caixa_item
-	WHEN OLD.atual = true
+	WHEN OLD.id IN (SELECT id FROM caixa_item WHERE data_alteracao < (SELECT MAX(data_alteracao) FROM caixa_item WHERE item_id = OLD.item_id))
 	BEGIN
-		INSERT INTO caixa_item (qtd, item_id, caixa_id)
-			VALUES (NEW.qtd, OLD.item_id, OLD.caixa_id);
-		
-		INSERT INTO caixa_fundo (valor, caixa_item)
-			SELECT (valor, caixa_item) FROM caixa_fundo AS cf
-				WHERE cf.data_alteracao = (SELECT MAX(data_alteracao) FROM caixa_fundo);
-				
-		SELECT RAISE(IGNORE);
+		SELECT RAISE(ROLLBACK, 'Não é possível dar INSERT em "caixa_item" não "atual"!');
 	END;
 
 CREATE TRIGGER IF NOT EXISTS validate_delete_caixa_item
@@ -206,13 +199,44 @@ CREATE TRIGGER IF NOT EXISTS validate_delete_caixa_item
 		SELECT RAISE(ROLLBACK, '"caixa_item" nao pode ser deletado, desative-o trocando "ativo" para "false"!');
 	END;
 
+CREATE TRIGGER IF NOT EXISTS after_insert_caixa_item
+	AFTER INSERT
+	ON caixa_item
+	BEGIN
+		INSERT INTO caixa_fundo (valor, caixa_id)
+			SELECT valor, caixa_id FROM caixa_fundo AS cf
+				WHERE cf.data_alteracao = (SELECT MAX(data_alteracao) FROM caixa_fundo WHERE caixa_id = NEW.caixa_id) LIMIT 1;
+	END;
+
+CREATE TRIGGER IF NOT EXISTS update_caixa_item
+	BEFORE UPDATE
+	ON caixa_item
+	WHEN OLD.id IN (SELECT id FROM caixa_item WHERE data_alteracao = (SELECT MAX(data_alteracao) FROM caixa_item WHERE item_id = OLD.item_id))
+	BEGIN
+		INSERT INTO caixa_item (qtd, item_id, caixa_id)
+			VALUES (NEW.qtd, OLD.item_id, OLD.caixa_id);
+				
+		SELECT RAISE(IGNORE);
+	END;
+
+
+-- TRIGGER CAIXA_FUNDO
+
+CREATE TRIGGER IF NOT EXISTS validate_duplicado_insert_caixa_fundo
+	BEFORE INSERT
+	ON caixa_fundo
+	WHEN EXISTS(SELECT 1 FROM caixa_fundo WHERE data_alteracao = NEW.data_alteracao LIMIT 1)
+	BEGIN 
+		SELECT RAISE(IGNORE);
+	END;
+	
 
 -- TRIGGER ASSOCIADOS A CAIXA
 
 CREATE TRIGGER IF NOT EXISTS validate_caixa_insert_item
 	BEFORE INSERT
 	ON item
-	WHEN EXISTS(SELECT 1 FROM caixa WHERE data_fechamento = NULL LIMIT 1)
+	WHEN EXISTS(SELECT 1 FROM caixa WHERE data_fechamento IS NULL LIMIT 1)
 	BEGIN
 		SELECT RAISE(ROLLBACK, 'Não é possível dar INSERT ou UPDATE em "item" com um "caixa" aberto!');
 	END;
@@ -220,7 +244,7 @@ CREATE TRIGGER IF NOT EXISTS validate_caixa_insert_item
 CREATE TRIGGER IF NOT EXISTS validate_caixa_insert_caixa_item
 	BEFORE INSERT
 	ON caixa_item
-	WHEN EXISTS(SELECT 1 FROM caixa WHERE NEW.caixa_id = id AND data_fechamento <> NULL LIMIT 1)
+	WHEN EXISTS(SELECT 1 FROM caixa WHERE NEW.caixa_id = id AND data_fechamento IS NOT NULL LIMIT 1)
 	BEGIN
 		SELECT RAISE(ROLLBACK, 'Não é possível dar INSERT ou UPDATE em "caixa_item" com um "caixa" fechado!');
 	END;
@@ -228,7 +252,7 @@ CREATE TRIGGER IF NOT EXISTS validate_caixa_insert_caixa_item
 CREATE TRIGGER IF NOT EXISTS validate_caixa_insert_caixa_fundo
 	BEFORE INSERT
 	ON caixa_fundo
-	WHEN EXISTS(SELECT 1 FROM caixa WHERE NEW.caixa_id = id AND data_fechamento <> NULL LIMIT 1)
+	WHEN EXISTS(SELECT 1 FROM caixa WHERE NEW.caixa_id = id AND data_fechamento IS NOT NULL LIMIT 1)
 	BEGIN
 		SELECT RAISE(ROLLBACK, 'Não é possível dar INSERT ou UPDATE em "caixa_fundo" com um "caixa" fechado!');
 	END;
@@ -239,24 +263,9 @@ CREATE TRIGGER IF NOT EXISTS validate_caixa_insert_caixa_fundo
 CREATE TRIGGER IF NOT EXISTS validate_aberto_insert_caixa
 	BEFORE INSERT
 	ON caixa
-	WHEN EXISTS(SELECT 1 FROM caixa WHERE data_fechamento = NULL LIMIT 1)
+	WHEN EXISTS(SELECT 1 FROM caixa WHERE data_fechamento IS NULL LIMIT 1)
 	BEGIN
 		SELECT RAISE(ROLLBACK, 'Ainda há um "caixa" aberto!');
-	END;
-
-CREATE TRIGGER IF NOT EXISTS insert_caixa
-	BEFORE INSERT
-	ON caixa
-	WHEN NOT EXISTS(SELECT 1 FROM caixa WHERE data_fechamento = NULL LIMIT 1)
-	BEGIN
-		INSERT INTO estoque (data_alteracao) VALUES (datetime());
-		INSERT INTO estoque_item (estoque_id, item_id)
-			SELECT e.id, i.id
-				FROM estoque AS e, item AS i
-				WHERE
-					e.data_alteracao = (SELECT MAX(data_alteracao) FROM estoque)
-						AND
-					i.atual = true;
 	END;
 
 CREATE TRIGGER IF NOT EXISTS validate_update_caixa
@@ -265,9 +274,33 @@ CREATE TRIGGER IF NOT EXISTS validate_update_caixa
 	WHEN	OLD.id <> NEW.id
 		OR	OLD.data_abertura <> NEW.data_abertura
 		OR	OLD.estoque_id <> NEW.estoque_id
-		OR	OLD.data_fechamento <> NULL
+		OR	OLD.data_fechamento IS NOT NULL
 	BEGIN
 		SELECT RAISE(ROLLBACK, 'UPDATE em "caixa" desautorizado! Você tentou mudar "id", "data_abertura", "estoque_id" ou alterar um "caixa" já fechado.');
+	END;
+
+CREATE TRIGGER IF NOT EXISTS insert_caixa
+	BEFORE INSERT
+	ON caixa
+	WHEN NOT EXISTS(SELECT 1 FROM caixa WHERE data_fechamento IS NULL LIMIT 1)
+	BEGIN
+		INSERT INTO estoque (data_alteracao) VALUES (datetime());
+		
+		INSERT INTO estoque_item (estoque_id, item_id)
+			SELECT e.id, i.id
+				FROM estoque AS e, item AS i
+				WHERE
+					e.data_alteracao = (SELECT MAX(data_alteracao) FROM estoque)
+						AND
+					i.atual = true;
+		
+		INSERT INTO caixa (estoque_id)
+			SELECT e.id
+				FROM estoque AS e
+				WHERE
+					e.data_alteracao =  (SELECT MAX(data_alteracao) FROM estoque);
+		
+		SELECT RAISE(IGNORE);
 	END;
 
 
@@ -284,7 +317,15 @@ CREATE VIEW IF NOT EXISTS item_view (
 	data_alteracao,
 	unidade_medida
 ) AS
-	SELECT  i.id, i.nome, i.qtd, i.custo, i.preco, i.ativo, i.atual, i.data_alteracao,
+	SELECT
+	i.id,
+	i.nome,
+	i.qtd,
+	i.custo,
+	i.preco,
+	i.ativo,
+	i.atual,
+	i.data_alteracao,
 	um.nome
 	FROM item AS i
 	INNER JOIN unidade_medida AS um ON um.id = i.unidade_medida_id;
@@ -299,19 +340,33 @@ CREATE VIEW IF NOT EXISTS caixa_item_view (
 	preco_item,
 	unidade_medida,
 	caixa_id,
-	data_abertura,
+	caixa_data_abertura,
+	caixa_data_fechamento,
+	fundo_de_caixa,
 	estoque_id,
 	estoque_data
 ) AS
-	SELECT ci.id,
-			iv.id, iv.nome,
-			ci.qtd, ci.data_alteracao,
-			iv.custo_item, iv.preco_item, iv.unidade_medida,
-			c.id, c.data_abertura,
-			e.id, e.data_alteracao
+	SELECT	
+	ci.id,
+	iv.id,
+	iv.nome,
+	ci.qtd,
+	ci.data_alteracao,
+	iv.custo_item,
+	iv.preco_item,
+	iv.unidade_medida,
+	c.id,
+	c.data_abertura,
+	c.data_fechamento,
+	cf.valor,
+	e.id,
+	e.data_alteracao
 	FROM caixa_item AS ci
 	INNER JOIN item_view AS iv ON iv.id = ci.item_id
 	INNER JOIN caixa AS c ON c.id = ci.caixa_id
+		INNER JOIN caixa_fundo AS cf ON cf.caixa_id = c.id
+			AND
+		cf.data_alteracao = (SELECT MAX(data_alteracao) FROM caixa_fundo WHERE caixa_id = c.id)
 		INNER JOIN estoque AS e ON e.id = c.estoque_id;
 	
 CREATE VIEW IF NOT EXISTS venda_item_view (
@@ -326,17 +381,31 @@ CREATE VIEW IF NOT EXISTS venda_item_view (
 	unidade_medida,
 	desconto_venda_item,
 	venda_id,
-	data_pagamento
+	venda_valor_pago,
+	venda_valor_venda,
+	data_pagamento,
+	forma_pagamento
 ) AS
-	SELECT vi.id,
-	civ.item_id, civ.id, civ.nome_item,
-	vi.qtd,	vi.preco_venda,
-	civ.custo_item, civ.preco_item, civ.unidade_medida,
-	civ.preco_item-vi.preco_venda,
-	v.id, v.data_pagamento
+	SELECT
+	vi.id,
+	civ.item_id,
+	civ.id,
+	civ.nome_item,
+	vi.qtd,
+	vi.preco_venda,
+	civ.custo_item,
+	civ.preco_item,
+	civ.unidade_medida,
+	civ.preco_item - vi.preco_venda,
+	v.id,
+	v.valor_pago,
+	v.valor_venda,
+	v.data_pagamento,
+	fp.nome
 	FROM venda_item AS vi
 	INNER JOIN caixa_item_view AS civ ON civ.id = vi.caixa_item_id
-	INNER JOIN venda AS v ON v.id = vi.venda_id;
+	INNER JOIN venda AS v ON v.id = vi.venda_id
+		INNER JOIN forma_pagamento AS fp WHERE fp.id = v.forma_pagamento_id;
 
 
 -- VIEWSS DE ULTIMOS
@@ -356,7 +425,7 @@ CREATE VIEW IF NOT EXISTS caixa_item_aberto
 AS
 	SELECT cia.* FROM caixa_item_atual AS cia
 	INNER JOIN caixa AS c ON c.id = cia.caixa_id
-	WHERE c.data_fechamento = NULL;
+	WHERE c.data_fechamento IS NULL;
 
 
 -- INSERTS BASICOS
