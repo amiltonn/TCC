@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,10 +12,13 @@
     <EditText
         android:id="@+id/Nome"
         style="@style/Edit_Text"
-        android:hint="Nome"
-        android:textColorHint="@color/black"
-        android:textColor="@color/black"
         android:layout_marginTop="150dp"
+        android:hint="Nome"
+        android:imeOptions="actionNext"
+        android:inputType="textAutoComplete"
+        android:maxLength="25"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,38 +27,43 @@
     <EditText
         android:id="@+id/CustoProducao"
         style="@style/Edit_Text"
-        android:hint="Custo de Produção"
-        android:textColorHint="@color/black"
-        android:textColor="@color/black"
         android:layout_marginTop="50dp"
-        android:inputType="numberDecimal"
         android:digits="0123456789,"
+        android:hint="Custo de Produção"
+        android:imeOptions="actionNext"
+        android:inputType="numberDecimal"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Nome" />
+
     <EditText
         android:id="@+id/PrecoVenda"
         style="@style/Edit_Text"
-        android:hint="Preço de Venda"
-        android:textColorHint="@color/black"
-        android:textColor="@color/black"
         android:layout_marginTop="50dp"
-        android:inputType="numberDecimal"
         android:digits="0123456789,"
+        android:hint="Preço de Venda"
+        android:imeOptions="actionNext"
+        android:inputType="numberDecimal"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/CustoProducao" />
+
     <EditText
         android:id="@+id/Quantidade"
         style="@style/Edit_Text"
-        android:hint="Quantidade"
-        android:textColorHint="@color/black"
-        android:textColor="@color/black"
         android:layout_marginTop="50dp"
-        android:inputType="number"
         android:digits="0123456789."
+        android:hint="Quantidade"
+        android:imeOptions="normal"
+        android:inputType="number"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
@@ -65,12 +74,13 @@
         style="@style/Button"
         android:text="Cadastrar"
         android:textStyle="bold"
-        android:textAllCaps="false"
         android:layout_marginTop="50dp"
         android:layout_marginLeft="90dp"
         android:layout_marginRight="90dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Quantidade"/>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

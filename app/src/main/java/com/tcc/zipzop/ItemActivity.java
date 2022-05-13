@@ -19,22 +19,19 @@ public class ItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setTheme(R.style.Actionbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_item);
 
-        getSupportActionBar().setTitle("itens");
 
         floatingActionButtonNovoItem = findViewById(R.id.floatingActionButtonNovoItem);
         floatingActionButtonNovoItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ItemActivity.this,NovoItemActivity.class);
+
                 startActivity(intent);
+
             }
         });
-
-
-
     }
 
 

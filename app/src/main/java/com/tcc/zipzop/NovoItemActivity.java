@@ -1,5 +1,6 @@
 package com.tcc.zipzop;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
@@ -11,25 +12,23 @@ import android.view.View;
 
 public class NovoItemActivity extends AppCompatActivity {
     private AppCompatButton  bt_cadastrar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(R.style.Actionbar);
         setContentView(R.layout.activity_novo_item);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Novo Item");
-
 
         bt_cadastrar= findViewById(R.id.Bt_Cadastrar);
         bt_cadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(NovoItemActivity.this,ItemActivity.class);
+                Intent intent = new Intent(NovoItemActivity.this, ItemActivity.class);
+                finish();
                 startActivity(intent);
             }
 
         });
-
     }
 
 }
