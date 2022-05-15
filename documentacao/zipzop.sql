@@ -22,9 +22,9 @@ DROP TABLE IF EXISTS forma_pagamento;
 
 DROP TABLE IF EXISTS insumo;
 
-DROP TABLE IF EXISTS item;
+DROP TABLE IF EXISTS formula;
 
-DROP TABLE IF EXISTS formula_insumo;
+DROP TABLE IF EXISTS item;
 
 DROP TABLE IF EXISTS estoque;
 
@@ -63,7 +63,9 @@ CREATE TABLE IF NOT EXISTS item(
 	data_alteracao DATETIME NOT NULL DEFAULT (datetime()),
 	item_antes_id INTEGER DEFAULT NULL,	
 	unidade_medida_id INTEGER NOT NULL,
-	FOREIGN KEY (unidade_medida_id) REFERENCES unidade_medida (id) ON UPDATE RESTRICT ON DELETE RESTRICT
+	formula_id INTEGER DEFAULT NULL,
+	FOREIGN KEY (unidade_medida_id) REFERENCES unidade_medida (id) ON UPDATE RESTRICT ON DELETE RESTRICT,
+	FOREIGN KEY (formula_id) REFERENCES formula (id) ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 
 CREATE TABLE IF NOT EXISTS estoque_item(
@@ -121,15 +123,19 @@ CREATE TABLE IF NOT EXISTS venda_item(
 	FOREIGN KEY (caixa_item_id) REFERENCES caixa_item (id) ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 
-CREATE TABLE IF NOT EXISTS formula_insumo(
+CREATE TABLE IF NOT EXISTS formula(
+	id INTEGER PRIMARY KEY NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS insumo(
 	id INTEGER PRIMARY KEY NOT NULL,
 	qtd_insumo_item INTEGER NOT NULL,
 	ativo BOOLEAN NOT NULL DEFAULT true CHECK (ativo IN (false, true)),
 	data_alteracao DATETIME NOT NULL DEFAULT (datetime()),
+	formula_id INTEGER NOT NULL,
 	insumo_id INTEGER NOT NULL,
-	item_id INTEGER NOT NULL,
-	FOREIGN KEY (insumo_id) REFERENCES item (id) ON UPDATE RESTRICT ON DELETE RESTRICT,
-	FOREIGN KEY (item_id) REFERENCES item (id) ON UPDATE RESTRICT ON DELETE RESTRICT
+	FOREIGN KEY (formula_id) REFERENCES formula (id) ON UPDATE RESTRICT ON DELETE RESTRICT,
+	FOREIGN KEY (insumo_id) REFERENCES item (id) ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 
 
@@ -184,6 +190,14 @@ CREATE TRIGGER IF NOT EXISTS update_item
 
 -- TRIGGER CAIXA_ITEM
 
+CREATE TRIGGER IF NOT EXISTS validate_caixa_fundo_insert_caixa_item
+	BEFORE INSERT
+	ON caixa_item
+	WHEN NOT EXISTS(SELECT 1 FROM caixa_fundo WHERE caixa_id = NEW.caixa_id LIMIT 1)
+	BEGIN
+		SELECT RAISE(ROLLBACK, 'Antes de inserir um "caixa_item" é necessário inserir um "caixa_fundo"!');
+	END;
+
 CREATE TRIGGER IF NOT EXISTS validate_update_caixa_item
 	BEFORE UPDATE
 	ON caixa_item
@@ -202,6 +216,7 @@ CREATE TRIGGER IF NOT EXISTS validate_delete_caixa_item
 CREATE TRIGGER IF NOT EXISTS after_insert_caixa_item
 	AFTER INSERT
 	ON caixa_item
+	WHEN EXISTS(SELECT 1 FROM caixa_fundo WHERE caixa_id = NEW.caixa_id LIMIT 1)
 	BEGIN
 		INSERT INTO caixa_fundo (valor, caixa_id)
 			SELECT valor, caixa_id FROM caixa_fundo AS cf

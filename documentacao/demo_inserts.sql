@@ -10,7 +10,7 @@ SELECT * FROM item_view;
 SELECT * FROM item_atual;
 
 UPDATE item
-	SET nome = 'item_alterado' || id,
+	SET nome = nome || ' alterado',
 		qtd = qtd + 1,
 		custo = custo - 0.5
 	WHERE id > 2;
@@ -39,17 +39,17 @@ UPDATE caixa_item
 	SET qtd = 110
 	WHERE id IN (5, 6);
 
-SELECT id FROM caixa_item WHERE data_alteracao < (SELECT MAX(data_alteracao) FROM caixa_item);
-
 SELECT * FROM caixa;
-		
-SELECT * FROM caixa_item;
 
 SELECT * FROM caixa_fundo;
 
 SELECT * FROM estoque;
 
 SELECT * FROM estoque_item;
+		
+SELECT * FROM caixa_item;
+
+SELECT * FROM caixa_item_atual;
 
 SELECT * FROM caixa_item_aberto;
 
