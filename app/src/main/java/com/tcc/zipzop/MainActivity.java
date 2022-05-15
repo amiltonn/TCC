@@ -9,8 +9,6 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
     private Button bt_Item;
-    private Button botaoTeste;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,18 +21,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this,ItemActivity.class);
                 startActivity(intent);
             }
-
         });
-        botaoTeste = findViewById(R.id.button2);
-        botaoTeste.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, TesteActivity.class);
-                startActivity(intent);
-            }
-
-        });
-
     }
-
 }
