@@ -17,9 +17,10 @@ public class Item implements Serializable {
     private Integer qtd;
     private Float custo;
     private Float preco;
+    private Boolean ativo;
+    private Boolean atual;
     private String data_alteracao;
     private Integer item_antes_id;
-    private Integer status_item_id; //FK
     private Integer unidade_medida_id; //FK
 
     public Long getId() {
@@ -62,6 +63,22 @@ public class Item implements Serializable {
         this.preco = preco;
     }
 
+    public Boolean getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(Boolean ativo) {
+        this.ativo = ativo;
+    }
+
+    public Boolean getAtual() {
+        return atual;
+    }
+
+    public void setAtual(Boolean atual) {
+        this.atual = atual;
+    }
+
     public String getData_alteracao() {
         return data_alteracao;
     }
@@ -76,14 +93,6 @@ public class Item implements Serializable {
 
     public void setItem_antes_id(Integer item_antes_id) {
         this.item_antes_id = item_antes_id;
-    }
-
-    public Integer getStatus_item_id() {
-        return status_item_id;
-    }
-
-    public void setStatus_item_id(Integer status_item_id) {
-        this.status_item_id = status_item_id;
     }
 
     public Integer getUnidade_medida_id() {
