@@ -3,11 +3,12 @@ package com.tcc.zipzop.entity;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
-public class Item {
+public class Item implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     private Long id;

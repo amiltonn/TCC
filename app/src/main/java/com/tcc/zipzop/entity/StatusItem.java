@@ -4,7 +4,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class EstatusItem {
+public class StatusItem {
 
     @PrimaryKey(autoGenerate = true)
     private Long id;
