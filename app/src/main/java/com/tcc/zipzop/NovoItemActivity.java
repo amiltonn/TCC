@@ -9,8 +9,15 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class NovoItemActivity extends AppCompatActivity {
+
+
     private AppCompatButton  bt_cadastrar;
 
     @Override
@@ -18,6 +25,8 @@ public class NovoItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setTheme(R.style.Actionbar);
         setContentView(R.layout.activity_novo_item);
+
+
 
         bt_cadastrar= findViewById(R.id.Bt_Cadastrar);
         bt_cadastrar.setOnClickListener(new View.OnClickListener() {
