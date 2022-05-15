@@ -9,7 +9,7 @@ public class FormaPagamento {
     @PrimaryKey(autoGenerate = true)
     private Long id;
 
-    private String nome; // UK
+    private String nome; // UQ
 
     public Long getId() {
         return id;

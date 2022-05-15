@@ -3,6 +3,8 @@ package com.tcc.zipzop.entity;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.time.LocalDateTime;
+
 @Entity
 public class CaixaItem {
 
@@ -10,6 +12,9 @@ public class CaixaItem {
     private Long id;
 
     private Integer qtd;
+
+    private LocalDateTime data_alteracao;
+
     private Integer item_id; //FK
     private Integer caixa_id; //FK
 
@@ -27,6 +32,14 @@ public class CaixaItem {
 
     public void setQtd(Integer qtd) {
         this.qtd = qtd;
+    }
+
+    public LocalDateTime getData_alteracao() {
+        return data_alteracao;
+    }
+
+    public void setData_alteracao(LocalDateTime data_alteracao) {
+        this.data_alteracao = data_alteracao;
     }
 
     public Integer getItem_id() {
