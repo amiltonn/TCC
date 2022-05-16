@@ -1,5 +1,7 @@
 package com.tcc.zipzop.entity;
 
+import android.widget.EditText;
+
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -22,6 +24,8 @@ public class Item implements Serializable {
     private String data_alteracao;
     private Integer item_antes_id;
     private Integer unidade_medida_id; //FK
+
+
 
     public Long getId() {
         return id;

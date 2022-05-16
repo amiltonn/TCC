@@ -5,20 +5,17 @@ import androidx.appcompat.widget.AppCompatButton;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-<<<<<<< HEAD
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
-import java.util.ArrayList;
-import java.util.List;
-=======
 import android.widget.EditText;
 
 import com.tcc.zipzop.database.ZipZopDataBase;
 import com.tcc.zipzop.database.dao.ItemDAO;
 import com.tcc.zipzop.entity.Item;
->>>>>>> e8a52f703647ede1650999cf1fe49c388707acd0
+
+import java.util.ArrayList;
+
 
 public class NovoItemActivity extends AppCompatActivity {
 
@@ -26,11 +23,12 @@ public class NovoItemActivity extends AppCompatActivity {
     private AppCompatButton  bt_cadastrar;
 
     private ItemDAO dao;
-    private Item item;
+    private Item item = new Item();
     private EditText campoNome;
     private EditText campoCustoProducao;
     private EditText campoPrecoVenda;
     private EditText campoQuantidade;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +45,11 @@ public class NovoItemActivity extends AppCompatActivity {
         bt_cadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(NovoItemActivity.this, ItemActivity.class);
+                Intent intent = new Intent(NovoItemActivity.this,ItemActivity.class);
                 finalizaFormulario();
                 finish();
                 startActivity(intent);
+
             }
         });
     }
@@ -63,7 +62,7 @@ public class NovoItemActivity extends AppCompatActivity {
         campoQuantidade = findViewById(R.id.Quantidade);
     }
 
-    private void preencheAluno() {
+    private void preencheItem() {
         String nome = campoNome.getText().toString();
         String auxCustoProducao = campoCustoProducao.getText().toString();
         Float custoProducao = Float.parseFloat(auxCustoProducao);
@@ -79,8 +78,9 @@ public class NovoItemActivity extends AppCompatActivity {
     }
 
     private void finalizaFormulario() {
-        preencheAluno();
+        preencheItem();
         dao.salvar(item);
+
     }
 
 }

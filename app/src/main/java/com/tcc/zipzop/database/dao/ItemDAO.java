@@ -1,5 +1,7 @@
 package com.tcc.zipzop.database.dao;
 
+import android.database.Cursor;
+
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -8,8 +10,6 @@ import androidx.room.Update;
 
 import com.tcc.zipzop.entity.Item;
 
-import java.util.List;
-
 @Dao
 public interface ItemDAO {
 
@@ -17,7 +17,7 @@ public interface ItemDAO {
     void salvar(Item item);
 
     @Query("SELECT * FROM item")
-    List<Item> listar();
+    Cursor listar();
 
     @Delete
     void deletar(Item item);

@@ -1,6 +1,9 @@
 package com.tcc.zipzop;
 
 
+import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,15 +14,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.tcc.zipzop.entity.Item;
 
-import java.util.List;
+import java.util.ArrayList;
 
 
 public class ItemAdapterActivity extends RecyclerView.Adapter<ItemAdapterActivity.MyViewHolder> {
 
-    List<Item> itens;
+   private ArrayList nomeItem;
+   private Context context;
 
-    public ItemAdapterActivity(List<Item> itens) {
-        this.itens = itens;
+    public ItemAdapterActivity(ArrayList nomeItem, Context context) {
+        this.nomeItem = nomeItem;
+        this.context = context;
     }
 
     @NonNull
@@ -33,15 +38,14 @@ public class ItemAdapterActivity extends RecyclerView.Adapter<ItemAdapterActivit
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        Item item = itens.get(position);
-        holder.nome.setText(item.getNome());
+        holder.nome.setText(String.valueOf(nomeItem.get(position)));
 
 
     }
 
     @Override
     public int getItemCount() {
-        return itens.size();
+        return nomeItem.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{

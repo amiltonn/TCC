@@ -30,15 +30,15 @@ public class ZipZopMigrations {
             database.execSQL(
                 "CREATE TABLE IF NOT EXISTS item(" +
                     "id INTEGER PRIMARY KEY NOT NULL," +
-                    "nome TEXT NOT NULL," +
-                    "qtd INTEGER NOT NULL," +
-                    "custo NUMERIC NOT NULL," +
+                    "nome TEXT," +
+                    "qtd INTEGER ," +
+                    "custo NUMERIC," +
                     "preco NUMERIC," +
-                    "ativo BOOLEAN NOT NULL DEFAULT (true) CHECK (ativo IN (false, true))," +
-                    "atual BOOLEAN NOT NULL DEFAULT (true) CHECK (atual IN (false, true))," +
-                    "data_alteracao DATETIME NOT NULL DEFAULT (datetime())," +
+                    "ativo BOOLEAN  DEFAULT (true) CHECK (ativo IN (false, true))," +
+                    "atual BOOLEAN  DEFAULT (true) CHECK (atual IN (false, true))," +
+                    "data_alteracao DATETIME  DEFAULT (datetime())," +
                     "item_antes_id INTEGER DEFAULT NULL," +
-                    "unidade_medida_id INTEGER NOT NULL," +
+                    "unidade_medida_id INTEGER," +
                     "formula_id INTEGER DEFAULT NULL," +
                     "FOREIGN KEY (unidade_medida_id) REFERENCES unidade_medida (id) ON UPDATE RESTRICT ON DELETE RESTRICT," +
                     "FOREIGN KEY (formula_id) REFERENCES formula (id) ON UPDATE RESTRICT ON DELETE RESTRICT" +
