@@ -83,6 +83,14 @@ public class ZipZopMigrations {
                 ");"
             );
             database.execSQL(
+                "CREATE TABLE IF NOT EXISTS venda_local(" +
+                    " id INTEGER PRIMARY KEY NOT NULL," +
+                    " apelido TEXT NOT NULL UNIQUE," +
+                    " endereco TEXT NOT NULL," +
+                    " complemento TEXT" +
+                    ");"
+            );
+            database.execSQL(
                 "CREATE TABLE IF NOT EXISTS venda(" +
                     "id INTEGER PRIMARY KEY NOT NULL," +
                     "valor_pago NUMERIC NOT NULL," +
@@ -99,7 +107,7 @@ public class ZipZopMigrations {
                     "id INTEGER PRIMARY KEY NOT NULL," +
                     "qtd INTEGER NOT NULL," +
                     "preco_venda NUMERIC," +
-                    "venda_id INTEGER NOT NULL," +
+                    "venda_id INTEGER," +
                     "caixa_item_id INTEGER NOT NULL," +
                     "FOREIGN KEY (venda_id) REFERENCES venda (id) ON UPDATE RESTRICT ON DELETE RESTRICT," +
                     "FOREIGN KEY (caixa_item_id) REFERENCES caixa_item (id) ON UPDATE RESTRICT ON DELETE RESTRICT" +
@@ -122,6 +130,7 @@ public class ZipZopMigrations {
                     "FOREIGN KEY (insumo_id) REFERENCES item (id) ON UPDATE RESTRICT ON DELETE RESTRICT" +
                 ");"
             );
+
             /*TRIGGERS ITEM*/
             database.execSQL(
                 "CREATE TRIGGER IF NOT EXISTS validate_atual_insert_item" +
@@ -158,29 +167,8 @@ public class ZipZopMigrations {
                     " 	SELECT RAISE(ROLLBACK, '\"item\" nao pode ser deletado, desative-o trocando \"ativo\" para \"false\"!');" +
                     " END;"
             );
-            /*execSQL nao gosta de multiplas queries em um trigger
-            CREATED FIRST EXECUTED LAST https://stackoverflow.com/questions/68101791/sqlite-room-trigger-two-queries#comment120372984_68104444*/
             database.execSQL(
-                "CREATE TRIGGER IF NOT EXISTS update_item3" +
-                    " BEFORE UPDATE" +
-                    " ON item" +
-                    " WHEN OLD.atual = true" +
-                    " BEGIN" +
-                    " 	SELECT RAISE(IGNORE);" +
-                    " END;"
-            );
-            database.execSQL(
-                "CREATE TRIGGER IF NOT EXISTS update_item2" +
-                    " BEFORE UPDATE" +
-                    " ON item" +
-                    " WHEN OLD.atual = true" +
-                    " BEGIN" +
-                    " 	INSERT INTO item (nome, qtd, custo, preco, item_antes_id, ativo, unidade_medida_id)" +
-                    " 		VALUES (NEW.nome, NEW.qtd, NEW.custo, NEW.preco, OLD.id, NEW.ativo, NEW.unidade_medida_id);" +
-                    " END;"
-            );
-            database.execSQL(
-                "CREATE TRIGGER IF NOT EXISTS update_item1" +
+                "CREATE TRIGGER IF NOT EXISTS update_item" +
                     " BEFORE UPDATE" +
                     " ON item" +
                     " WHEN OLD.atual = true" +
@@ -188,9 +176,14 @@ public class ZipZopMigrations {
                     " 	UPDATE item" +
                     " 	SET atual = false" +
                     " 	WHERE id = OLD.id;" +
+                    " " +
+                    " 	INSERT INTO item (nome, qtd, custo, preco, item_antes_id, ativo, unidade_medida_id)" +
+                    " 		VALUES (NEW.nome, NEW.qtd, NEW.custo, NEW.preco, OLD.id, NEW.ativo, NEW.unidade_medida_id);" +
+                    " 	" +
+                    " 	SELECT RAISE(IGNORE);" +
                     " END;"
             );
-            /*CREATED FIRST EXECUTED LAST https://stackoverflow.com/questions/68101791/sqlite-room-trigger-two-queries#comment120372984_68104444*/
+
             /*TRIGGERS CAIXA_ITEM*/
             database.execSQL(
                 "CREATE TRIGGER IF NOT EXISTS validate_caixa_fundo_insert_caixa_item" +
@@ -229,29 +222,20 @@ public class ZipZopMigrations {
                     " 			WHERE cf.data_alteracao = (SELECT MAX(data_alteracao) FROM caixa_fundo WHERE caixa_id = NEW.caixa_id) LIMIT 1;" +
                     " END;"
             );
-            /*execSQL nao gosta de multiplas queries em um trigger
-            CREATED FIRST EXECUTED LAST https://stackoverflow.com/questions/68101791/sqlite-room-trigger-two-queries#comment120372984_68104444*/
             database.execSQL(
-                "CREATE TRIGGER IF NOT EXISTS update_caixa_item2" +
-                    " BEFORE UPDATE" +
-                    " ON caixa_item" +
-                    " WHEN OLD.id IN (SELECT id FROM caixa_item WHERE data_alteracao = (SELECT MAX(data_alteracao) FROM caixa_item WHERE item_id = OLD.item_id))" +
-                    " BEGIN" +
-                    " 	SELECT RAISE(IGNORE);" +
-                    " END;"
-            );
-            database.execSQL(
-                "CREATE TRIGGER IF NOT EXISTS update_caixa_item1" +
+                "CREATE TRIGGER IF NOT EXISTS update_caixa_item" +
                     " BEFORE UPDATE" +
                     " ON caixa_item" +
                     " WHEN OLD.id IN (SELECT id FROM caixa_item WHERE data_alteracao = (SELECT MAX(data_alteracao) FROM caixa_item WHERE item_id = OLD.item_id))" +
                     " BEGIN" +
                     " 	INSERT INTO caixa_item (qtd, item_id, caixa_id)" +
                     " 		VALUES (NEW.qtd, OLD.item_id, OLD.caixa_id);" +
+                    " 			" +
+                    " 	SELECT RAISE(IGNORE);" +
                     " END;"
             );
-            /*CREATED FIRST EXECUTED LAST https://stackoverflow.com/questions/68101791/sqlite-room-trigger-two-queries#comment120372984_68104444*/
-            /*TRIGGER CAIXA_FUNDO*/
+
+            /*TRIGGERS CAIXA_FUNDO*/
             database.execSQL(
                 "CREATE TRIGGER IF NOT EXISTS validate_duplicado_insert_caixa_fundo" +
                     " BEFORE INSERT" +
@@ -261,7 +245,8 @@ public class ZipZopMigrations {
                     " 	SELECT RAISE(IGNORE);" +
                     " END;"
             );
-            /*TRIGGER ASSOCIADOS A CAIXA*/
+
+            /*TRIGGERS ASSOCIADOS A CAIXA*/
             database.execSQL(
                 "CREATE TRIGGER IF NOT EXISTS validate_caixa_insert_item" +
                     " BEFORE INSERT" +
@@ -289,7 +274,8 @@ public class ZipZopMigrations {
                     " 	SELECT RAISE(ROLLBACK, 'Não é possível dar INSERT ou UPDATE em \"caixa_fundo\" com um \"caixa\" fechado!');" +
                     " END;"
             );
-            /*TRIGGER CAIXA*/
+
+            /*TRIGGERS CAIXA*/
             database.execSQL(
                 "CREATE TRIGGER IF NOT EXISTS validate_aberto_insert_caixa" +
                     " BEFORE INSERT" +
@@ -311,36 +297,14 @@ public class ZipZopMigrations {
                     " 	SELECT RAISE(ROLLBACK, 'UPDATE em \"caixa\" desautorizado! Você tentou mudar \"id\", \"data_abertura\", \"estoque_id\" ou alterar um \"caixa\" já fechado.');" +
                     " END;"
             );
-            /*execSQL nao gosta de multiplas queries em um trigger
-            CREATED FIRST EXECUTED LAST https://stackoverflow.com/questions/68101791/sqlite-room-trigger-two-queries#comment120372984_68104444*/
             database.execSQL(
-                "CREATE TRIGGER IF NOT EXISTS insert_caixa4" +
+                "CREATE TRIGGER IF NOT EXISTS insert_caixa" +
                     " BEFORE INSERT" +
                     " ON caixa" +
                     " WHEN NOT EXISTS(SELECT 1 FROM caixa WHERE data_fechamento IS NULL LIMIT 1)" +
                     " BEGIN" +
-                    " 	SELECT RAISE(IGNORE);" +
-                    " END;"
-            );
-            database.execSQL(
-                "CREATE TRIGGER IF NOT EXISTS insert_caixa3" +
-                    " BEFORE INSERT" +
-                    " ON caixa" +
-                    " WHEN NOT EXISTS(SELECT 1 FROM caixa WHERE data_fechamento IS NULL LIMIT 1)" +
-                    " BEGIN" +
-                    " 	INSERT INTO caixa (estoque_id)" +
-                    " 		SELECT e.id" +
-                    " 			FROM estoque AS e" +
-                    " 			WHERE" +
-                    " 				e.data_alteracao =  (SELECT MAX(data_alteracao) FROM estoque);" +
-                    " END;"
-            );
-            database.execSQL(
-                "CREATE TRIGGER IF NOT EXISTS insert_caixa2" +
-                    " BEFORE INSERT" +
-                    " ON caixa" +
-                    " WHEN NOT EXISTS(SELECT 1 FROM caixa WHERE data_fechamento IS NULL LIMIT 1)" +
-                    " BEGIN" +
+                    " 	INSERT INTO estoque (data_alteracao) VALUES (datetime());" +
+                    " 	" +
                     " 	INSERT INTO estoque_item (estoque_id, item_id)" +
                     " 		SELECT e.id, i.id" +
                     " 			FROM estoque AS e, item AS i" +
@@ -348,18 +312,55 @@ public class ZipZopMigrations {
                     " 				e.data_alteracao = (SELECT MAX(data_alteracao) FROM estoque)" +
                     " 					AND" +
                     " 				i.atual = true;" +
+                    " 	" +
+                    " 	INSERT INTO caixa (estoque_id)" +
+                    " 		SELECT e.id" +
+                    " 			FROM estoque AS e" +
+                    " 			WHERE" +
+                    " 				e.data_alteracao =  (SELECT MAX(data_alteracao) FROM estoque);" +
+                    " 	" +
+                    " 	SELECT RAISE(IGNORE);" +
+                    " END;"
+            );
+
+            /*TRIGGERS VENDA_ITEM*/
+            database.execSQL(
+                "CREATE TRIGGER IF NOT EXISTS validate_update_venda_item" +
+                    " BEFORE UPDATE" +
+                    " ON venda_item" +
+                    " WHEN OLD.venda_id IS NOT NULL" +
+                    " BEGIN" +
+                    " 	SELECT RAISE(ROLLBACK, 'Não é possível dar UPDATE em \"venda_item\" de venda executada!');" +
                     " END;"
             );
             database.execSQL(
-                "CREATE TRIGGER IF NOT EXISTS insert_caixa1" +
-                    " BEFORE INSERT" +
-                    " ON caixa" +
-                    " WHEN NOT EXISTS(SELECT 1 FROM caixa WHERE data_fechamento IS NULL LIMIT 1)" +
+                "CREATE TRIGGER IF NOT EXISTS validate_delete_venda_item" +
+                    " BEFORE DELETE" +
+                    " ON venda_item" +
+                    " WHEN OLD.venda_id IS NOT NULL" +
                     " BEGIN" +
-                    " 	INSERT INTO estoque (data_alteracao) VALUES (datetime());" +
+                    " 	SELECT RAISE(ROLLBACK, 'Não é possível dar DELETE em \"venda_item\" de venda executada!');" +
                     " END;"
             );
-            /*CREATED FIRST EXECUTED LAST https://stackoverflow.com/questions/68101791/sqlite-room-trigger-two-queries#comment120372984_68104444*/
+
+            /*TRIGGERS VENDA*/
+            database.execSQL(
+                "CREATE TRIGGER IF NOT EXISTS validate_update_venda" +
+                    " BEFORE UPDATE" +
+                    " ON venda" +
+                    " BEGIN" +
+                    " 	SELECT RAISE(ROLLBACK, 'Não é possível dar UPDATE em \"venda\"!');" +
+                    " END;"
+            );
+            database.execSQL(
+                "CREATE TRIGGER IF NOT EXISTS validate_delete_venda" +
+                    " BEFORE DELETE" +
+                    " ON venda" +
+                    " BEGIN" +
+                    " 	SELECT RAISE(ROLLBACK, 'Não é possível dar DELETE em \"venda\"!');" +
+                    " END;"
+            );
+
             /*INSERTS BASICOS*/
             database.execSQL(
                 "INSERT INTO unidade_medida (nome)" +
@@ -382,6 +383,8 @@ public class ZipZopMigrations {
         }
     };
 
+//  Nao sei se esta valendo:
+//  [1]execSQL nao gosta de multiplas queries em um trigger https://stackoverflow.com/questions/68101791/sqlite-room-trigger-two-queries#comment120372984_68104444
 
     static final Migration[] TODAS_MIGRATIONS = {MIGRATIONS};
 

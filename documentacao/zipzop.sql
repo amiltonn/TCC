@@ -18,6 +18,8 @@ DROP TABLE IF EXISTS caixa_fundo;
 
 DROP TABLE IF EXISTS venda;
 
+DROP TABLE IF EXISTS venda_local;
+
 DROP TABLE IF EXISTS forma_pagamento;
 
 DROP TABLE IF EXISTS insumo;
@@ -58,8 +60,8 @@ CREATE TABLE IF NOT EXISTS item(
 	qtd INTEGER NOT NULL,
 	custo NUMERIC NOT NULL,
 	preco NUMERIC,
-	ativo BOOLEAN NOT NULL DEFAULT true CHECK (ativo IN (false, true)),
-	atual BOOLEAN NOT NULL DEFAULT true CHECK (atual IN (false, true)),
+	ativo BOOLEAN NOT NULL DEFAULT (true) CHECK (ativo IN (false, true)),
+	atual BOOLEAN NOT NULL DEFAULT (true) CHECK (atual IN (false, true)),
 	data_alteracao DATETIME NOT NULL DEFAULT (datetime()),
 	item_antes_id INTEGER DEFAULT NULL,	
 	unidade_medida_id INTEGER NOT NULL,
@@ -102,13 +104,22 @@ CREATE TABLE IF NOT EXISTS caixa_item(
 	FOREIGN KEY (caixa_id) REFERENCES caixa (id) ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 
+CREATE TABLE IF NOT EXISTS venda_local(
+	id INTEGER PRIMARY KEY NOT NULL,
+	apelido TEXT NOT NULL UNIQUE,
+	endereco TEXT NOT NULL,
+	complemento TEXT
+);
+
 CREATE TABLE IF NOT EXISTS venda(
 	id INTEGER PRIMARY KEY NOT NULL,
 	valor_pago NUMERIC NOT NULL,
 	valor_venda NUMERIC NOT NULL,
 	data_pagamento DATETIME NOT NULL DEFAULT (datetime()),
+	venda_local_id INTEGER NOT NULL,
 	forma_pagamento_id INTEGER NOT NULL,
 	caixa_id INTEGER NOT NULL,
+	FOREIGN KEY (venda_local_id) REFERENCES venda_local (id) ON UPDATE RESTRICT ON DELETE RESTRICT,
 	FOREIGN KEY (forma_pagamento_id) REFERENCES forma_pagamento (id) ON UPDATE RESTRICT ON DELETE RESTRICT,
 	FOREIGN KEY (caixa_id) REFERENCES caixa (id) ON UPDATE RESTRICT ON DELETE RESTRICT
 );
@@ -117,7 +128,7 @@ CREATE TABLE IF NOT EXISTS venda_item(
 	id INTEGER PRIMARY KEY NOT NULL,
 	qtd INTEGER NOT NULL,
 	preco_venda NUMERIC,
-	venda_id INTEGER NOT NULL,
+	venda_id INTEGER,
 	caixa_item_id INTEGER NOT NULL,
 	FOREIGN KEY (venda_id) REFERENCES venda (id) ON UPDATE RESTRICT ON DELETE RESTRICT,
 	FOREIGN KEY (caixa_item_id) REFERENCES caixa_item (id) ON UPDATE RESTRICT ON DELETE RESTRICT
@@ -130,7 +141,7 @@ CREATE TABLE IF NOT EXISTS formula(
 CREATE TABLE IF NOT EXISTS insumo(
 	id INTEGER PRIMARY KEY NOT NULL,
 	qtd_insumo_item INTEGER NOT NULL,
-	ativo BOOLEAN NOT NULL DEFAULT true CHECK (ativo IN (false, true)),
+	ativo BOOLEAN NOT NULL DEFAULT (true) CHECK (ativo IN (false, true)),
 	data_alteracao DATETIME NOT NULL DEFAULT (datetime()),
 	formula_id INTEGER NOT NULL,
 	insumo_id INTEGER NOT NULL,
@@ -188,7 +199,7 @@ CREATE TRIGGER IF NOT EXISTS update_item
 	END;
 
 
--- TRIGGER CAIXA_ITEM
+-- TRIGGERS CAIXA_ITEM
 
 CREATE TRIGGER IF NOT EXISTS validate_caixa_fundo_insert_caixa_item
 	BEFORE INSERT
@@ -235,7 +246,7 @@ CREATE TRIGGER IF NOT EXISTS update_caixa_item
 	END;
 
 
--- TRIGGER CAIXA_FUNDO
+-- TRIGGERS CAIXA_FUNDO
 
 CREATE TRIGGER IF NOT EXISTS validate_duplicado_insert_caixa_fundo
 	BEFORE INSERT
@@ -246,7 +257,7 @@ CREATE TRIGGER IF NOT EXISTS validate_duplicado_insert_caixa_fundo
 	END;
 	
 
--- TRIGGER ASSOCIADOS A CAIXA
+-- TRIGGERS ASSOCIADOS A CAIXA
 
 CREATE TRIGGER IF NOT EXISTS validate_caixa_insert_item
 	BEFORE INSERT
@@ -273,7 +284,7 @@ CREATE TRIGGER IF NOT EXISTS validate_caixa_insert_caixa_fundo
 	END;
 
 
--- TRIGGER CAIXA
+-- TRIGGERS CAIXA
 
 CREATE TRIGGER IF NOT EXISTS validate_aberto_insert_caixa
 	BEFORE INSERT
@@ -316,6 +327,42 @@ CREATE TRIGGER IF NOT EXISTS insert_caixa
 					e.data_alteracao =  (SELECT MAX(data_alteracao) FROM estoque);
 		
 		SELECT RAISE(IGNORE);
+	END;
+
+
+-- TRIGGERS VENDA_ITEM
+
+CREATE TRIGGER IF NOT EXISTS validate_update_venda_item
+	BEFORE UPDATE
+	ON venda_item
+	WHEN OLD.venda_id IS NOT NULL
+	BEGIN
+		SELECT RAISE(ROLLBACK, 'Não é possível dar UPDATE em "venda_item" de venda executada!');
+	END;
+
+CREATE TRIGGER IF NOT EXISTS validate_delete_venda_item
+	BEFORE DELETE
+	ON venda_item
+	WHEN OLD.venda_id IS NOT NULL
+	BEGIN
+		SELECT RAISE(ROLLBACK, 'Não é possível dar DELETE em "venda_item" de venda executada!');
+	END;
+
+
+-- TRIGGERS VENDA
+
+CREATE TRIGGER IF NOT EXISTS validate_update_venda
+	BEFORE UPDATE
+	ON venda
+	BEGIN
+		SELECT RAISE(ROLLBACK, 'Não é possível dar UPDATE em "venda"!');
+	END;
+
+CREATE TRIGGER IF NOT EXISTS validate_delete_venda
+	BEFORE DELETE
+	ON venda
+	BEGIN
+		SELECT RAISE(ROLLBACK, 'Não é possível dar DELETE em "venda"!');
 	END;
 
 
@@ -399,6 +446,7 @@ CREATE VIEW IF NOT EXISTS venda_item_view (
 	venda_valor_pago,
 	venda_valor_venda,
 	data_pagamento,
+	local_de_venda,
 	forma_pagamento
 ) AS
 	SELECT
@@ -416,14 +464,16 @@ CREATE VIEW IF NOT EXISTS venda_item_view (
 	v.valor_pago,
 	v.valor_venda,
 	v.data_pagamento,
+	vl.apelido,
 	fp.nome
 	FROM venda_item AS vi
 	INNER JOIN caixa_item_view AS civ ON civ.id = vi.caixa_item_id
 	INNER JOIN venda AS v ON v.id = vi.venda_id
-		INNER JOIN forma_pagamento AS fp WHERE fp.id = v.forma_pagamento_id;
+		INNER JOIN venda_local AS vl ON vl.id = v.venda_local_id
+		INNER JOIN forma_pagamento AS fp ON fp.id = v.forma_pagamento_id;
 
 
--- VIEWSS DE ULTIMOS
+-- VIEWS DE ULTIMOS
 
 CREATE VIEW IF NOT EXISTS item_atual 
 AS

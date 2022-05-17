@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
 
-@Entity
+@Entity(tableName = "item")
 public class Item implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
