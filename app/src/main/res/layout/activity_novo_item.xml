@@ -60,7 +60,7 @@
         android:layout_marginTop="50dp"
         android:digits="0123456789."
         android:hint="Quantidade"
-        android:imeOptions="normal"
+        android:imeOptions="actionDone"
         android:inputType="number"
         android:textColor="@color/black"
         android:textColorHint="@color/black"

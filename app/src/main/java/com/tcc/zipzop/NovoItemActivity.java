@@ -65,9 +65,9 @@ public class NovoItemActivity extends AppCompatActivity {
     private void preencheItem() {
         String nome = campoNome.getText().toString();
         String auxCustoProducao = campoCustoProducao.getText().toString();
-        Float custoProducao = Float.parseFloat(auxCustoProducao);
+        Float custoProducao = converteFloat(auxCustoProducao);
         String auxPrecoVenda = campoPrecoVenda.getText().toString();
-        Float precoVenda = Float.parseFloat(auxPrecoVenda);
+        Float precoVenda = converteFloat(auxPrecoVenda);
         String auxQuantidade = campoQuantidade.getText().toString();
         Integer quantidade = Integer.parseInt(auxQuantidade);
 
@@ -82,5 +82,19 @@ public class NovoItemActivity extends AppCompatActivity {
         dao.salvar(item);
 
     }
+    public Float converteFloat(String valor){
+        String retorno = new String();
+        int tamanhoString = valor.length();
+        for(int i = 0; i < tamanhoString; i++){
+            if (valor.charAt(i) == ',') {
+                retorno += '.';
+            }else {
+                retorno += valor.charAt(i);
+            }
+        }
+        return Float.parseFloat(retorno);
+    }
+
+
 
 }
