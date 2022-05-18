@@ -10,6 +10,8 @@ import androidx.room.Update;
 
 import com.tcc.zipzop.entity.Item;
 
+import java.util.List;
+
 @Dao
 public interface ItemDAO {
 
@@ -17,7 +19,10 @@ public interface ItemDAO {
     void salvar(Item item);
 
     @Query("SELECT * FROM item")
-    Cursor listar();
+    List<Item> listar();
+
+    @Query("SELECT * FROM item WHERE id = :id")
+    Item consultar(Long id);
 
     @Delete
     void deletar(Item item);

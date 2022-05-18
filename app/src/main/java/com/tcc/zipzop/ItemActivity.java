@@ -31,7 +31,7 @@ public class ItemActivity extends AppCompatActivity {
     RecyclerView lista;
     ItemAdapterActivity itemAdapterActivity;
     private ItemDAO dao;
-    ArrayList<String> nomeItem, idItem,qtd,precoVenda;
+    List<Item> itens;
     private FloatingActionButton floatingActionButtonNovoItem;
 
 
@@ -40,27 +40,15 @@ public class ItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setTheme(R.style.Actionbar);
         setContentView(R.layout.activity_item);
-
+        //listagem dos itens
         ZipZopDataBase dataBase = ZipZopDataBase.getInstance(this);
         dao = dataBase.getItemDAO();
+        itens = dao.listar();
         lista = findViewById(R.id.Listar_Item);
-        Cursor cursor = dao.listar();
-        nomeItem = new ArrayList<>();
-        idItem = new ArrayList<>();
-        qtd = new ArrayList<>();
-        precoVenda = new ArrayList<>();
-        while (cursor.moveToNext()){
-            idItem.add(cursor.getString(0));
-            nomeItem.add(cursor.getString(1));
-            precoVenda.add(cursor.getString(4));
-            qtd.add(cursor.getString(2));
-
-        }
-        cursor.close();
-        itemAdapterActivity = new ItemAdapterActivity(nomeItem,idItem,qtd,precoVenda,this);
+        itemAdapterActivity = new ItemAdapterActivity(itens,this);
         lista.setAdapter(itemAdapterActivity);
         lista.setLayoutManager(new LinearLayoutManager(this));
-
+        //Função do botão
         floatingActionButtonNovoItem = findViewById(R.id.floatingActionButtonNovoItem);
         floatingActionButtonNovoItem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,14 +65,15 @@ public class ItemActivity extends AppCompatActivity {
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
-        int posicao = -1;
-        posicao = ((itemAdapterActivity.getPosicao()));
+        int posicao = ((itemAdapterActivity.getPosicao()));
+        Long id = ((itemAdapterActivity.getId()));
+
         switch (item.getItemId()){
             case R.id.excluir:
                 break;
             case R.id.editar:
-                Intent intent = new Intent(ItemActivity.this,TesteActivity.class);
-
+                Intent intent = new Intent(ItemActivity.this,EditarItemActivity.class);
+                intent.putExtra("id",id);
                 startActivity(intent);
                 break;
         }

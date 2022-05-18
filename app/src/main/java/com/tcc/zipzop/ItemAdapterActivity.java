@@ -18,19 +18,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.tcc.zipzop.entity.Item;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class ItemAdapterActivity extends RecyclerView.Adapter<ItemAdapterActivity.MyViewHolder> {
 
-   private ArrayList nomeItem, idItem,qtd,precoVenda;
+   private List<Item> itens;
    private Context context;
 
-    public ItemAdapterActivity(ArrayList nomeItem,ArrayList idItem,ArrayList qtd,ArrayList precoVenda, Context context) {
-        this.nomeItem = nomeItem;
+    public ItemAdapterActivity(List<Item> itens, Context context) {
+        this.itens = itens;
         this.context = context;
-        this.idItem = idItem;
-        this.qtd =  qtd;
-        this.precoVenda = precoVenda;
+
     }
 
 
@@ -45,24 +44,22 @@ public class ItemAdapterActivity extends RecyclerView.Adapter<ItemAdapterActivit
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.nome.setText(String.valueOf(nomeItem.get(position)));
-
+        holder.nome.setText(String.valueOf(itens.get(position).getNome()));
+        Long id = itens.get(position).getId();
         holder.nome.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 setPosicao(holder.getAdapterPosition());
+                setId(id);
+
                 return false;
             }
         });
-
-
-
-
     }
 
     @Override
     public int getItemCount() {
-        return nomeItem.size();
+        return itens.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener{
@@ -89,5 +86,11 @@ public class ItemAdapterActivity extends RecyclerView.Adapter<ItemAdapterActivit
     public void setPosicao(int posicao){
         this.posicao = posicao;
     }
-
+    private Long id;
+    public Long getId(){
+        return id;
+    }
+    public void setId(Long id){
+        this.id = id;
+    }
 }

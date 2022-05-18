@@ -5,6 +5,7 @@ import androidx.appcompat.widget.AppCompatButton;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.style.MaskFilterSpan;
 import android.util.Log;
 import android.view.View;
 
@@ -60,6 +61,7 @@ public class NovoItemActivity extends AppCompatActivity {
         campoCustoProducao = findViewById(R.id.CustoProducao);
         campoPrecoVenda = findViewById(R.id.PrecoVenda);
         campoQuantidade = findViewById(R.id.Quantidade);
+
     }
 
     private void preencheItem() {

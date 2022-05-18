@@ -6,11 +6,12 @@
         <entry key="..\:/AULAS CEUB/2022/zipzop/app/src/main/res/drawable/button.xml" value="0.1945" />
         <entry key="..\:/AULAS CEUB/2022/zipzop/app/src/main/res/drawable/edit_text.xml" value="0.1945" />
         <entry key="..\:/AULAS CEUB/2022/zipzop/app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.25" />
+        <entry key="..\:/AULAS CEUB/2022/zipzop/app/src/main/res/layout/activity_editar_item.xml" value="0.1" />
         <entry key="..\:/AULAS CEUB/2022/zipzop/app/src/main/res/layout/activity_item.xml" value="0.25" />
-        <entry key="..\:/AULAS CEUB/2022/zipzop/app/src/main/res/layout/activity_item_adapter.xml" value="0.18" />
+        <entry key="..\:/AULAS CEUB/2022/zipzop/app/src/main/res/layout/activity_item_adapter.xml" value="0.25" />
         <entry key="..\:/AULAS CEUB/2022/zipzop/app/src/main/res/layout/activity_itens.xml" value="0.1" />
         <entry key="..\:/AULAS CEUB/2022/zipzop/app/src/main/res/layout/activity_main.xml" value="0.25" />
-        <entry key="..\:/AULAS CEUB/2022/zipzop/app/src/main/res/layout/activity_novo_item.xml" value="0.22" />
+        <entry key="..\:/AULAS CEUB/2022/zipzop/app/src/main/res/layout/activity_novo_item.xml" value="0.1" />
         <entry key="..\:/AULAS CEUB/2022/zipzop/app/src/main/res/layout/activity_teste.xml" value="0.1585144927536232" />
         <entry key="..\:/AULAS CEUB/2022/zipzop/app/src/main/res/layout/custom_actionbar.xml" value="0.1585144927536232" />
         <entry key="..\:/AULAS CEUB/2022/zipzop/app/src/main/res/layout/edit_actionbar.xml" value="0.1585144927536232" />
