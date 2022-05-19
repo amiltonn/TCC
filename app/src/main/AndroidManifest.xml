@@ -9,6 +9,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Zipzop">
         <activity
+            android:name=".AbrirCaixaActivity"
+            android:exported="false"
+            android:label="Novo Caixa">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".CaixaActivity" />
+        </activity>
+        <activity
+            android:name=".CaixaActivity"
+            android:exported="false"
+            android:label="Caixa">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
             android:name=".EditarItemActivity"
             android:exported="false"
             android:label="Editar Item">

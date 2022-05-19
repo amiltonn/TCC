@@ -9,6 +9,7 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
     private Button bt_Item;
+    private Button bt_Caixa;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,6 +20,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this,ItemActivity.class);
+                startActivity(intent);
+            }
+
+        });
+
+        bt_Caixa = findViewById(R.id.buttonCaixa);
+        bt_Caixa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,CaixaActivity.class);
                 startActivity(intent);
             }
 
