@@ -1,10 +1,6 @@
 package com.tcc.zipzop.asynctask;
-
-import android.media.MediaPlayer;
 import android.os.AsyncTask;
 
-import com.tcc.zipzop.MainActivity;
-import com.tcc.zipzop.R;
 import com.tcc.zipzop.adapter.ItemAdapterActivity;
 import com.tcc.zipzop.database.dao.ItemDAO;
 import com.tcc.zipzop.entity.Item;
