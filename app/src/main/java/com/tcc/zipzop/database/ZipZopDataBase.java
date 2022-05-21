@@ -12,7 +12,7 @@ import com.tcc.zipzop.database.dao.ItemDAO;
 import com.tcc.zipzop.entity.Item;
 import com.tcc.zipzop.entity.UnidadeMedida;
 
-@Database(entities = {Item.class, UnidadeMedida.class}, version = 1, exportSchema = false)
+@Database(entities = {Item.class}, version = 1, exportSchema = false)
 public abstract class ZipZopDataBase extends RoomDatabase {
     public abstract ItemDAO getItemDAO();
 

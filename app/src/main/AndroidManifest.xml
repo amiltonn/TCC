@@ -25,26 +25,23 @@
                 android:value=".MainActivity" />
         </activity>
         <activity
-            android:name=".EditarItemActivity"
+            android:name=".activity.EditarItemActivity"
             android:exported="false"
             android:label="Editar Item">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ItemActivity" />
+                android:value=".activity.ItemActivity" />
         </activity>
         <activity
-            android:name=".TesteActivity"
-            android:exported="false" />
-        <activity
-            android:name=".NovoItemActivity"
+            android:name=".activity.NovoItemActivity"
             android:exported="false"
             android:label="Novo Item">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ItemActivity" />
+                android:value=".activity.ItemActivity" />
         </activity>
         <activity
-            android:name=".ItemActivity"
+            android:name=".activity.ItemActivity"
             android:exported="false"
             android:label="Item">
             <meta-data
