@@ -24,7 +24,6 @@ public class ExcluirItemTask extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... voids) {
         dao.deletar(item.getId());
-
         return null;
     }
 

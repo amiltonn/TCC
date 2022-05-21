@@ -33,7 +33,7 @@ public class ItemAdapterActivity extends RecyclerView.Adapter<ItemAdapterActivit
     private ItemDAO dao;
 
     private Long id;
-    private Long getId(){
+    public Long getId(){
         return id;
     }
     private void setId(Long id){
@@ -106,29 +106,6 @@ public class ItemAdapterActivity extends RecyclerView.Adapter<ItemAdapterActivit
 
     public Item getItem(int posicao) {
         return itens.get(posicao);
-    }
-
-
-    public MenuItem onContextItemSelected(@NonNull MenuItem menuItem) {
-
-        Long id = (getId());
-        Item item = this.dao.consultar(id);
-        ItemAdapterActivity adapter = this;
-
-        switch (menuItem.getItemId()){
-            case R.id.excluir:
-                new ExcluirItemTask(dao, adapter, item).execute();
-                AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) menuItem.getMenuInfo();
-                Item itemEscolhido = this.getItem(menuInfo.position);
-                excluir(itemEscolhido);
-                break;
-            case R.id.editar:
-                Intent intent2 = new Intent(context, EditarItemActivity.class);
-                intent2.putExtra("id",id);
-                context.startActivity(intent2);
-                break;
-        }
-        return menuItem;
     }
 
 }

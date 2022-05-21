@@ -12,11 +12,13 @@ import android.os.Bundle;
 
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.tcc.zipzop.R;
 import com.tcc.zipzop.adapter.ItemAdapterActivity;
+import com.tcc.zipzop.asynctask.ExcluirItemTask;
 import com.tcc.zipzop.database.ZipZopDataBase;
 import com.tcc.zipzop.database.dao.ItemDAO;
 import com.tcc.zipzop.entity.Item;
@@ -61,8 +63,25 @@ public class ItemActivity extends AppCompatActivity {
 
     }
     @Override
-    public boolean onContextItemSelected(@NonNull MenuItem item) {
-        return super.onContextItemSelected(itemAdapterActivity.onContextItemSelected(item));
+    public boolean onContextItemSelected(@NonNull MenuItem menuItem) {
+
+        Long id = itemAdapterActivity.getId();
+        Item item = this.dao.consultar(id);
+
+        switch (menuItem.getItemId()){
+            case R.id.excluir:
+                new ExcluirItemTask(dao, itemAdapterActivity, item).execute();
+                AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) menuItem.getMenuInfo();
+                Item itemEscolhido = itemAdapterActivity.getItem(menuInfo.position);
+                itemAdapterActivity.excluir(itemEscolhido);
+                break;
+            case R.id.editar:
+                Intent intent = new Intent(this, EditarItemActivity.class);
+                intent.putExtra("id",id);
+                startActivity(intent);
+                break;
+        }
+        return super.onContextItemSelected(menuItem);
     }
 
 
