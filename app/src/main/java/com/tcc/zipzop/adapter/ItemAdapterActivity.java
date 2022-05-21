@@ -3,12 +3,14 @@ package com.tcc.zipzop.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -99,6 +101,15 @@ public class ItemAdapterActivity extends RecyclerView.Adapter<ItemAdapterActivit
         notifyDataSetChanged();
     }
 
+    public Context getContext() {
+        return this.context;
+    }
+
+    public Item getItem(int posicao) {
+        return itens.get(posicao);
+    }
+
+
     public MenuItem onContextItemSelected(@NonNull MenuItem menuItem) {
 
         Long id = (getId());
@@ -108,6 +119,9 @@ public class ItemAdapterActivity extends RecyclerView.Adapter<ItemAdapterActivit
         switch (menuItem.getItemId()){
             case R.id.excluir:
                 new ExcluirItemTask(dao, adapter, item).execute();
+                AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) menuItem.getMenuInfo();
+                Item itemEscolhido = this.getItem(menuInfo.position);
+                excluir(itemEscolhido);
                 break;
             case R.id.editar:
                 Intent intent2 = new Intent(context, EditarItemActivity.class);
