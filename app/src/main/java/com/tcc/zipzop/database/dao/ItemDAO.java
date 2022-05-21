@@ -18,14 +18,14 @@ public interface ItemDAO {
     @Insert
     void salvar(Item item);
 
-    @Query("SELECT * FROM item")
+    @Query("SELECT * FROM item WHERE ativo = 1")
     List<Item> listar();
 
-    @Query("SELECT * FROM item WHERE id = :id")
+    @Query("SELECT * FROM item WHERE id = :id AND ativo = 1")
     Item consultar(Long id);
 
-    @Delete
-    void deletar(Item item);
+    @Query("UPDATE item SET ativo = 0 WHERE id = :id")
+    void deletar(Long id);
 
     @Update
     void alterar(Item item);

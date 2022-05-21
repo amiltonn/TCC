@@ -19,7 +19,7 @@ public class Item implements Serializable {
     private Integer qtd;
     private Float custo;
     private Float preco;
-    private Boolean ativo;
+    private Boolean ativo = true;
     private Boolean atual;
     private String data_alteracao;
     private Integer item_antes_id;
