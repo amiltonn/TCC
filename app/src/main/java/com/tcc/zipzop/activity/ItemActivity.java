@@ -2,6 +2,7 @@ package com.tcc.zipzop.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.interpolator.view.animation.FastOutLinearInInterpolator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,6 +14,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ListView;
 
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -33,6 +35,7 @@ public class ItemActivity extends AppCompatActivity {
     private ItemDAO dao;
     List<Item> itens;
     private FloatingActionButton floatingActionButtonNovoItem;
+    Intent intent;
 
 
     @Override
@@ -53,14 +56,12 @@ public class ItemActivity extends AppCompatActivity {
         floatingActionButtonNovoItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ItemActivity.this, SalvarItemActivity.class);
+                intent = new Intent(ItemActivity.this, SalvarItemActivity.class);
                 startActivity(intent);
-
             }
         });
-
-
     }
+
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem menuItem) {
 
@@ -70,18 +71,16 @@ public class ItemActivity extends AppCompatActivity {
         switch (menuItem.getItemId()){
             case R.id.excluir:
                 new ExcluirItemTask(dao, itemAdapterActivity, item).execute();
-                AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) menuItem.getMenuInfo();
-                Item itemEscolhido = itemAdapterActivity.getItem(menuInfo.position);
-                itemAdapterActivity.excluir(itemEscolhido);
+                itemAdapterActivity.excluir(item);
+                startActivity(getIntent());
                 break;
             case R.id.editar:
-                Intent intent = new Intent(this, SalvarItemActivity.class);
-                intent.putExtra("id",id);
+                intent = new Intent(this, SalvarItemActivity.class);
+                intent.putExtra("id", id);
                 startActivity(intent);
                 break;
         }
         return super.onContextItemSelected(menuItem);
     }
-
 
 }

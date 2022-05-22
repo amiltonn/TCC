@@ -47,7 +47,7 @@ public class SalvarItemActivity extends AppCompatActivity {
         btSalvar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setIntent(new Intent(SalvarItemActivity.this, MainActivity.class));
+                intent = new Intent(SalvarItemActivity.this, ItemActivity.class);
                 finalizaFormulario();
                 finish();
                 startActivity(intent);
