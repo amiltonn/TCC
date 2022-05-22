@@ -12,6 +12,7 @@ import android.widget.EditText;
 
 import com.tcc.zipzop.MainActivity;
 import com.tcc.zipzop.R;
+import com.tcc.zipzop.adapter.ItemAdapterActivity;
 import com.tcc.zipzop.database.ZipZopDataBase;
 import com.tcc.zipzop.database.dao.ItemDAO;
 import com.tcc.zipzop.entity.Item;
@@ -21,7 +22,7 @@ public class SalvarItemActivity extends AppCompatActivity {
 
 
     private AppCompatButton btSalvar;
-
+    private ItemAdapterActivity adapter;
     private ItemDAO dao;
     private Item item;
     private EditText    campoNome,
@@ -36,7 +37,7 @@ public class SalvarItemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(R.style.Actionbar);
-        setContentView(R.layout.activity_novo_item);
+        setContentView(R.layout.activity_salvar_item);
         ZipZopDataBase dataBase = ZipZopDataBase.getInstance(this);
         dao = dataBase.getItemDAO();
 
@@ -47,10 +48,9 @@ public class SalvarItemActivity extends AppCompatActivity {
         btSalvar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent = new Intent(SalvarItemActivity.this, ItemActivity.class);
                 finalizaFormulario();
                 finish();
-                startActivity(intent);
+
 
             }
         });
@@ -102,6 +102,7 @@ public class SalvarItemActivity extends AppCompatActivity {
         //novo item
         if(id.equals(0L)){
             dao.salvar(item);
+            adapter.adiciona(item);
         }
         //edita o item
         else{
