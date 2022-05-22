@@ -5,12 +5,10 @@ import androidx.appcompat.widget.AppCompatButton;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import android.widget.EditText;
 
-import com.tcc.zipzop.MainActivity;
 import com.tcc.zipzop.R;
 import com.tcc.zipzop.database.ZipZopDataBase;
 import com.tcc.zipzop.database.dao.ItemDAO;
@@ -18,7 +16,6 @@ import com.tcc.zipzop.entity.Item;
 
 
 public class SalvarItemActivity extends AppCompatActivity {
-
 
     private AppCompatButton btSalvar;
 
@@ -31,12 +28,11 @@ public class SalvarItemActivity extends AppCompatActivity {
     Intent intent;
     Long id = 0L;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(R.style.Actionbar);
-        setContentView(R.layout.activity_novo_item);
+        setContentView(R.layout.activity_salvar_item);
         ZipZopDataBase dataBase = ZipZopDataBase.getInstance(this);
         dao = dataBase.getItemDAO();
 
