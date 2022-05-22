@@ -53,8 +53,7 @@ public class ItemActivity extends AppCompatActivity {
         floatingActionButtonNovoItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ItemActivity.this, NovoItemActivity.class);
-
+                Intent intent = new Intent(ItemActivity.this, SalvarItemActivity.class);
                 startActivity(intent);
 
             }
@@ -76,7 +75,7 @@ public class ItemActivity extends AppCompatActivity {
                 itemAdapterActivity.excluir(itemEscolhido);
                 break;
             case R.id.editar:
-                Intent intent = new Intent(this, EditarItemActivity.class);
+                Intent intent = new Intent(this, SalvarItemActivity.class);
                 intent.putExtra("id",id);
                 startActivity(intent);
                 break;

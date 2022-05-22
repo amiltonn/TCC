@@ -33,7 +33,7 @@
                 android:value=".activity.ItemActivity" />
         </activity>
         <activity
-            android:name=".activity.NovoItemActivity"
+            android:name=".activity.SalvarItemActivity"
             android:exported="false"
             android:label="Novo Item">
             <meta-data

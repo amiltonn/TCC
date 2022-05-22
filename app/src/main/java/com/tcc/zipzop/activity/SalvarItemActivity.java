@@ -5,27 +5,31 @@ import androidx.appcompat.widget.AppCompatButton;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import android.widget.EditText;
 
+import com.tcc.zipzop.MainActivity;
 import com.tcc.zipzop.R;
 import com.tcc.zipzop.database.ZipZopDataBase;
 import com.tcc.zipzop.database.dao.ItemDAO;
 import com.tcc.zipzop.entity.Item;
 
 
-public class NovoItemActivity extends AppCompatActivity {
+public class SalvarItemActivity extends AppCompatActivity {
 
 
-    private AppCompatButton  bt_cadastrar;
+    private AppCompatButton btSalvar;
 
     private ItemDAO dao;
-    private Item item = new Item();
-    private EditText campoNome;
-    private EditText campoCustoProducao;
-    private EditText campoPrecoVenda;
-    private EditText campoQuantidade;
+    private Item item;
+    private EditText    campoNome,
+                        campoCustoProducao,
+                        campoPrecoVenda,
+                        campoQuantidade;
+    Intent intent;
+    Long id = 0L;
 
 
     @Override
@@ -35,15 +39,15 @@ public class NovoItemActivity extends AppCompatActivity {
         setContentView(R.layout.activity_novo_item);
         ZipZopDataBase dataBase = ZipZopDataBase.getInstance(this);
         dao = dataBase.getItemDAO();
+
         inicializaCampos();
+        preencheCampos();
 
-
-
-        bt_cadastrar= findViewById(R.id.Bt_Cadastrar);
-        bt_cadastrar.setOnClickListener(new View.OnClickListener() {
+        btSalvar = findViewById(R.id.Bt_Cadastrar);
+        btSalvar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(NovoItemActivity.this, ItemActivity.class);
+                setIntent(new Intent(SalvarItemActivity.this, MainActivity.class));
                 finalizaFormulario();
                 finish();
                 startActivity(intent);
@@ -59,6 +63,23 @@ public class NovoItemActivity extends AppCompatActivity {
         campoPrecoVenda = findViewById(R.id.PrecoVenda);
         campoQuantidade = findViewById(R.id.Quantidade);
 
+    }
+
+    private void preencheCampos() {
+        this.intent = getIntent();
+        id = intent.getLongExtra("id", 0);
+        item = dao.consultar(id);
+        //novo item
+        if(id.equals(0L)) {
+            item = new Item();
+        }
+        //edita o item
+        else{
+            campoNome.setText(item.getNome());
+            campoCustoProducao.setText("" + item.getCusto());
+            campoPrecoVenda.setText("" + item.getPreco());
+            campoQuantidade.setText("" + item.getQtd());
+        }
     }
 
     private void preencheItem() {
@@ -78,7 +99,14 @@ public class NovoItemActivity extends AppCompatActivity {
 
     private void finalizaFormulario() {
         preencheItem();
-        dao.salvar(item);
+        //novo item
+        if(id.equals(0L)){
+            dao.salvar(item);
+        }
+        //edita o item
+        else{
+            dao.alterar(item);
+        }
 
     }
     public Float converteFloat(String valor){
