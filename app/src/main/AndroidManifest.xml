@@ -25,14 +25,6 @@
                 android:value=".MainActivity" />
         </activity>
         <activity
-            android:name=".activity.EditarItemActivity"
-            android:exported="false"
-            android:label="Editar Item">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.ItemActivity" />
-        </activity>
-        <activity
             android:name=".activity.SalvarItemActivity"
             android:exported="false"
             android:label="Novo Item">

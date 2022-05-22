@@ -2,23 +2,23 @@ package com.tcc.zipzop.adapter;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.tcc.zipzop.R;
+<<<<<<< HEAD
 
 import com.tcc.zipzop.activity.ItemActivity;
 import com.tcc.zipzop.asynctask.ExcluirItemTask;
+=======
+>>>>>>> ec12948a9b083fa86094303b056860182221bed0
 import com.tcc.zipzop.database.ZipZopDataBase;
 import com.tcc.zipzop.database.dao.ItemDAO;
 import com.tcc.zipzop.entity.Item;
@@ -95,8 +95,12 @@ public class ItemAdapterActivity extends RecyclerView.Adapter<ItemAdapterActivit
             menu.add(Menu.NONE,R.id.excluir,Menu.NONE,"Excluir");
             menu.add(Menu.NONE,R.id.editar,Menu.NONE,"Editar");
 
-
         }
+    }
+
+    public void salvar(Item item){
+        this.itens.add(item);
+        notifyDataSetChanged();
     }
 
     public void excluir(Item item){

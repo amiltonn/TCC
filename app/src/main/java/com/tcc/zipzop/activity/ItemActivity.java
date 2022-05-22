@@ -2,7 +2,6 @@ package com.tcc.zipzop.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.interpolator.view.animation.FastOutLinearInInterpolator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,8 +12,6 @@ import android.os.Bundle;
 
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -71,7 +68,6 @@ public class ItemActivity extends AppCompatActivity {
         switch (menuItem.getItemId()){
             case R.id.excluir:
                 new ExcluirItemTask(dao, itemAdapterActivity, item).execute();
-                itemAdapterActivity.excluir(item);
                 startActivity(getIntent());
                 break;
             case R.id.editar:
