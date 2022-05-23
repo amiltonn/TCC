@@ -13,12 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.tcc.zipzop.R;
-<<<<<<< HEAD
-
-import com.tcc.zipzop.activity.ItemActivity;
-import com.tcc.zipzop.asynctask.ExcluirItemTask;
-=======
->>>>>>> ec12948a9b083fa86094303b056860182221bed0
 import com.tcc.zipzop.database.ZipZopDataBase;
 import com.tcc.zipzop.database.dao.ItemDAO;
 import com.tcc.zipzop.entity.Item;
@@ -61,14 +55,13 @@ public class ItemAdapterActivity extends RecyclerView.Adapter<ItemAdapterActivit
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.nome.setText(String.valueOf(itens.get(position).getNome()));
-        holder.qtd.setText(String.valueOf(itens.get(position).getQtd()));
-        holder.valor.setText("R$:"+String.valueOf(itens.get(position).getPreco()));
-        Long id = itens.get(position).getId();
+        //holder.qtd.setText(String.valueOf(itens.get(position).getQtd()));
+        //holder.valor.setText("R$:"+String.valueOf(itens.get(position).getPreco()));
+        int longClickPosition = position;
         holder.nome.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                setId(id);
-
+                setId(itens.get(longClickPosition).getId());
                 return false;
             }
         });
@@ -80,12 +73,14 @@ public class ItemAdapterActivity extends RecyclerView.Adapter<ItemAdapterActivit
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener{
-        TextView nome,qtd,valor;
+        TextView nome;
+        //TextView qtd;
+        //TextView valor;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             nome = itemView.findViewById(R.id.nomeItem);
-            qtd = itemView.findViewById(R.id.qtdItem);
-            valor = itemView.findViewById(R.id.valorItem);
+            //qtd = itemView.findViewById(R.id.qtdItem);
+            //valor = itemView.findViewById(R.id.valorItem);
             itemView.setOnCreateContextMenuListener(this);
 
 
@@ -96,11 +91,6 @@ public class ItemAdapterActivity extends RecyclerView.Adapter<ItemAdapterActivit
             menu.add(Menu.NONE,R.id.editar,Menu.NONE,"Editar");
 
         }
-    }
-
-    public void salvar(Item item){
-        this.itens.add(item);
-        notifyDataSetChanged();
     }
 
     public void excluir(Item item){
@@ -114,12 +104,6 @@ public class ItemAdapterActivity extends RecyclerView.Adapter<ItemAdapterActivit
 
     public Item getItem(int posicao) {
         return itens.get(posicao);
-    }
-
-    public void adiciona(List<Item> item){
-        this.itens.clear();
-        this.itens.addAll(item);
-        notifyDataSetChanged();
     }
 
 }

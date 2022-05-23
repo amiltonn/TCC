@@ -11,9 +11,15 @@ import android.widget.EditText;
 
 import com.tcc.zipzop.R;
 import com.tcc.zipzop.adapter.ItemAdapterActivity;
+import com.tcc.zipzop.asynctask.ConsultarItemTask;
+import com.tcc.zipzop.asynctask.EditarItemTask;
+import com.tcc.zipzop.asynctask.SalvarItemTask;
 import com.tcc.zipzop.database.ZipZopDataBase;
 import com.tcc.zipzop.database.dao.ItemDAO;
 import com.tcc.zipzop.entity.Item;
+
+import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 
 public class SalvarItemActivity extends AppCompatActivity {
@@ -28,6 +34,7 @@ public class SalvarItemActivity extends AppCompatActivity {
                         campoQuantidade;
     Intent intent;
     Long id = 0L;
+    ItemAdapterActivity itemAdapterActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,13 +52,9 @@ public class SalvarItemActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finalizaFormulario();
-                finish();
-
-
             }
         });
     }
-
 
     private void inicializaCampos() {
         campoNome = findViewById(R.id.Nome);
@@ -64,7 +67,14 @@ public class SalvarItemActivity extends AppCompatActivity {
     private void preencheCampos() {
         this.intent = getIntent();
         id = intent.getLongExtra("id", 0);
-        item = dao.consultar(id);
+        try {
+            item = new ConsultarItemTask(dao, id).execute().get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        //item = dao.consultar(id);
         //novo item
         if(id.equals(0L)) {
             item = new Item();
@@ -97,12 +107,11 @@ public class SalvarItemActivity extends AppCompatActivity {
         preencheItem();
         //novo item
         if(id.equals(0L)){
-            dao.salvar(item);
-            adapter.adiciona(item);
+            new SalvarItemTask(dao, this, item).execute();
         }
         //edita o item
         else{
-            dao.alterar(item);
+            new EditarItemTask(dao, this, item).execute();
         }
 
     }
@@ -119,6 +128,11 @@ public class SalvarItemActivity extends AppCompatActivity {
         return Float.parseFloat(retorno);
     }
 
-
+    public void salvarComSucesso(){
+        intent = new Intent(SalvarItemActivity.this, ItemActivity.class);
+        //adapter.adiciona(item);
+        finish();
+        startActivity(intent);
+    }
 
 }

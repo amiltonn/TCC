@@ -6,14 +6,13 @@ import com.tcc.zipzop.activity.SalvarItemActivity;
 import com.tcc.zipzop.database.dao.ItemDAO;
 import com.tcc.zipzop.entity.Item;
 
-public class SalvarItemTask extends AsyncTask<Void, Void, Void> {
-
+public class EditarItemTask extends AsyncTask<Void, Void, Void> {
 
     private final ItemDAO dao;
     private final SalvarItemActivity salvarItemActivity;
     private final Item item;
 
-    public SalvarItemTask(
+    public EditarItemTask(
             ItemDAO dao,
             SalvarItemActivity salvarItemActivity,
             Item item
@@ -25,7 +24,7 @@ public class SalvarItemTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... voids) {
-        dao.salvar(item);
+        dao.alterar(item);
         return null;
     }
 

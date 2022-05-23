@@ -19,8 +19,8 @@ public class Item implements Serializable {
     private Integer qtd;
     private Float custo;
     private Float preco;
-    private Boolean ativo = true;
-    private Boolean atual = true;
+    private Boolean ativo = (true);
+    private Boolean atual = (true);
     private String data_alteracao;
     private Integer item_antes_id;
     private Integer unidade_medida_id; //FK

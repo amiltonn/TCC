@@ -10,6 +10,7 @@ import android.content.Intent;
 
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -17,12 +18,15 @@ import android.view.View;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.tcc.zipzop.R;
 import com.tcc.zipzop.adapter.ItemAdapterActivity;
+import com.tcc.zipzop.asynctask.ConsultarItemTask;
 import com.tcc.zipzop.asynctask.ExcluirItemTask;
+import com.tcc.zipzop.asynctask.ListarItemTask;
 import com.tcc.zipzop.database.ZipZopDataBase;
 import com.tcc.zipzop.database.dao.ItemDAO;
 import com.tcc.zipzop.entity.Item;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 
 public class ItemActivity extends AppCompatActivity {
@@ -43,7 +47,13 @@ public class ItemActivity extends AppCompatActivity {
         //listagem dos itens
         ZipZopDataBase dataBase = ZipZopDataBase.getInstance(this);
         dao = dataBase.getItemDAO();
-        itens = dao.listar();
+        try {
+            itens = new ListarItemTask(dao).execute().get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         recyclerView = findViewById(R.id.Listar_Item);
         itemAdapterActivity = new ItemAdapterActivity(itens,this);
         recyclerView.setAdapter(itemAdapterActivity);
@@ -63,8 +73,15 @@ public class ItemActivity extends AppCompatActivity {
     public boolean onContextItemSelected(@NonNull MenuItem menuItem) {
 
         Long id = itemAdapterActivity.getId();
-        Item item = this.dao.consultar(id);
-
+        Item item = new Item();
+        try {
+            item = new ConsultarItemTask(dao, id).execute().get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        //item = dao.consultar(id);
         switch (menuItem.getItemId()){
             case R.id.excluir:
                 new ExcluirItemTask(dao, itemAdapterActivity, item).execute();
