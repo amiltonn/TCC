@@ -25,7 +25,7 @@ public class ItemAdapterActivity extends RecyclerView.Adapter<ItemAdapterActivit
     private List<Item> itens;
     private Context context;
     private ItemDAO dao;
-
+    private  int longClickPosition;
     private Long id;
     public Long getId(){
         return id;
@@ -55,16 +55,17 @@ public class ItemAdapterActivity extends RecyclerView.Adapter<ItemAdapterActivit
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.nome.setText(String.valueOf(itens.get(position).getNome()));
-        //holder.qtd.setText(String.valueOf(itens.get(position).getQtd()));
-        //holder.valor.setText("R$:"+String.valueOf(itens.get(position).getPreco()));
+        holder.qtd.setText(String.valueOf(itens.get(position).getQtd()));
+        holder.valor.setText("R$:"+String.valueOf(itens.get(position).getPreco()));
         int longClickPosition = position;
-        holder.nome.setOnLongClickListener(new View.OnLongClickListener() {
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 setId(itens.get(longClickPosition).getId());
                 return false;
             }
         });
+
     }
 
     @Override
@@ -74,15 +75,14 @@ public class ItemAdapterActivity extends RecyclerView.Adapter<ItemAdapterActivit
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener{
         TextView nome;
-        //TextView qtd;
-        //TextView valor;
+        TextView qtd;
+        TextView valor;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             nome = itemView.findViewById(R.id.nomeItem);
-            //qtd = itemView.findViewById(R.id.qtdItem);
-            //valor = itemView.findViewById(R.id.valorItem);
+            qtd = itemView.findViewById(R.id.qtdItem);
+            valor = itemView.findViewById(R.id.valorItem);
             itemView.setOnCreateContextMenuListener(this);
-
 
         }
         @Override
@@ -97,6 +97,8 @@ public class ItemAdapterActivity extends RecyclerView.Adapter<ItemAdapterActivit
         this.itens.remove(item);
         notifyDataSetChanged();
     }
+
+
 
     public Context getContext() {
         return this.context;
