@@ -3,7 +3,7 @@ package com.tcc.zipzop.entity;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity
+@Entity(tableName = "unidade_medida")
 public class UnidadeMedida {
 
     @PrimaryKey(autoGenerate = true)

@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey;
 
 import java.time.LocalDateTime;
 
-@Entity
+@Entity(tableName = "venda")
 public class Venda {
 
     @PrimaryKey(autoGenerate = true)

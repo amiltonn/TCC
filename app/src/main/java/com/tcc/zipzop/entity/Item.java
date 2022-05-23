@@ -13,17 +13,21 @@ import java.util.Date;
 public class Item implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
+    // Long ?
     private Long id;
 
     private String nome;
     private Integer qtd;
+    // Float ?
     private Float custo;
     private Float preco;
     private Boolean ativo = (true);
     private Boolean atual = (true);
     private String data_alteracao;
+    // Integer ?
     private Integer item_antes_id;
-    private Integer unidade_medida_id; //FK
+    // FK
+    private Integer unidade_medida_id;
 
 
 

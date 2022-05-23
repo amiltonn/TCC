@@ -18,15 +18,16 @@ public abstract class ZipZopDataBase extends RoomDatabase {
 //      https://medium.com/@srinuraop/database-create-and-open-callbacks-in-room-7ca98c3286ab
     public static RoomDatabase.Callback roomObliteratorCallback = new RoomDatabase.Callback() {
         public void onCreate (SupportSQLiteDatabase database) {
-//            database.execSQL(
-//                "CREATE TRIGGER IF NOT EXISTS validate_nome_insert_item" +
-//                    " BEFORE INSERT" +
-//                    " ON item" +
-//                    " WHEN EXISTS(SELECT 1 FROM item WHERE nome = NEW.nome AND atual = (true) LIMIT 1)" +
-//                    " BEGIN" +
-//                    " 	SELECT RAISE(ROLLBACK, '\"item\" com mesmo \"nome\" já existe!');" +
-//                    " END;"
-//            );
+            database.execSQL(
+                "CREATE TRIGGER IF NOT EXISTS validate_nome_insert_item" +
+                    " BEFORE INSERT" +
+                    " ON item" +
+                    " WHEN EXISTS(SELECT 1 FROM item WHERE nome = NEW.nome AND atual = 1" +
+                    " LIMIT 1)" +
+                    " BEGIN" +
+                    " 	SELECT RAISE(ROLLBACK, '\"item\" com mesmo \"nome\" já existe!');" +
+                    " END;"
+            );
         }
     };
 
@@ -37,7 +38,6 @@ public abstract class ZipZopDataBase extends RoomDatabase {
     public static ZipZopDataBase getInstance(Context context) {
         return Room
                 .databaseBuilder(context, ZipZopDataBase.class, "zipzop.db")
-                //.allowMainThreadQueries()
                 .addCallback(roomObliteratorCallback)
                 .build();
     }
