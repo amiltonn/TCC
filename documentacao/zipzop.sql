@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS unidade_medida(
 
 CREATE TABLE IF NOT EXISTS formula(
 	id INTEGER PRIMARY KEY NOT NULL,
-	aberta BOOLEAN NOT NULL DEFAULT (false) CHECK (aberta IN (false, true))
+	aberta BOOLEAN NOT NULL DEFAULT 0 CHECK (aberta IN (0, 1))
 );
 
 CREATE TABLE IF NOT EXISTS item(
@@ -64,8 +64,8 @@ CREATE TABLE IF NOT EXISTS item(
 	qtd INTEGER NOT NULL,
 	custo NUMERIC NOT NULL,
 	preco NUMERIC,
-	ativo BOOLEAN NOT NULL DEFAULT (true) CHECK (ativo IN (false, true)),
-	atual BOOLEAN NOT NULL DEFAULT (true) CHECK (atual IN (false, true)),
+	ativo BOOLEAN NOT NULL DEFAULT 1 CHECK (ativo IN (0, 1)),
+	atual BOOLEAN NOT NULL DEFAULT 1 CHECK (atual IN (0, 1)),
 	data_alteracao DATETIME NOT NULL DEFAULT (datetime()),
 	item_antes_id INTEGER DEFAULT NULL,
 	unidade_medida_id INTEGER NOT NULL,
@@ -92,8 +92,8 @@ CREATE TABLE IF NOT EXISTS gasto_item(
 CREATE TABLE IF NOT EXISTS insumo(
 	id INTEGER PRIMARY KEY NOT NULL,
 	qtd_insumo_item INTEGER NOT NULL,
-	ativo BOOLEAN NOT NULL DEFAULT (true) CHECK (ativo IN (false, true)),
-	atual BOOLEAN NOT NULL DEFAULT (true) CHECK (atual IN (false, true)),
+	ativo BOOLEAN NOT NULL DEFAULT 1 CHECK (ativo IN (0, 1)),
+	atual BOOLEAN NOT NULL DEFAULT 1 CHECK (atual IN (0, 1)),
 	data_alteracao DATETIME NOT NULL DEFAULT (datetime()),
 	formula_id INTEGER NOT NULL,
 	insumo_id INTEGER NOT NULL,
@@ -133,8 +133,8 @@ CREATE TABLE IF NOT EXISTS caixa_fundo(
 CREATE TABLE IF NOT EXISTS caixa_item(
 	id INTEGER PRIMARY KEY NOT NULL,
 	qtd INTEGER NOT NULL,
-	ativo BOOLEAN NOT NULL DEFAULT (true) CHECK (ativo IN (false, true)),
-	atual BOOLEAN NOT NULL DEFAULT (true) CHECK (atual IN (false, true)),
+	ativo BOOLEAN NOT NULL DEFAULT 1 CHECK (ativo IN (0, 1)),
+	atual BOOLEAN NOT NULL DEFAULT 1 CHECK (atual IN (0, 1)),
 	data_alteracao DATETIME NOT NULL DEFAULT (datetime()),
 	item_id INTEGER NOT NULL,
 	caixa_id INTEGER NOT NULL,
@@ -160,7 +160,7 @@ CREATE TABLE IF NOT EXISTS venda(
 	id INTEGER PRIMARY KEY NOT NULL,
 	valor_pago NUMERIC NOT NULL,
 	valor_venda NUMERIC NOT NULL,
-	aberta BOOLEAN NOT NULL DEFAULT (true) CHECK (aberta IN (false, true)),
+	aberta BOOLEAN NOT NULL DEFAULT 1 CHECK (aberta IN (0, 1)),
 	data_pagamento DATETIME NOT NULL DEFAULT (datetime()),
 	venda_local_id INTEGER NOT NULL,
 	forma_pagamento_id INTEGER NOT NULL,
@@ -186,7 +186,7 @@ CREATE TABLE IF NOT EXISTS venda_item(
 CREATE TRIGGER IF NOT EXISTS validate_atual_insert_item
 	BEFORE INSERT
 	ON item
-	WHEN NEW.atual = false
+	WHEN NEW.atual = 0
 	BEGIN
 		SELECT RAISE(ROLLBACK, 'Não é possível dar INSERT com "item" não "atual"!');
 	END;
@@ -194,9 +194,9 @@ CREATE TRIGGER IF NOT EXISTS validate_atual_insert_item
 CREATE TRIGGER IF NOT EXISTS validate_nome_insert_item
 	BEFORE INSERT
 	ON item
-	WHEN EXISTS(SELECT 1 FROM item WHERE nome = NEW.nome AND atual = true LIMIT 1)
+	WHEN EXISTS(SELECT 1 FROM item WHERE nome = NEW.nome AND atual = 1 LIMIT 1)
 	BEGIN
-		SELECT RAISE(ROLLBACK, '"item" com "ativo" true e mesmo "nome" já existe!');
+		SELECT RAISE(ROLLBACK, '"item" com "ativo" 1 e mesmo "nome" já existe!');
 	END;
 
 CREATE TRIGGER IF NOT EXISTS validate_formula_update_item
@@ -210,7 +210,7 @@ CREATE TRIGGER IF NOT EXISTS validate_formula_update_item
 CREATE TRIGGER IF NOT EXISTS validate_atual_update_item
 	BEFORE UPDATE
 	ON item
-	WHEN OLD.atual = false
+	WHEN OLD.atual = 0
 	BEGIN
 		SELECT RAISE(ROLLBACK, 'Não é possível dar UPDATE em "item" não "atual"!');
 	END;
@@ -219,7 +219,7 @@ CREATE TRIGGER IF NOT EXISTS validate_delete_item
 	BEFORE DELETE
 	ON item
 	BEGIN
-		SELECT RAISE(ROLLBACK, '"item" nao pode ser deletado, desative-o trocando "ativo" para "false"!');
+		SELECT RAISE(ROLLBACK, '"item" nao pode ser deletado, desative-o trocando "ativo" para "0"!');
 	END;
 
 CREATE TRIGGER IF NOT EXISTS insert_item
@@ -228,7 +228,7 @@ CREATE TRIGGER IF NOT EXISTS insert_item
 	WHEN NEW.formula_id IS NULL
 	BEGIN
 		INSERT INTO formula (aberta)
-			VALUES ((false));
+			VALUES (0);
 	
 		INSERT INTO item (nome, qtd, custo, preco, ativo, unidade_medida_id, formula_id)
 			VALUES (NEW.nome, NEW.qtd, NEW.custo, NEW.preco, NEW.ativo, NEW.unidade_medida_id, (SELECT MAX(id) FROM formula));
@@ -239,10 +239,10 @@ CREATE TRIGGER IF NOT EXISTS insert_item
 CREATE TRIGGER IF NOT EXISTS update_item
 	BEFORE UPDATE
 	ON item
-	WHEN OLD.atual = true
+	WHEN OLD.atual = 1
 	BEGIN
 		UPDATE item
-		SET atual = false
+		SET atual = 0
 		WHERE id = OLD.id;
 	
 		INSERT INTO item (nome, qtd, custo, preco, item_antes_id, ativo, unidade_medida_id, formula_id)
@@ -257,7 +257,7 @@ CREATE TRIGGER IF NOT EXISTS update_item
 CREATE TRIGGER IF NOT EXISTS validate_atual_insert_caixa_item
 	BEFORE INSERT
 	ON item
-	WHEN NEW.atual = false
+	WHEN NEW.atual = 0
 	BEGIN
 		SELECT RAISE(ROLLBACK, 'Não é possível dar INSERT com "caixa_item" não "atual"!');
 	END;
@@ -265,9 +265,9 @@ CREATE TRIGGER IF NOT EXISTS validate_atual_insert_caixa_item
 CREATE TRIGGER IF NOT EXISTS validate_item_id_insert_caixa_item
 	BEFORE INSERT
 	ON caixa_item
-	WHEN EXISTS(SELECT 1 FROM caixa_item WHERE item_id = NEW.item_id AND atual = true LIMIT 1)
+	WHEN EXISTS(SELECT 1 FROM caixa_item WHERE item_id = NEW.item_id AND atual = 1 LIMIT 1)
 	BEGIN
-		SELECT RAISE(ROLLBACK, '"caixa_item" com "ativo" true e mesmo "item_id" já existe!');
+		SELECT RAISE(ROLLBACK, '"caixa_item" com "ativo" 1 e mesmo "item_id" já existe!');
 	END;
 
 CREATE TRIGGER IF NOT EXISTS validate_caixa_fundo_insert_caixa_item
@@ -281,7 +281,7 @@ CREATE TRIGGER IF NOT EXISTS validate_caixa_fundo_insert_caixa_item
 CREATE TRIGGER IF NOT EXISTS validate_update_caixa_item
 	BEFORE UPDATE
 	ON caixa_item
-	WHEN OLD.atual = false
+	WHEN OLD.atual = 0
 	BEGIN
 		SELECT RAISE(ROLLBACK, 'Não é possível dar UPDATE em "caixa_item" não "atual"!');
 	END;
@@ -290,7 +290,7 @@ CREATE TRIGGER IF NOT EXISTS validate_delete_caixa_item
 	BEFORE DELETE
 	ON caixa_item
 	BEGIN
-		SELECT RAISE(ROLLBACK, '"caixa_item" nao pode ser deletado, desative-o trocando "ativo" para "false"!');
+		SELECT RAISE(ROLLBACK, '"caixa_item" nao pode ser deletado, desative-o trocando "ativo" para "0"!');
 	END;
 
 CREATE TRIGGER IF NOT EXISTS after_insert_caixa_item
@@ -306,10 +306,10 @@ CREATE TRIGGER IF NOT EXISTS after_insert_caixa_item
 CREATE TRIGGER IF NOT EXISTS update_caixa_item
 	BEFORE UPDATE
 	ON caixa_item
-	WHEN OLD.atual = true
+	WHEN OLD.atual = 1
 	BEGIN
 		UPDATE caixa_item
-		SET atual = false
+		SET atual = 0
 		WHERE id = OLD.id;
 		
 		INSERT INTO caixa_item (qtd, ativo, item_id, caixa_id)
@@ -391,7 +391,7 @@ CREATE TRIGGER IF NOT EXISTS insert_caixa
 				WHERE
 					e.data_alteracao = (SELECT MAX(data_alteracao) FROM estoque)
 						AND
-					i.atual = true;
+					i.atual = 1;
 		
 		INSERT INTO caixa (estoque_id)
 			SELECT e.id
@@ -408,7 +408,7 @@ CREATE TRIGGER IF NOT EXISTS insert_caixa
 CREATE TRIGGER IF NOT EXISTS validate_insert_venda_item
 	BEFORE INSERT
 	ON venda_item
-	WHEN (SELECT aberta FROM venda WHERE id = NEW.venda_id) = false
+	WHEN (SELECT aberta FROM venda WHERE id = NEW.venda_id) = 0
 	BEGIN
 		SELECT RAISE(ROLLBACK, 'Não é possível dar INSERT em "venda_item" de venda executada!');
 	END;
@@ -416,7 +416,7 @@ CREATE TRIGGER IF NOT EXISTS validate_insert_venda_item
 CREATE TRIGGER IF NOT EXISTS validate_update_venda_item
 	BEFORE UPDATE
 	ON venda_item
-	WHEN OLD.venda_id IS NOT NULL OR (SELECT aberta FROM venda WHERE id = OLD.venda_id) = false
+	WHEN OLD.venda_id IS NOT NULL OR (SELECT aberta FROM venda WHERE id = OLD.venda_id) = 0
 	BEGIN
 		SELECT RAISE(ROLLBACK, 'Não é possível dar UPDATE em "venda_item" de venda executada!');
 	END;
@@ -424,7 +424,7 @@ CREATE TRIGGER IF NOT EXISTS validate_update_venda_item
 CREATE TRIGGER IF NOT EXISTS validate_delete_venda_item
 	BEFORE DELETE
 	ON venda_item
-	WHEN OLD.venda_id IS NOT NULL OR (SELECT aberta FROM venda WHERE id = OLD.venda_id) = false
+	WHEN OLD.venda_id IS NOT NULL OR (SELECT aberta FROM venda WHERE id = OLD.venda_id) = 0
 	BEGIN
 		SELECT RAISE(ROLLBACK, 'Não é possível dar DELETE em "venda_item" de venda executada!');
 	END;
@@ -435,7 +435,7 @@ CREATE TRIGGER IF NOT EXISTS validate_delete_venda_item
 CREATE TRIGGER IF NOT EXISTS validate_update_venda
 	BEFORE UPDATE
 	ON venda
-	WHEN OLD.aberta = false
+	WHEN OLD.aberta = 0
 	BEGIN
 		SELECT RAISE(ROLLBACK, 'Não é possível dar UPDATE em "venda"!');
 	END;
@@ -453,7 +453,7 @@ CREATE TRIGGER IF NOT EXISTS validate_delete_venda
 CREATE TRIGGER IF NOT EXISTS validate_atual_insert_insumo
 	BEFORE INSERT
 	ON insumo
-	WHEN NEW.atual = false
+	WHEN NEW.atual = 0
 	BEGIN
 		SELECT RAISE(ROLLBACK, 'Não é possível dar INSERT com "insumo" não "atual"!');
 	END;
@@ -461,15 +461,15 @@ CREATE TRIGGER IF NOT EXISTS validate_atual_insert_insumo
 CREATE TRIGGER IF NOT EXISTS validate_formula_insumo_ids_insert_insumo
 	BEFORE INSERT
 	ON insumo
-	WHEN EXISTS(SELECT 1 FROM insumo WHERE formula_id = NEW.formula_id AND insumo_id = NEW.insumo_id AND atual = true LIMIT 1)
+	WHEN EXISTS(SELECT 1 FROM insumo WHERE formula_id = NEW.formula_id AND insumo_id = NEW.insumo_id AND atual = 1 LIMIT 1)
 	BEGIN
-		SELECT RAISE(ROLLBACK, '"insumo" com "ativo" true e mesmos "formula_id" e "insumo_id" já existe!');
+		SELECT RAISE(ROLLBACK, '"insumo" com "ativo" 1 e mesmos "formula_id" e "insumo_id" já existe!');
 	END;
 
 CREATE TRIGGER IF NOT EXISTS validate_update_insumo
 	BEFORE UPDATE
 	ON insumo
-	WHEN OLD.atual = false
+	WHEN OLD.atual = 0
 	BEGIN
 		SELECT RAISE(ROLLBACK, 'Não é possível dar UPDATE em "insumo" não "atual"!');
 	END;
@@ -478,16 +478,16 @@ CREATE TRIGGER IF NOT EXISTS validate_delete_insumo
 	BEFORE DELETE
 	ON insumo
 	BEGIN
-		SELECT RAISE(ROLLBACK, '"insumo" nao pode ser deletado, desative-o trocando "ativo" para "false"!');
+		SELECT RAISE(ROLLBACK, '"insumo" nao pode ser deletado, desative-o trocando "ativo" para "0"!');
 	END;
 
 CREATE TRIGGER IF NOT EXISTS update_insumo
 	BEFORE UPDATE
 	ON insumo
-	WHEN OLD.atual = true
+	WHEN OLD.atual = 1
 	BEGIN
 		UPDATE insumo
-		SET atual = false
+		SET atual = 0
 		WHERE id = OLD.id;
 		
 		INSERT INTO insumo (qtd_insumo_item, ativo, formula_id, insumo_id)
@@ -613,12 +613,12 @@ CREATE VIEW IF NOT EXISTS venda_item_view (
 CREATE VIEW IF NOT EXISTS item_atual 
 AS
 	SELECT iv.* FROM item_view AS iv
-	WHERE iv.atual = true;
+	WHERE iv.atual = 1;
 
 CREATE VIEW IF NOT EXISTS caixa_item_atual 
 AS
 	SELECT * FROM caixa_item_view AS civ
-	WHERE civ.atual = true;
+	WHERE civ.atual = 1;
 
 CREATE VIEW IF NOT EXISTS caixa_item_aberto
 AS
