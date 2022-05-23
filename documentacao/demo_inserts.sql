@@ -37,7 +37,7 @@ INSERT INTO caixa_item (qtd, item_id, caixa_id)
 -- UPDATE muito imediato, por isso esta para 5 e 6
 UPDATE caixa_item
 	SET qtd = 110
-	WHERE id IN (5, 6);
+	WHERE id IN (3, 4);
 
 SELECT * FROM caixa;
 
@@ -49,6 +49,8 @@ SELECT * FROM estoque_item;
 		
 SELECT * FROM caixa_item;
 
+SELECT * FROM caixa_item_view;
+
 SELECT * FROM caixa_item_atual;
 
 SELECT * FROM caixa_item_aberto;
@@ -59,3 +61,5 @@ SELECT c.id, c.data_abertura, c.data_fechamento, cf.valor AS fundo, cf.data_alte
 SELECT c.id, c.data_abertura, c.data_fechamento, cf.valor AS fundo, cf.data_alteracao AS data_alteracao, c.estoque_id FROM caixa AS c
 	INNER JOIN caixa_fundo AS cf ON cf.caixa_id = c.id
 	WHERE cf.data_alteracao = (SELECT MAX(data_alteracao) FROM caixa_fundo WHERE caixa_id = c.id);
+
+-- UPDATE caixa SET data_fechamento = datetime();
