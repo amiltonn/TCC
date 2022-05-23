@@ -22,8 +22,7 @@ public abstract class ZipZopDataBase extends RoomDatabase {
                 "CREATE TRIGGER IF NOT EXISTS validate_nome_insert_item" +
                     " BEFORE INSERT" +
                     " ON item" +
-                    " WHEN EXISTS(SELECT 1 FROM item WHERE nome = NEW.nome AND atual = 1" +
-                    " LIMIT 1)" +
+                    " WHEN EXISTS(SELECT 1 FROM item WHERE nome = NEW.nome AND atual = 1 LIMIT 1)" +
                     " BEGIN" +
                     " 	SELECT RAISE(ROLLBACK, '\"item\" com mesmo \"nome\" já existe!');" +
                     " END;"
