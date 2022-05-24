@@ -129,10 +129,8 @@ public class SalvarItemActivity extends AppCompatActivity {
     }
 
     public void salvarComSucesso(){
-        intent = new Intent(SalvarItemActivity.this, ItemActivity.class);
-        //adapter.adiciona(item);
         finish();
-        startActivity(intent);
+
     }
 
 }

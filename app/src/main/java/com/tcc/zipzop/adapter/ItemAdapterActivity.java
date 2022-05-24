@@ -17,12 +17,13 @@ import com.tcc.zipzop.database.ZipZopDataBase;
 import com.tcc.zipzop.database.dao.ItemDAO;
 import com.tcc.zipzop.entity.Item;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class ItemAdapterActivity extends RecyclerView.Adapter<ItemAdapterActivity.MyViewHolder> {
 
-    private List<Item> itens;
+    private List<Item> itens = new ArrayList<>();
     private Context context;
     private ItemDAO dao;
     private  int longClickPosition;
@@ -62,6 +63,7 @@ public class ItemAdapterActivity extends RecyclerView.Adapter<ItemAdapterActivit
             @Override
             public boolean onLongClick(View v) {
                 setId(itens.get(longClickPosition).getId());
+                setPosicao(holder.getAdapterPosition());
                 return false;
             }
         });
@@ -92,9 +94,14 @@ public class ItemAdapterActivity extends RecyclerView.Adapter<ItemAdapterActivit
 
         }
     }
+    public void atualiza(List<Item> item) {
+        this.itens.clear();
+        this.itens.addAll(item);
+        notifyDataSetChanged();
+    }
 
     public void excluir(Item item){
-        this.itens.remove(item);
+        itens.remove(item);
         notifyDataSetChanged();
     }
 
@@ -106,6 +113,14 @@ public class ItemAdapterActivity extends RecyclerView.Adapter<ItemAdapterActivit
 
     public Item getItem(int posicao) {
         return itens.get(posicao);
+    }
+
+    private int posicao;
+    public int getPosicao(){
+        return posicao;
+    }
+    public void setPosicao(int posicao){
+        this.posicao = posicao;
     }
 
 }

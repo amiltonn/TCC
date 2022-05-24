@@ -67,6 +67,23 @@ public class ItemActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+    }
+    public void atualizaItens() throws ExecutionException, InterruptedException {
+        itens = new ListarItemTask(dao).execute().get();
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        try {
+            atualizaItens();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        itemAdapterActivity.atualiza(itens);
     }
 
     @Override
@@ -81,11 +98,12 @@ public class ItemActivity extends AppCompatActivity {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        int posicao = ((itemAdapterActivity.getPosicao()));
         //item = dao.consultar(id);
         switch (menuItem.getItemId()){
             case R.id.excluir:
-                new ExcluirItemTask(dao, itemAdapterActivity, item).execute();
-                startActivity(getIntent());
+                Item items = itemAdapterActivity.getItem(posicao);
+                new ExcluirItemTask(dao, itemAdapterActivity, items).execute();
                 break;
             case R.id.editar:
                 intent = new Intent(this, SalvarItemActivity.class);
@@ -95,5 +113,6 @@ public class ItemActivity extends AppCompatActivity {
         }
         return super.onContextItemSelected(menuItem);
     }
+
 
 }

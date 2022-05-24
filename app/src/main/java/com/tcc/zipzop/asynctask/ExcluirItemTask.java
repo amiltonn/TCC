@@ -1,5 +1,6 @@
 package com.tcc.zipzop.asynctask;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.tcc.zipzop.adapter.ItemAdapterActivity;
 import com.tcc.zipzop.database.dao.ItemDAO;
