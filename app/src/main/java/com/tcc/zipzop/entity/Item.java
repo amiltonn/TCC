@@ -110,4 +110,9 @@ public class Item implements Serializable {
     public void setUnidade_medida_id(Integer unidade_medida_id) {
         this.unidade_medida_id = unidade_medida_id;
     }
+    @Override
+    public String toString() {
+        return this.id + " - " + this.nome + " - " + this.qtd;
+    }
+
 }

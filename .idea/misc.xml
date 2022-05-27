@@ -16,6 +16,13 @@
         <entry key="..\:/AULAS CEUB/2022/zipzop/app/src/main/res/layout/edit_actionbar.xml" value="0.1585144927536232" />
         <entry key="..\:/AULAS CEUB/2022/zipzop/app/src/main/res/layout/teste.xml" value="0.1585144927536232" />
         <entry key="..\:/Users/gabri/Desktop/tcc/app/src/main/res/layout/activity_main.xml" value="0.5" />
+        <entry key="..\:/Users/mathe/Desktop/zipzop/app/src/main/res/drawable/button.xml" value="0.3355" />
+        <entry key="..\:/Users/mathe/Desktop/zipzop/app/src/main/res/drawable/edit_text.xml" value="0.3355" />
+        <entry key="..\:/Users/mathe/Desktop/zipzop/app/src/main/res/layout/activity_abrir_caixa.xml" value="0.28306159420289856" />
+        <entry key="..\:/Users/mathe/Desktop/zipzop/app/src/main/res/layout/activity_caixateste.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/mathe/Desktop/zipzop/app/src/main/res/layout/activity_item.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/mathe/Desktop/zipzop/app/src/main/res/layout/activity_salvar_item.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/mathe/Desktop/zipzop/app/src/main/res/layout/layout_item_caixa.xml" value="0.35260416666666666" />
         <entry key="..\:/workspace/zipzop/app/src/main/res/layout/activity_editar_item.xml" value="0.18697916666666667" />
         <entry key="..\:/workspace/zipzop/app/src/main/res/layout/activity_item.xml" value="0.1" />
         <entry key="..\:/workspace/zipzop/app/src/main/res/layout/activity_item_adapter.xml" value="0.18697916666666667" />
@@ -25,7 +32,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="11" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
