@@ -9,18 +9,18 @@ import java.time.LocalDateTime;
 public class Caixa {
 
     @PrimaryKey(autoGenerate = true)
-    private Long id;
+    private Integer id;
 
     private Float fundo;
-    private LocalDateTime data_abertura;
-    private LocalDateTime data_fechamento;
+    private String data_abertura;
+    private String data_fechamento;
     private Integer estoque_id; //FK
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -32,19 +32,19 @@ public class Caixa {
         this.fundo = fundo;
     }
 
-    public LocalDateTime getData_abertura() {
+    public String getData_abertura() {
         return data_abertura;
     }
 
-    public void setData_abertura(LocalDateTime data_abertura) {
+    public void setData_abertura(String data_abertura) {
         this.data_abertura = data_abertura;
     }
 
-    public LocalDateTime getData_fechamento() {
+    public String getData_fechamento() {
         return data_fechamento;
     }
 
-    public void setData_fechamento(LocalDateTime data_fechamento) {
+    public void setData_fechamento(String data_fechamento) {
         this.data_fechamento = data_fechamento;
     }
 

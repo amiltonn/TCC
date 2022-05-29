@@ -11,11 +11,11 @@ import java.util.function.LongFunction;
 public class ConsultarItemTask extends AsyncTask <Void, Void, Item> {
 
     private final ItemDAO dao;
-    private final Long id;
+    private final Integer id;
 
     public ConsultarItemTask(
             ItemDAO dao,
-            Long id
+            Integer id
     ){
             this.dao = dao;
             this.id = id;

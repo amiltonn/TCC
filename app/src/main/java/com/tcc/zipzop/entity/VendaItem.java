@@ -7,18 +7,18 @@ import androidx.room.PrimaryKey;
 public class VendaItem {
 
     @PrimaryKey(autoGenerate = true)
-    private Long id;
+    private Integer id;
 
     private Integer qtd;
     private Float preco_venda;
     private Integer venda_id; //FK
     private Integer caixa_item_id; //FK
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

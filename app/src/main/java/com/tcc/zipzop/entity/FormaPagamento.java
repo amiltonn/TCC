@@ -7,15 +7,15 @@ import androidx.room.PrimaryKey;
 public class FormaPagamento {
 
     @PrimaryKey(autoGenerate = true)
-    private Long id;
+    private Integer id;
 
     private String nome; // UQ
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

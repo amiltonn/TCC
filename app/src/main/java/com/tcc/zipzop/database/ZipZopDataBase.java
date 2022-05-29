@@ -7,14 +7,17 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.tcc.zipzop.database.dao.CaixaDAO;
 import com.tcc.zipzop.database.dao.ItemDAO;
+import com.tcc.zipzop.entity.Caixa;
 import com.tcc.zipzop.entity.Item;
 
-@Database(entities = {Item.class}, version = 1, exportSchema = false)
+@Database(entities = {Item.class, Caixa.class}, version = 1, exportSchema = false)
 public abstract class ZipZopDataBase extends RoomDatabase {
     public abstract ItemDAO getItemDAO();
+    public abstract CaixaDAO getCaixaDAO();
 
-//      https://proandroiddev.com/sqlite-triggers-android-room-2e7120bb3e3a
+    //      https://proandroiddev.com/sqlite-triggers-android-room-2e7120bb3e3a
 //      https://medium.com/@srinuraop/database-create-and-open-callbacks-in-room-7ca98c3286ab
     public static RoomDatabase.Callback roomObliteratorCallback = new RoomDatabase.Callback() {
         public void onCreate (SupportSQLiteDatabase database) {

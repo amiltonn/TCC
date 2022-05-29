@@ -33,7 +33,7 @@ public class SalvarItemActivity extends AppCompatActivity {
                         campoPrecoVenda,
                         campoQuantidade;
     Intent intent;
-    Long id = 0L;
+    Integer id = 0;
     ItemAdapterActivity itemAdapterActivity;
 
     @Override
@@ -66,7 +66,7 @@ public class SalvarItemActivity extends AppCompatActivity {
 
     private void preencheCampos() {
         this.intent = getIntent();
-        id = intent.getLongExtra("id", 0);
+        id = intent.getIntExtra("id", 0);
         try {
             item = new ConsultarItemTask(dao, id).execute().get();
         } catch (ExecutionException e) {
@@ -76,7 +76,7 @@ public class SalvarItemActivity extends AppCompatActivity {
         }
         //item = dao.consultar(id);
         //novo item
-        if(id.equals(0L)) {
+        if(id.equals(0)) {
             item = new Item();
         }
         //edita o item
@@ -106,7 +106,7 @@ public class SalvarItemActivity extends AppCompatActivity {
     private void finalizaFormulario() {
         preencheItem();
         //novo item
-        if(id.equals(0L)){
+        if(id.equals(0)){
             new SalvarItemTask(dao, this, item).execute();
         }
         //edita o item

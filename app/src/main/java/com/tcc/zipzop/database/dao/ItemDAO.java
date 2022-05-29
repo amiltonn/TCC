@@ -22,10 +22,10 @@ public interface ItemDAO {
     List<Item> listar();
 
     @Query("SELECT * FROM item WHERE id = :id AND ativo = 1")
-    Item consultar(Long id);
+    Item consultar(Integer id);
 
     @Query("UPDATE item SET ativo = 0 WHERE id = :id")
-    void deletar(Long id);
+    void deletar(Integer id);
 
     @Update
     void alterar(Item item);

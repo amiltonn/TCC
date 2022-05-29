@@ -14,7 +14,7 @@ public class Item implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     // Long ?
-    private Long id;
+    private Integer id;
 
     private String nome;
     private Integer qtd;
@@ -29,13 +29,13 @@ public class Item implements Serializable {
     // FK
     private Integer unidade_medida_id;
 
+    private Integer formula_id;
 
-
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -110,6 +110,15 @@ public class Item implements Serializable {
     public void setUnidade_medida_id(Integer unidade_medida_id) {
         this.unidade_medida_id = unidade_medida_id;
     }
+
+    public Integer getFormula_id() {
+        return formula_id;
+    }
+
+    public void setFormula_id(Integer formula_id) {
+        this.formula_id = formula_id;
+    }
+
     @Override
     public String toString() {
         return this.id + " - " + this.nome + " - " + this.qtd;

@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 public class CaixaItem {
 
     @PrimaryKey(autoGenerate = true)
-    private Long id;
+    private Integer id;
 
     private Integer qtd;
 
@@ -18,11 +18,11 @@ public class CaixaItem {
     private Integer item_id; //FK
     private Integer caixa_id; //FK
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

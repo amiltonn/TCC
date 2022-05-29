@@ -89,7 +89,7 @@ public class ItemActivity extends AppCompatActivity {
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem menuItem) {
 
-        Long id = itemAdapterActivity.getId();
+        Integer id = itemAdapterActivity.getId();
         Item item = new Item();
         try {
             item = new ConsultarItemTask(dao, id).execute().get();

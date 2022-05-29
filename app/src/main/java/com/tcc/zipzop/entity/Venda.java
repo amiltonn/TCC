@@ -9,19 +9,20 @@ import java.time.LocalDateTime;
 public class Venda {
 
     @PrimaryKey(autoGenerate = true)
-    private Long id;
+    private Integer id;
 
     private Float valor_pago;
     private Float valor_venda;
     private LocalDateTime data_pagamento;
+    private Integer venda_local_id;
     private Integer forma_pagamento_id; //FK
     private Integer caixa_id; //FK
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -47,6 +48,14 @@ public class Venda {
 
     public void setData_pagamento(LocalDateTime data_pagamento) {
         this.data_pagamento = data_pagamento;
+    }
+
+    public Integer getVenda_local_id() {
+        return venda_local_id;
+    }
+
+    public void setVenda_local_id(Integer venda_local_id) {
+        this.venda_local_id = venda_local_id;
     }
 
     public Integer getForma_pagamento_id() {

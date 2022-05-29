@@ -27,11 +27,11 @@ public class ItemAdapterActivity extends RecyclerView.Adapter<ItemAdapterActivit
     private Context context;
     private ItemDAO dao;
     private  int longClickPosition;
-    private Long id;
-    public Long getId(){
+    private Integer id;
+    public Integer getId(){
         return id;
     }
-    private void setId(Long id){
+    private void setId(Integer id){
         this.id = id;
     }
 
