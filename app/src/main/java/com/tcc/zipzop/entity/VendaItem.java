@@ -3,16 +3,16 @@ package com.tcc.zipzop.entity;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "venda_item")
+@Entity
 public class VendaItem {
 
     @PrimaryKey(autoGenerate = true)
     private Integer id;
 
     private Integer qtd;
-    private Float preco_venda;
-    private Integer venda_id; //FK
-    private Integer caixa_item_id; //FK
+    private Float precoVenda;
+    private Integer vendaId; //FK
+    private Integer caixaItemId; //FK
 
     public Integer getId() {
         return id;
@@ -30,27 +30,27 @@ public class VendaItem {
         this.qtd = qtd;
     }
 
-    public Float getPreco_venda() {
-        return preco_venda;
+    public Float getPrecoVenda() {
+        return precoVenda;
     }
 
-    public void setPreco_venda(Float preco_venda) {
-        this.preco_venda = preco_venda;
+    public void setPrecoVenda(Float precoVenda) {
+        this.precoVenda = precoVenda;
     }
 
-    public Integer getVenda_id() {
-        return venda_id;
+    public Integer getVendaId() {
+        return vendaId;
     }
 
-    public void setVenda_id(Integer venda_id) {
-        this.venda_id = venda_id;
+    public void setVendaId(Integer vendaId) {
+        this.vendaId = vendaId;
     }
 
-    public Integer getCaixa_item_id() {
-        return caixa_item_id;
+    public Integer getCaixaItemId() {
+        return caixaItemId;
     }
 
-    public void setCaixa_item_id(Integer caixa_item_id) {
-        this.caixa_item_id = caixa_item_id;
+    public void setCaixaItemId(Integer caixaItemId) {
+        this.caixaItemId = caixaItemId;
     }
 }

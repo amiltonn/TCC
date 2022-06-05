@@ -1,15 +1,18 @@
 package com.tcc.zipzop.entity;
 
 import androidx.room.Entity;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "unidade_medida")
+import com.google.firebase.database.PropertyName;
+
+@Entity(indices = {@Index(value = {"nome"}, unique = true)})
 public class UnidadeMedida {
 
     @PrimaryKey(autoGenerate = true)
     private Integer id;
-
-    private String nome; //UQ
+    
+    private String nome;
 
     public Integer getId() {
         return id;

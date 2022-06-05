@@ -3,18 +3,16 @@ package com.tcc.zipzop.entity;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import java.time.LocalDateTime;
-
-@Entity(tableName = "caixa")
+@Entity
 public class Caixa {
 
     @PrimaryKey(autoGenerate = true)
     private Integer id;
 
     private Float fundo;
-    private String data_abertura;
-    private String data_fechamento;
-    private Integer estoque_id; //FK
+    private String dataAbertura;
+    private String dataFechamento;
+    private Integer estoqueId; //FK
 
     public Integer getId() {
         return id;
@@ -32,27 +30,27 @@ public class Caixa {
         this.fundo = fundo;
     }
 
-    public String getData_abertura() {
-        return data_abertura;
+    public String getDataAbertura() {
+        return dataAbertura;
     }
 
-    public void setData_abertura(String data_abertura) {
-        this.data_abertura = data_abertura;
+    public void setDataAbertura(String dataAbertura) {
+        this.dataAbertura = dataAbertura;
     }
 
-    public String getData_fechamento() {
-        return data_fechamento;
+    public String getDataFechamento() {
+        return dataFechamento;
     }
 
-    public void setData_fechamento(String data_fechamento) {
-        this.data_fechamento = data_fechamento;
+    public void setDataFechamento(String dataFechamento) {
+        this.dataFechamento = dataFechamento;
     }
 
-    public Integer getEstoque_id() {
-        return estoque_id;
+    public Integer getEstoqueId() {
+        return estoqueId;
     }
 
-    public void setEstoque_id(Integer estoque_id) {
-        this.estoque_id = estoque_id;
+    public void setEstoqueId(Integer estoqueId) {
+        this.estoqueId = estoqueId;
     }
 }

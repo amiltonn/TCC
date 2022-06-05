@@ -3,18 +3,18 @@ package com.tcc.zipzop.entity;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "insumo")
+@Entity
 public class Insumo {
 
     @PrimaryKey(autoGenerate = true)
     private Integer id;
 
-    private Integer qtd_insumo_item;
+    private Integer qtdInsumoItem;
     private Boolean ativo = (true);
     private Boolean atual = (true);
-    private String data_alteracao;
-    private Integer formula_id;
-    private Integer insumo_id;
+    private String dataAlteracao;
+    private Integer formulaId;
+    private Integer insumoId;
 
     public Integer getId() {
         return id;
@@ -24,12 +24,12 @@ public class Insumo {
         this.id = id;
     }
 
-    public Integer getQtd_insumo_item() {
-        return qtd_insumo_item;
+    public Integer getQtdInsumoItem() {
+        return qtdInsumoItem;
     }
 
-    public void setQtd_insumo_item(Integer qtd_insumo_item) {
-        this.qtd_insumo_item = qtd_insumo_item;
+    public void setQtdInsumoItem(Integer qtdInsumoItem) {
+        this.qtdInsumoItem = qtdInsumoItem;
     }
 
     public Boolean getAtivo() {
@@ -48,27 +48,27 @@ public class Insumo {
         this.atual = atual;
     }
 
-    public String getData_alteracao() {
-        return data_alteracao;
+    public String getDataAlteracao() {
+        return dataAlteracao;
     }
 
-    public void setData_alteracao(String data_alteracao) {
-        this.data_alteracao = data_alteracao;
+    public void setDataAlteracao(String dataAlteracao) {
+        this.dataAlteracao = dataAlteracao;
     }
 
-    public Integer getFormula_id() {
-        return formula_id;
+    public Integer getFormulaId() {
+        return formulaId;
     }
 
-    public void setFormula_id(Integer formula_id) {
-        this.formula_id = formula_id;
+    public void setFormulaId(Integer formulaId) {
+        this.formulaId = formulaId;
     }
 
-    public Integer getInsumo_id() {
-        return insumo_id;
+    public Integer getInsumoId() {
+        return insumoId;
     }
 
-    public void setInsumo_id(Integer insumo_id) {
-        this.insumo_id = insumo_id;
+    public void setInsumoId(Integer insumoId) {
+        this.insumoId = insumoId;
     }
 }

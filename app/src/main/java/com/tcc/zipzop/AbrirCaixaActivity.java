@@ -6,19 +6,17 @@ import androidx.appcompat.widget.AppCompatButton;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.tcc.zipzop.adapter.ItemCaixaAdapterActivity;
 import com.tcc.zipzop.asynctask.ListarItemTask;
 import com.tcc.zipzop.database.ZipZopDataBase;
 import com.tcc.zipzop.database.dao.ItemDAO;
 import com.tcc.zipzop.entity.Item;
-import com.tcc.zipzop.entity.ItemDoCaixa;
+import com.tcc.zipzop.entity.NaoEntityNomeProvisorioItemDoCaixa;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +28,7 @@ public class AbrirCaixaActivity extends AppCompatActivity {
 
     //Itens do Caixa
     private ListView listarItens;
-    private List<ItemDoCaixa> listaItensDoCaixa;
+    private List<NaoEntityNomeProvisorioItemDoCaixa> listaItensDoCaixa;
     private ItemCaixaAdapterActivity itemCaixaAdapterActivity;
 
     private Spinner spinnerItens;
@@ -84,7 +82,7 @@ public class AbrirCaixaActivity extends AppCompatActivity {
     }
 
     public void eventAddItem (View view) {
-        ItemDoCaixa itemDoCaixa = new ItemDoCaixa();
+        NaoEntityNomeProvisorioItemDoCaixa itemDoCaixa = new NaoEntityNomeProvisorioItemDoCaixa();
 
         Item itemSelecionado = (Item) this.spinnerItens.getSelectedItem();
 

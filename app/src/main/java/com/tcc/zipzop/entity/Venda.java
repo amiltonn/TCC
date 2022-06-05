@@ -5,18 +5,18 @@ import androidx.room.PrimaryKey;
 
 import java.time.LocalDateTime;
 
-@Entity(tableName = "venda")
+@Entity
 public class Venda {
 
     @PrimaryKey(autoGenerate = true)
     private Integer id;
 
-    private Float valor_pago;
-    private Float valor_venda;
-    private LocalDateTime data_pagamento;
-    private Integer venda_local_id;
-    private Integer forma_pagamento_id; //FK
-    private Integer caixa_id; //FK
+    private Float valorPago;
+    private Float valorVenda;
+    private LocalDateTime dataPagamento;
+    private Integer vendaLocalId;
+    private Integer formaPagamentoId; //FK
+    private Integer caixaId; //FK
 
     public Integer getId() {
         return id;
@@ -26,51 +26,51 @@ public class Venda {
         this.id = id;
     }
 
-    public Float getValor_pago() {
-        return valor_pago;
+    public Float getValorPago() {
+        return valorPago;
     }
 
-    public void setValor_pago(Float valor_pago) {
-        this.valor_pago = valor_pago;
+    public void setValorPago(Float valorPago) {
+        this.valorPago = valorPago;
     }
 
-    public Float getValor_venda() {
-        return valor_venda;
+    public Float getValorVenda() {
+        return valorVenda;
     }
 
-    public void setValor_venda(Float valor_venda) {
-        this.valor_venda = valor_venda;
+    public void setValorVenda(Float valorVenda) {
+        this.valorVenda = valorVenda;
     }
 
-    public LocalDateTime getData_pagamento() {
-        return data_pagamento;
+    public LocalDateTime getDataPagamento() {
+        return dataPagamento;
     }
 
-    public void setData_pagamento(LocalDateTime data_pagamento) {
-        this.data_pagamento = data_pagamento;
+    public void setDataPagamento(LocalDateTime dataPagamento) {
+        this.dataPagamento = dataPagamento;
     }
 
-    public Integer getVenda_local_id() {
-        return venda_local_id;
+    public Integer getVendaLocalId() {
+        return vendaLocalId;
     }
 
-    public void setVenda_local_id(Integer venda_local_id) {
-        this.venda_local_id = venda_local_id;
+    public void setVendaLocalId(Integer vendaLocalId) {
+        this.vendaLocalId = vendaLocalId;
     }
 
-    public Integer getForma_pagamento_id() {
-        return forma_pagamento_id;
+    public Integer getFormaPagamentoId() {
+        return formaPagamentoId;
     }
 
-    public void setForma_pagamento_id(Integer forma_pagamento_id) {
-        this.forma_pagamento_id = forma_pagamento_id;
+    public void setFormaPagamentoId(Integer formaPagamentoId) {
+        this.formaPagamentoId = formaPagamentoId;
     }
 
-    public Integer getCaixa_id() {
-        return caixa_id;
+    public Integer getCaixaId() {
+        return caixaId;
     }
 
-    public void setCaixa_id(Integer caixa_id) {
-        this.caixa_id = caixa_id;
+    public void setCaixaId(Integer caixaId) {
+        this.caixaId = caixaId;
     }
 }

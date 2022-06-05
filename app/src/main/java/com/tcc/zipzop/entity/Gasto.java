@@ -3,14 +3,14 @@ package com.tcc.zipzop.entity;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "gasto")
+@Entity
 public class Gasto {
 
     @PrimaryKey(autoGenerate = true)
     private Integer id;
 
     private String nome;
-    private String data_pagamento;
+    private String dataPagamento;
 
     public Integer getId() {
         return id;
@@ -28,11 +28,11 @@ public class Gasto {
         this.nome = nome;
     }
 
-    public String getData_pagamento() {
-        return data_pagamento;
+    public String getDataPagamento() {
+        return dataPagamento;
     }
 
-    public void setData_pagamento(String data_pagamento) {
-        this.data_pagamento = data_pagamento;
+    public void setDataPagamento(String dataPagamento) {
+        this.dataPagamento = dataPagamento;
     }
 }

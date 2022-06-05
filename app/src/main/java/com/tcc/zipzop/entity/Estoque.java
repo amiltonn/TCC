@@ -4,12 +4,12 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class FormaPagamento {
+public class Estoque {
 
     @PrimaryKey(autoGenerate = true)
     private Integer id;
 
-    private String nome; // UQ
+    private String dataAlteracao; //UQ
 
     public Integer getId() {
         return id;
@@ -19,12 +19,11 @@ public class FormaPagamento {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getDataAlteracao() {
+        return dataAlteracao;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setDataAlteracao(String dataAlteracao) {
+        this.dataAlteracao = dataAlteracao;
     }
-
 }

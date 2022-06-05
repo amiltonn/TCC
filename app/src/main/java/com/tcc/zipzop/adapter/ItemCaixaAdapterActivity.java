@@ -2,32 +2,22 @@ package com.tcc.zipzop.adapter;
 
 
 import android.content.Context;
-import android.view.ContextMenu;
-import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.tcc.zipzop.R;
-import com.tcc.zipzop.database.ZipZopDataBase;
-import com.tcc.zipzop.database.dao.ItemDAO;
-import com.tcc.zipzop.entity.Item;
-import com.tcc.zipzop.entity.ItemDoCaixa;
+import com.tcc.zipzop.entity.NaoEntityNomeProvisorioItemDoCaixa;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ItemCaixaAdapterActivity extends BaseAdapter {
 
     private Context context;
-    private List<ItemDoCaixa> itensDoCaixa;
+    private List<NaoEntityNomeProvisorioItemDoCaixa> itensDoCaixa;
 
-    public ItemCaixaAdapterActivity(Context context, List<ItemDoCaixa>itensDoCaixa) {
+    public ItemCaixaAdapterActivity(Context context, List<NaoEntityNomeProvisorioItemDoCaixa>itensDoCaixa) {
         this.context = context;
         this.itensDoCaixa = itensDoCaixa;
     }
@@ -58,12 +48,12 @@ public class ItemCaixaAdapterActivity extends BaseAdapter {
         return v;
     }
 
-    public void addItemCaixa(ItemDoCaixa pItemDoCaixa){
+    public void addItemCaixa(NaoEntityNomeProvisorioItemDoCaixa pItemDoCaixa){
         this.itensDoCaixa.add(pItemDoCaixa);
         this.notifyDataSetChanged();
     }
 
-    public void atualizar(List<ItemDoCaixa> pItensDoCaixa){
+    public void atualizar(List<NaoEntityNomeProvisorioItemDoCaixa> pItensDoCaixa){
         this.itensDoCaixa.clear();
         this.itensDoCaixa = pItensDoCaixa;
         this.notifyDataSetChanged();

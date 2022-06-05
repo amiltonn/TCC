@@ -9,11 +9,10 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
 
-@Entity(tableName = "item")
+@Entity
 public class Item implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
-    // Long ?
     private Integer id;
 
     private String nome;
@@ -23,13 +22,12 @@ public class Item implements Serializable {
     private Float preco;
     private Boolean ativo = (true);
     private Boolean atual = (true);
-    private String data_alteracao;
-    // Integer ?
-    private Integer item_antes_id;
+    private String dataAlteracao;
+    private Integer itemAntesId;
     // FK
-    private Integer unidade_medida_id;
+    private Integer unidadeMedidaId;
 
-    private Integer formula_id;
+    private Integer formulaId;
 
     public Integer getId() {
         return id;
@@ -87,36 +85,36 @@ public class Item implements Serializable {
         this.atual = atual;
     }
 
-    public String getData_alteracao() {
-        return data_alteracao;
+    public String getDataAlteracao() {
+        return dataAlteracao;
     }
 
-    public void setData_alteracao(String data_alteracao) {
-        this.data_alteracao = data_alteracao;
+    public void setDataAlteracao(String data_alteracao) {
+        this.dataAlteracao = data_alteracao;
     }
 
-    public Integer getItem_antes_id() {
-        return item_antes_id;
+    public Integer getItemAntesId() {
+        return itemAntesId;
     }
 
-    public void setItem_antes_id(Integer item_antes_id) {
-        this.item_antes_id = item_antes_id;
+    public void setItemAntesId(Integer itemAntesId) {
+        this.itemAntesId = itemAntesId;
     }
 
-    public Integer getUnidade_medida_id() {
-        return unidade_medida_id;
+    public Integer getUnidadeMedidaId() {
+        return unidadeMedidaId;
     }
 
-    public void setUnidade_medida_id(Integer unidade_medida_id) {
-        this.unidade_medida_id = unidade_medida_id;
+    public void setUnidadeMedidaId(Integer unidadeMedidaId) {
+        this.unidadeMedidaId = unidadeMedidaId;
     }
 
-    public Integer getFormula_id() {
-        return formula_id;
+    public Integer getFormulaId() {
+        return formulaId;
     }
 
-    public void setFormula_id(Integer formula_id) {
-        this.formula_id = formula_id;
+    public void setFormulaId(Integer formulaId) {
+        this.formulaId = formulaId;
     }
 
     @Override

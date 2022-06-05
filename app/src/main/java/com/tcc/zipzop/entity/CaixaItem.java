@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey;
 
 import java.time.LocalDateTime;
 
-@Entity(tableName = "caixa_item")
+@Entity
 public class CaixaItem {
 
     @PrimaryKey(autoGenerate = true)
@@ -13,10 +13,10 @@ public class CaixaItem {
 
     private Integer qtd;
 
-    private LocalDateTime data_alteracao;
+    private LocalDateTime dataAlteracao;
 
-    private Integer item_id; //FK
-    private Integer caixa_id; //FK
+    private Integer itemId; //FK
+    private Integer caixaId; //FK
 
     public Integer getId() {
         return id;
@@ -34,27 +34,27 @@ public class CaixaItem {
         this.qtd = qtd;
     }
 
-    public LocalDateTime getData_alteracao() {
-        return data_alteracao;
+    public LocalDateTime getDataAlteracao() {
+        return dataAlteracao;
     }
 
-    public void setData_alteracao(LocalDateTime data_alteracao) {
-        this.data_alteracao = data_alteracao;
+    public void setDataAlteracao(LocalDateTime dataAlteracao) {
+        this.dataAlteracao = dataAlteracao;
     }
 
-    public Integer getItem_id() {
-        return item_id;
+    public Integer getItemId() {
+        return itemId;
     }
 
-    public void setItem_id(Integer item_id) {
-        this.item_id = item_id;
+    public void setItemId(Integer itemId) {
+        this.itemId = itemId;
     }
 
-    public Integer getCaixa_id() {
-        return caixa_id;
+    public Integer getCaixaId() {
+        return caixaId;
     }
 
-    public void setCaixa_id(Integer caixa_id) {
-        this.caixa_id = caixa_id;
+    public void setCaixaId(Integer caixaId) {
+        this.caixaId = caixaId;
     }
 }
