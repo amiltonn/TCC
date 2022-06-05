@@ -25,17 +25,17 @@
                 android:value=".MainActivity" />
         </activity>
         <activity
-            android:name=".activity.SalvarItemActivity"
+            android:name=".activity.SalvarProdutoActivity"
             android:exported="false"
-            android:label="Novo Item">
+            android:label="Novo Produto">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.ItemActivity" />
+                android:value=".activity.ProdutoActivity" />
         </activity>
         <activity
-            android:name=".activity.ItemActivity"
+            android:name=".activity.ProdutoActivity"
             android:exported="false"
-            android:label="Item">
+            android:label="Produto">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />

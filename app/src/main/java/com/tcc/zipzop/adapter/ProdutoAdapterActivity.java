@@ -14,18 +14,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.tcc.zipzop.R;
 import com.tcc.zipzop.database.ZipZopDataBase;
-import com.tcc.zipzop.database.dao.ItemDAO;
-import com.tcc.zipzop.entity.Item;
+import com.tcc.zipzop.database.dao.ProdutoDAO;
+import com.tcc.zipzop.entity.Produto;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class ItemAdapterActivity extends RecyclerView.Adapter<ItemAdapterActivity.MyViewHolder> {
+public class ProdutoAdapterActivity extends RecyclerView.Adapter<ProdutoAdapterActivity.MyViewHolder> {
 
-    private List<Item> itens = new ArrayList<>();
+    private List<Produto> produtos = new ArrayList<>();
     private Context context;
-    private ItemDAO dao;
+    private ProdutoDAO dao;
     private  int longClickPosition;
     private Integer id;
     public Integer getId(){
@@ -35,11 +35,11 @@ public class ItemAdapterActivity extends RecyclerView.Adapter<ItemAdapterActivit
         this.id = id;
     }
 
-    public ItemAdapterActivity(List<Item> itens, Context context) {
-        this.itens = itens;
+    public ProdutoAdapterActivity(List<Produto> produtos, Context context) {
+        this.produtos = produtos;
         this.context = context;
         ZipZopDataBase dataBase = ZipZopDataBase.getInstance(context);
-        this.dao = dataBase.getItemDAO();
+        this.dao = dataBase.getProdutoDAO();
 
     }
 
@@ -47,22 +47,22 @@ public class ItemAdapterActivity extends RecyclerView.Adapter<ItemAdapterActivit
     @Override
     //config do que vai ser mostrado
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemLista = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.activity_item_adapter,parent,false);
+        View produtoLista = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.activity_produto_adapter,parent,false);
 
-        return new MyViewHolder(itemLista);
+        return new MyViewHolder(produtoLista);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.nome.setText(String.valueOf(itens.get(position).getNome()));
-        holder.qtd.setText(String.valueOf(itens.get(position).getQtd()));
-        holder.valor.setText("R$:"+String.valueOf(itens.get(position).getPreco()));
+        holder.nome.setText(String.valueOf(produtos.get(position).getNome()));
+        holder.qtd.setText(String.valueOf(produtos.get(position).getQtd()));
+        holder.valor.setText("R$:"+String.valueOf(produtos.get(position).getPreco()));
         int longClickPosition = position;
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                setId(itens.get(longClickPosition).getId());
+                setId(produtos.get(longClickPosition).getId());
                 setPosicao(holder.getAdapterPosition());
                 return false;
             }
@@ -72,19 +72,19 @@ public class ItemAdapterActivity extends RecyclerView.Adapter<ItemAdapterActivit
 
     @Override
     public int getItemCount() {
-        return itens.size();
+        return produtos.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener{
         TextView nome;
         TextView qtd;
         TextView valor;
-        public MyViewHolder(@NonNull View itemView) {
-            super(itemView);
-            nome = itemView.findViewById(R.id.nomeItem);
-            qtd = itemView.findViewById(R.id.qtdItem);
-            valor = itemView.findViewById(R.id.valorItem);
-            itemView.setOnCreateContextMenuListener(this);
+        public MyViewHolder(@NonNull View produtoView) {
+            super(produtoView);
+            nome = produtoView.findViewById(R.id.nomeProduto);
+            qtd = produtoView.findViewById(R.id.qtdProduto);
+            valor = produtoView.findViewById(R.id.valorProduto);
+            produtoView.setOnCreateContextMenuListener(this);
 
         }
         @Override
@@ -94,14 +94,14 @@ public class ItemAdapterActivity extends RecyclerView.Adapter<ItemAdapterActivit
 
         }
     }
-    public void atualiza(List<Item> item) {
-        this.itens.clear();
-        this.itens.addAll(item);
+    public void atualiza(List<Produto> produto) {
+        this.produtos.clear();
+        this.produtos.addAll(produto);
         notifyDataSetChanged();
     }
 
-    public void excluir(Item item){
-        itens.remove(item);
+    public void excluir(Produto produto){
+        produtos.remove(produto);
         notifyDataSetChanged();
     }
 
@@ -111,8 +111,8 @@ public class ItemAdapterActivity extends RecyclerView.Adapter<ItemAdapterActivit
         return this.context;
     }
 
-    public Item getItem(int posicao) {
-        return itens.get(posicao);
+    public Produto getProduto(int posicao) {
+        return produtos.get(posicao);
     }
 
     private int posicao;

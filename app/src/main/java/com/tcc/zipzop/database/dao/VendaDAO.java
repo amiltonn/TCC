@@ -6,7 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.tcc.zipzop.entity.Item;
+import com.tcc.zipzop.entity.Produto;
 import com.tcc.zipzop.entity.Venda;
 
 import java.util.List;
@@ -21,12 +21,12 @@ public interface VendaDAO {
     List<Venda> listar();
 
     @Query("SELECT * FROM venda WHERE id = :id")
-    Item consultar(Long id);
+    Produto consultar(Long id);
 
     @Delete
-    void deletar(Item item);
+    void deletar(Produto produto);
 
     @Update
-    void alterar(Item item);
+    void alterar(Produto produto);
 
 }

@@ -28,10 +28,15 @@
         <entry key="..\:/workspace/zipzop/app/src/main/res/layout/activity_item_adapter.xml" value="0.18697916666666667" />
         <entry key="..\:/workspace/zipzop/app/src/main/res/layout/activity_main.xml" value="0.23731884057971014" />
         <entry key="..\:/workspace/zipzop/app/src/main/res/layout/activity_novo_item.xml" value="0.25181159420289856" />
+        <entry key="app/src/main/res/layout/activity_abrir_caixa.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_caixa.xml" value="0.12635869565217392" />
         <entry key="app/src/main/res/layout/activity_item.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_item_adapter.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.16767983789260385" />
         <entry key="app/src/main/res/layout/activity_novo_item.xml" value="0.333786231884058" />
+        <entry key="app/src/main/res/layout/activity_produto_adapter.xml" value="0.21965579710144928" />
+        <entry key="app/src/main/res/layout/activity_salvar_item.xml" value="0.31476449275362317" />
+        <entry key="app/src/main/res/layout/layout_produto_caixa.xml" value="0.21965579710144928" />
       </map>
     </option>
   </component>

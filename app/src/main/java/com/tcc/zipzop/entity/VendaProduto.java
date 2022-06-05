@@ -4,7 +4,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class VendaItem {
+public class VendaProduto {
 
     @PrimaryKey(autoGenerate = true)
     private Integer id;
@@ -12,7 +12,7 @@ public class VendaItem {
     private Integer qtd;
     private Float precoVenda;
     private Integer vendaId; //FK
-    private Integer caixaItemId; //FK
+    private Integer caixaProdutoId; //FK
 
     public Integer getId() {
         return id;
@@ -46,11 +46,11 @@ public class VendaItem {
         this.vendaId = vendaId;
     }
 
-    public Integer getCaixaItemId() {
-        return caixaItemId;
+    public Integer getCaixaProdutoId() {
+        return caixaProdutoId;
     }
 
-    public void setCaixaItemId(Integer caixaItemId) {
-        this.caixaItemId = caixaItemId;
+    public void setCaixaProdutoId(Integer caixaProdutoId) {
+        this.caixaProdutoId = caixaProdutoId;
     }
 }

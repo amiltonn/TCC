@@ -7,10 +7,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.tcc.zipzop.activity.ItemActivity;
+import com.tcc.zipzop.activity.ProdutoActivity;
 
 public class MainActivity extends AppCompatActivity {
-    private Button bt_Item;
+    private Button bt_Produto;
     private Button bt_Caixa;
 
     @Override
@@ -18,11 +18,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        bt_Item = findViewById(R.id.buttonItem);
-        bt_Item.setOnClickListener(new View.OnClickListener() {
+        bt_Produto = findViewById(R.id.buttonProduto);
+        bt_Produto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ItemActivity.class);
+                Intent intent = new Intent(MainActivity.this, ProdutoActivity.class);
                 startActivity(intent);
             }
 

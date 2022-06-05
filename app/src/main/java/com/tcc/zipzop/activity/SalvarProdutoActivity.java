@@ -10,39 +10,38 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.tcc.zipzop.R;
-import com.tcc.zipzop.adapter.ItemAdapterActivity;
-import com.tcc.zipzop.asynctask.ConsultarItemTask;
-import com.tcc.zipzop.asynctask.EditarItemTask;
-import com.tcc.zipzop.asynctask.SalvarItemTask;
+import com.tcc.zipzop.adapter.ProdutoAdapterActivity;
+import com.tcc.zipzop.asynctask.ConsultarProdutoTask;
+import com.tcc.zipzop.asynctask.EditarProdutoTask;
+import com.tcc.zipzop.asynctask.SalvarProdutoTask;
 import com.tcc.zipzop.database.ZipZopDataBase;
-import com.tcc.zipzop.database.dao.ItemDAO;
-import com.tcc.zipzop.entity.Item;
+import com.tcc.zipzop.database.dao.ProdutoDAO;
+import com.tcc.zipzop.entity.Produto;
 
-import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 
-public class SalvarItemActivity extends AppCompatActivity {
+public class SalvarProdutoActivity extends AppCompatActivity {
 
     private AppCompatButton btSalvar;
-    private ItemAdapterActivity adapter;
-    private ItemDAO dao;
-    private Item item;
+    private ProdutoAdapterActivity adapter;
+    private ProdutoDAO dao;
+    private Produto produto;
     private EditText    campoNome,
                         campoCustoProducao,
                         campoPrecoVenda,
                         campoQuantidade;
     Intent intent;
     Integer id = 0;
-    ItemAdapterActivity itemAdapterActivity;
+    ProdutoAdapterActivity produtoAdapterActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(R.style.Actionbar);
-        setContentView(R.layout.activity_salvar_item);
+        setContentView(R.layout.activity_salvar_produto);
         ZipZopDataBase dataBase = ZipZopDataBase.getInstance(this);
-        dao = dataBase.getItemDAO();
+        dao = dataBase.getProdutoDAO();
 
         inicializaCampos();
         preencheCampos();
@@ -68,27 +67,27 @@ public class SalvarItemActivity extends AppCompatActivity {
         this.intent = getIntent();
         id = intent.getIntExtra("id", 0);
         try {
-            item = new ConsultarItemTask(dao, id).execute().get();
+            produto = new ConsultarProdutoTask(dao, id).execute().get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        //item = dao.consultar(id);
-        //novo item
+        //produto = dao.consultar(id);
+        //novo produto
         if(id.equals(0)) {
-            item = new Item();
+            produto = new Produto();
         }
-        //edita o item
+        //edita o produto
         else{
-            campoNome.setText(item.getNome());
-            campoCustoProducao.setText("" + item.getCusto());
-            campoPrecoVenda.setText("" + item.getPreco());
-            campoQuantidade.setText("" + item.getQtd());
+            campoNome.setText(produto.getNome());
+            campoCustoProducao.setText("" + produto.getCusto());
+            campoPrecoVenda.setText("" + produto.getPreco());
+            campoQuantidade.setText("" + produto.getQtd());
         }
     }
 
-    private void preencheItem() {
+    private void preencheProduto() {
         String nome = campoNome.getText().toString();
         String auxCustoProducao = campoCustoProducao.getText().toString();
         Float custoProducao = converteFloat(auxCustoProducao);
@@ -97,21 +96,21 @@ public class SalvarItemActivity extends AppCompatActivity {
         String auxQuantidade = campoQuantidade.getText().toString();
         Integer quantidade = Integer.parseInt(auxQuantidade);
 
-        item.setNome(nome);
-        item.setCusto(custoProducao);
-        item.setPreco(precoVenda);
-        item.setQtd(quantidade);
+        produto.setNome(nome);
+        produto.setCusto(custoProducao);
+        produto.setPreco(precoVenda);
+        produto.setQtd(quantidade);
     }
 
     private void finalizaFormulario() {
-        preencheItem();
-        //novo item
+        preencheProduto();
+        //novo produto
         if(id.equals(0)){
-            new SalvarItemTask(dao, this, item).execute();
+            new SalvarProdutoTask(dao, this, produto).execute();
         }
-        //edita o item
+        //edita o produto
         else{
-            new EditarItemTask(dao, this, item).execute();
+            new EditarProdutoTask(dao, this, produto).execute();
         }
 
     }

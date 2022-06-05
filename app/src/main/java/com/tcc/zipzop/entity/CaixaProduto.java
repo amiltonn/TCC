@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey;
 import java.time.LocalDateTime;
 
 @Entity
-public class CaixaItem {
+public class CaixaProduto {
 
     @PrimaryKey(autoGenerate = true)
     private Integer id;
@@ -15,7 +15,7 @@ public class CaixaItem {
 
     private LocalDateTime dataAlteracao;
 
-    private Integer itemId; //FK
+    private Integer produtoId; //FK
     private Integer caixaId; //FK
 
     public Integer getId() {
@@ -42,12 +42,12 @@ public class CaixaItem {
         this.dataAlteracao = dataAlteracao;
     }
 
-    public Integer getItemId() {
-        return itemId;
+    public Integer getProdutoId() {
+        return produtoId;
     }
 
-    public void setItemId(Integer itemId) {
-        this.itemId = itemId;
+    public void setProdutoId(Integer produtoId) {
+        this.produtoId = produtoId;
     }
 
     public Integer getCaixaId() {

@@ -11,12 +11,12 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 
-import com.tcc.zipzop.adapter.ItemCaixaAdapterActivity;
-import com.tcc.zipzop.asynctask.ListarItemTask;
+import com.tcc.zipzop.adapter.ProdutoCaixaAdapterActivity;
+import com.tcc.zipzop.asynctask.ListarProdutoTask;
 import com.tcc.zipzop.database.ZipZopDataBase;
-import com.tcc.zipzop.database.dao.ItemDAO;
-import com.tcc.zipzop.entity.Item;
-import com.tcc.zipzop.entity.NaoEntityNomeProvisorioItemDoCaixa;
+import com.tcc.zipzop.database.dao.ProdutoDAO;
+import com.tcc.zipzop.entity.Produto;
+import com.tcc.zipzop.entity.NaoEntityNomeProvisorioProdutoDoCaixa;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,16 +24,16 @@ import java.util.concurrent.ExecutionException;
 
 public class AbrirCaixaActivity extends AppCompatActivity {
     private AppCompatButton ButtonAbrirCaixa;
-    private EditText quantidadeItens;
+    private EditText quantidadeProdutos;
 
-    //Itens do Caixa
-    private ListView listarItens;
-    private List<NaoEntityNomeProvisorioItemDoCaixa> listaItensDoCaixa;
-    private ItemCaixaAdapterActivity itemCaixaAdapterActivity;
+    //Produtos do Caixa
+    private ListView listarProdutos;
+    private List<NaoEntityNomeProvisorioProdutoDoCaixa> listaProdutosDoCaixa;
+    private ProdutoCaixaAdapterActivity produtoCaixaAdapterActivity;
 
-    private Spinner spinnerItens;
-    List<Item> listaItens;
-    private ItemDAO itensCtrl;
+    private Spinner spinnerProdutos;
+    List<Produto> listaProdutos;
+    private ProdutoDAO produtosCtrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,28 +43,28 @@ public class AbrirCaixaActivity extends AppCompatActivity {
 
         //spinner
         ZipZopDataBase dataBase = ZipZopDataBase.getInstance(this);
-        itensCtrl = dataBase.getItemDAO();
+        produtosCtrl = dataBase.getProdutoDAO();
 
         try {
-            listaItens = new ListarItemTask(itensCtrl).execute().get();
+            listaProdutos = new ListarProdutoTask(produtosCtrl).execute().get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        this.spinnerItens = (Spinner) this.findViewById(R.id.SpnItem);
-        ArrayAdapter<Item> spnItemAdapter = new ArrayAdapter<Item>(this, android.R.layout.simple_dropdown_item_1line, this.listaItens);
-        this.spinnerItens.setAdapter(spnItemAdapter);
+        this.spinnerProdutos = (Spinner) this.findViewById(R.id.SpnProduto);
+        ArrayAdapter<Produto> spnProdutoAdapter = new ArrayAdapter<Produto>(this, android.R.layout.simple_dropdown_item_1line, this.listaProdutos);
+        this.spinnerProdutos.setAdapter(spnProdutoAdapter);
         //end spinner
 
-        this.quantidadeItens = (EditText) this.findViewById(R.id.Quantidade);
+        this.quantidadeProdutos = (EditText) this.findViewById(R.id.Quantidade);
 
-        // variaveis e objetos dos itens do caixa
-        this.listarItens = (ListView) this.findViewById(R.id.lsvItens);
-        this.listaItensDoCaixa = new ArrayList<>();
-        this.itemCaixaAdapterActivity = new ItemCaixaAdapterActivity(AbrirCaixaActivity.this, this.listaItensDoCaixa);
-        this.listarItens.setAdapter(this.itemCaixaAdapterActivity);
+        // variaveis e objetos dos produtos do caixa
+        this.listarProdutos = (ListView) this.findViewById(R.id.lsvProdutos);
+        this.listaProdutosDoCaixa = new ArrayList<>();
+        this.produtoCaixaAdapterActivity = new ProdutoCaixaAdapterActivity(AbrirCaixaActivity.this, this.listaProdutosDoCaixa);
+        this.listarProdutos.setAdapter(this.produtoCaixaAdapterActivity);
 
         //Função do botão
         ButtonAbrirCaixa = findViewById(R.id.Bt_AbrirCaixa);
@@ -81,21 +81,21 @@ public class AbrirCaixaActivity extends AppCompatActivity {
 
     }
 
-    public void eventAddItem (View view) {
-        NaoEntityNomeProvisorioItemDoCaixa itemDoCaixa = new NaoEntityNomeProvisorioItemDoCaixa();
+    public void eventAddProduto(View view) {
+        NaoEntityNomeProvisorioProdutoDoCaixa produtoDoCaixa = new NaoEntityNomeProvisorioProdutoDoCaixa();
 
-        Item itemSelecionado = (Item) this.spinnerItens.getSelectedItem();
+        Produto produtoSelecionado = (Produto) this.spinnerProdutos.getSelectedItem();
 
-        int quantidadeItem = 0;
-        if(this.quantidadeItens.getText().toString().equals("")){
-            quantidadeItem = 1;
+        int quantidadeProduto = 0;
+        if(this.quantidadeProdutos.getText().toString().equals("")){
+            quantidadeProduto = 1;
         }else {
-            quantidadeItem = Integer.parseInt(this.quantidadeItens.getText().toString());
+            quantidadeProduto = Integer.parseInt(this.quantidadeProdutos.getText().toString());
         }
 
-        itemDoCaixa.setNome(itemSelecionado.getNome());
-        itemDoCaixa.setQtdSelecionada(quantidadeItem);
+        produtoDoCaixa.setNome(produtoSelecionado.getNome());
+        produtoDoCaixa.setQtdSelecionada(quantidadeProduto);
 
-        this.itemCaixaAdapterActivity.addItemCaixa(itemDoCaixa);
+        this.produtoCaixaAdapterActivity.addProdutoCaixa(produtoDoCaixa);
     }
 }

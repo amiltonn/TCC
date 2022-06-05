@@ -9,12 +9,12 @@ public class ZipZopTriggerCreation {
     static final RoomDatabase.Callback triggerCreationCallback = new RoomDatabase.Callback() {
         public void onCreate (SupportSQLiteDatabase database) {
             database.execSQL(
-                "CREATE TRIGGER IF NOT EXISTS ValidateNomeInsertItem" +
+                "CREATE TRIGGER IF NOT EXISTS ValidateNomeInsertProduto" +
                     " BEFORE INSERT" +
-                    " ON Item" +
-                    " WHEN EXISTS(SELECT 1 FROM Item WHERE nome = NEW.nome AND atual = 1 LIMIT 1)" +
+                    " ON Produto" +
+                    " WHEN EXISTS(SELECT 1 FROM Produto WHERE nome = NEW.nome AND atual = 1 LIMIT 1)" +
                     " BEGIN" +
-                    " 	SELECT RAISE(ROLLBACK, '\"item\" com mesmo \"nome\" já existe!');" +
+                    " 	SELECT RAISE(ROLLBACK, '\"produto\" com mesmo \"nome\" já existe!');" +
                     " END;"
             );
         }

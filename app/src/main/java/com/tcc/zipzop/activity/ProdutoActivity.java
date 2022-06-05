@@ -10,32 +10,31 @@ import android.content.Intent;
 
 import android.os.Bundle;
 
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.tcc.zipzop.R;
-import com.tcc.zipzop.adapter.ItemAdapterActivity;
-import com.tcc.zipzop.asynctask.ConsultarItemTask;
-import com.tcc.zipzop.asynctask.ExcluirItemTask;
-import com.tcc.zipzop.asynctask.ListarItemTask;
+import com.tcc.zipzop.adapter.ProdutoAdapterActivity;
+import com.tcc.zipzop.asynctask.ConsultarProdutoTask;
+import com.tcc.zipzop.asynctask.ExcluirProdutoTask;
+import com.tcc.zipzop.asynctask.ListarProdutoTask;
 import com.tcc.zipzop.database.ZipZopDataBase;
-import com.tcc.zipzop.database.dao.ItemDAO;
-import com.tcc.zipzop.entity.Item;
+import com.tcc.zipzop.database.dao.ProdutoDAO;
+import com.tcc.zipzop.entity.Produto;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 
-public class ItemActivity extends AppCompatActivity {
+public class ProdutoActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
-    ItemAdapterActivity itemAdapterActivity;
-    private ItemDAO dao;
-    List<Item> itens;
-    private FloatingActionButton floatingActionButtonNovoItem;
+    ProdutoAdapterActivity produtoAdapterActivity;
+    private ProdutoDAO dao;
+    List<Produto> produtos;
+    private FloatingActionButton floatingActionButtonNovoProduto;
     Intent intent;
 
 
@@ -43,70 +42,70 @@ public class ItemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(R.style.Actionbar);
-        setContentView(R.layout.activity_item);
-        //listagem dos itens
+        setContentView(R.layout.activity_produto);
+        //listagem dos produtos
         ZipZopDataBase dataBase = ZipZopDataBase.getInstance(this);
-        dao = dataBase.getItemDAO();
+        dao = dataBase.getProdutoDAO();
         try {
-            itens = new ListarItemTask(dao).execute().get();
+            produtos = new ListarProdutoTask(dao).execute().get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        recyclerView = findViewById(R.id.Listar_Item);
-        itemAdapterActivity = new ItemAdapterActivity(itens,this);
-        recyclerView.setAdapter(itemAdapterActivity);
+        recyclerView = findViewById(R.id.ListarProduto);
+        produtoAdapterActivity = new ProdutoAdapterActivity(produtos,this);
+        recyclerView.setAdapter(produtoAdapterActivity);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         //Função do botão
-        floatingActionButtonNovoItem = findViewById(R.id.floatingActionButtonNovoItem);
-        floatingActionButtonNovoItem.setOnClickListener(new View.OnClickListener() {
+        floatingActionButtonNovoProduto = findViewById(R.id.floatingActionButtonNovoProduto);
+        floatingActionButtonNovoProduto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent = new Intent(ItemActivity.this, SalvarItemActivity.class);
+                intent = new Intent(ProdutoActivity.this, SalvarProdutoActivity.class);
                 startActivity(intent);
             }
         });
 
     }
-    public void atualizaItens() throws ExecutionException, InterruptedException {
-        itens = new ListarItemTask(dao).execute().get();
+    public void atualizaProdutos() throws ExecutionException, InterruptedException {
+        produtos = new ListarProdutoTask(dao).execute().get();
     }
     @Override
     protected void onResume() {
         super.onResume();
         try {
-            atualizaItens();
+            atualizaProdutos();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        itemAdapterActivity.atualiza(itens);
+        produtoAdapterActivity.atualiza(produtos);
     }
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem menuItem) {
 
-        Integer id = itemAdapterActivity.getId();
-        Item item = new Item();
+        Integer id = produtoAdapterActivity.getId();
+        Produto produto = new Produto();
         try {
-            item = new ConsultarItemTask(dao, id).execute().get();
+            produto = new ConsultarProdutoTask(dao, id).execute().get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        int posicao = ((itemAdapterActivity.getPosicao()));
-        //item = dao.consultar(id);
+        int posicao = ((produtoAdapterActivity.getPosicao()));
+        //produto = dao.consultar(id);
         switch (menuItem.getItemId()){
             case R.id.excluir:
-                Item items = itemAdapterActivity.getItem(posicao);
-                new ExcluirItemTask(dao, itemAdapterActivity, items).execute();
+                Produto produtos = produtoAdapterActivity.getProduto(posicao);
+                new ExcluirProdutoTask(dao, produtoAdapterActivity, produtos).execute();
                 break;
             case R.id.editar:
-                intent = new Intent(this, SalvarItemActivity.class);
+                intent = new Intent(this, SalvarProdutoActivity.class);
                 intent.putExtra("id", id);
                 startActivity(intent);
                 break;

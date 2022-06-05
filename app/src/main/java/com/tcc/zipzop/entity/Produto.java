@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
-public class Item implements Serializable {
+public class Produto implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     private Integer id;
@@ -23,7 +23,7 @@ public class Item implements Serializable {
     private Boolean ativo = (true);
     private Boolean atual = (true);
     private String dataAlteracao;
-    private Integer itemAntesId;
+    private Integer produtoAntesId;
     // FK
     private Integer unidadeMedidaId;
 
@@ -93,12 +93,12 @@ public class Item implements Serializable {
         this.dataAlteracao = data_alteracao;
     }
 
-    public Integer getItemAntesId() {
-        return itemAntesId;
+    public Integer getProdutoAntesId() {
+        return produtoAntesId;
     }
 
-    public void setItemAntesId(Integer itemAntesId) {
-        this.itemAntesId = itemAntesId;
+    public void setProdutoAntesId(Integer produtoAntesId) {
+        this.produtoAntesId = produtoAntesId;
     }
 
     public Integer getUnidadeMedidaId() {

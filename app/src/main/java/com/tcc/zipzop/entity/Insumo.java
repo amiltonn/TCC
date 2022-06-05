@@ -9,7 +9,7 @@ public class Insumo {
     @PrimaryKey(autoGenerate = true)
     private Integer id;
 
-    private Integer qtdInsumoItem;
+    private Integer qtdInsumoProduto;
     private Boolean ativo = (true);
     private Boolean atual = (true);
     private String dataAlteracao;
@@ -24,12 +24,12 @@ public class Insumo {
         this.id = id;
     }
 
-    public Integer getQtdInsumoItem() {
-        return qtdInsumoItem;
+    public Integer getQtdInsumoProduto() {
+        return qtdInsumoProduto;
     }
 
-    public void setQtdInsumoItem(Integer qtdInsumoItem) {
-        this.qtdInsumoItem = qtdInsumoItem;
+    public void setQtdInsumoProduto(Integer qtdInsumoProduto) {
+        this.qtdInsumoProduto = qtdInsumoProduto;
     }
 
     public Boolean getAtivo() {

@@ -25,14 +25,14 @@
         app:layout_constraintVertical_bias="0.095" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/buttonItem"
+        android:id="@+id/buttonProduto"
         style="@style/Button"
-        android:text="Itens"
+        android:layout_marginLeft="90dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginRight="90dp"
+        android:text="Produtos"
         android:textSize="30dp"
         android:textStyle="bold"
-        android:layout_marginTop="50dp"
-        android:layout_marginLeft="90dp"
-        android:layout_marginRight="90dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -48,7 +48,7 @@
         android:layout_marginRight="90dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonItem" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonProduto" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonVenda"
