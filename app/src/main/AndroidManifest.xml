@@ -27,7 +27,7 @@
         <activity
             android:name=".activity.SalvarProdutoActivity"
             android:exported="false"
-            android:label="Novo Produto">
+            android:label="Produto">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.ProdutoActivity" />
@@ -35,7 +35,7 @@
         <activity
             android:name=".activity.ProdutoActivity"
             android:exported="false"
-            android:label="Produto">
+            android:label="Lista de Produtos">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />

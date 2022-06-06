@@ -89,16 +89,7 @@ public class ProdutoActivity extends AppCompatActivity {
     public boolean onContextItemSelected(@NonNull MenuItem menuItem) {
 
         Integer id = produtoAdapterActivity.getId();
-        Produto produto = new Produto();
-        try {
-            produto = new ConsultarProdutoTask(dao, id).execute().get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         int posicao = ((produtoAdapterActivity.getPosicao()));
-        //produto = dao.consultar(id);
         switch (menuItem.getItemId()){
             case R.id.excluir:
                 Produto produtos = produtoAdapterActivity.getProduto(posicao);
