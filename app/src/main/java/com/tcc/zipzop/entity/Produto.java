@@ -2,6 +2,7 @@ package com.tcc.zipzop.entity;
 
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -12,12 +13,12 @@ import java.util.Date;
 @Entity
 public class Produto implements Serializable {
 
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
+    @NonNull
     private Integer id;
-
     private String nome;
     private Integer qtd;
-    // Float ?
+    // Float ? https://stackoverflow.com/questions/9364399/storing-floating-point-numbers-in-android-database
     private Float custo;
     private Float preco;
     private Boolean ativo = (true);

@@ -1,5 +1,6 @@
 package com.tcc.zipzop.entity;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
@@ -9,15 +10,15 @@ import com.google.firebase.database.PropertyName;
 @Entity(indices = {@Index(value = {"nome"}, unique = true)})
 public class UnidadeMedida {
 
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
+    @NonNull
     private Integer id;
-    
+    @NonNull
     private String nome;
 
     public Integer getId() {
         return id;
     }
-
     public void setId(Integer id) {
         this.id = id;
     }
@@ -25,7 +26,6 @@ public class UnidadeMedida {
     public String getNome() {
         return nome;
     }
-
     public void setNome(String nome) {
         this.nome = nome;
     }

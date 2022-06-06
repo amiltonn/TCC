@@ -8,10 +8,27 @@ import androidx.room.RoomDatabase;
 
 import com.tcc.zipzop.database.dao.CaixaDAO;
 import com.tcc.zipzop.database.dao.ProdutoDAO;
-import com.tcc.zipzop.entity.Caixa;
-import com.tcc.zipzop.entity.Produto;
+import com.tcc.zipzop.entity.*;
 
-@Database(entities = {Produto.class, Caixa.class}, version = 1, exportSchema = false)
+@Database(version = 1,
+            entities = {
+                UnidadeMedida.class,
+                Formula.class,
+                Produto.class,
+//                Gasto.class,
+//                GastoProduto.class,
+//                Insumo.class,
+//                Estoque.class,
+//                EstoqueProduto.class,
+                Caixa.class,
+//                CaixaFundo.class,
+//                CaixaProduto.class,
+//                VendaLocal.class,
+//                FormaPagamento.class,
+//                Venda.class,
+//                VendaProduto.class
+            },
+            exportSchema = false)
 public abstract class ZipZopDataBase extends RoomDatabase {
     public abstract ProdutoDAO getProdutoDAO();
     public abstract CaixaDAO getCaixaDAO();
@@ -19,7 +36,7 @@ public abstract class ZipZopDataBase extends RoomDatabase {
     public static ZipZopDataBase getInstance(Context context) {
         return Room
                 .databaseBuilder(context, ZipZopDataBase.class, "zipzop.db")
-                .addCallback(ZipZopTriggerCreation.triggerCreationCallback)
+                .addCallback(ZipZopCallbacks.callbacks)
                 .build();
     }
 }
