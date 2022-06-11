@@ -12,6 +12,7 @@ import com.tcc.zipzop.activity.ProdutoActivity;
 public class MainActivity extends AppCompatActivity {
     private Button bt_Produto;
     private Button bt_Caixa;
+    private Button bt_Venda;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this,CaixaActivity.class);
+                startActivity(intent);
+            }
+
+        });
+
+        bt_Venda = findViewById(R.id.buttonVenda);
+        bt_Venda.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,VendaActivity.class);
                 startActivity(intent);
             }
 

@@ -9,6 +9,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Zipzop">
         <activity
+            android:name=".NovaVendaActivity"
+            android:exported="false"
+            android:label="Nova Venda">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".VendaActivity" />
+        </activity>
+        <activity
+            android:name=".VendaActivity"
+            android:exported="false"
+            android:label="Lista de Vendas">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
             android:name=".AbrirCaixaActivity"
             android:exported="false"
             android:label="Novo Caixa">
