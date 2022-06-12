@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".CaixaActivity"
-    android:background="@color/darkblue">
+    android:background="@color/cordefundo">
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/Bt_NovoCaixa"
@@ -21,7 +21,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.973" />
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/Listar_Caixa"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"

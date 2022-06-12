@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/darkblue"
+    android:background="@color/cordefundo"
     tools:context=".VendaActivity">
 
     <androidx.appcompat.widget.AppCompatButton
@@ -24,7 +24,6 @@
         app:layout_constraintVertical_bias="0.973" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/ListaVenda"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"

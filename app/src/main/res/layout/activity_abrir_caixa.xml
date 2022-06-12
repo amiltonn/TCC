@@ -5,10 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AbrirCaixaActivity"
-    android:background="@color/darkblue">
+    android:background="@color/cordefundo">
 
     <EditText
-        android:id="@+id/troco"
         style="@style/Edit_Text"
         android:layout_width="214dp"
         android:layout_height="52dp"
@@ -25,7 +24,6 @@
         app:layout_constraintTop_toTopOf="parent"></EditText>
 
     <TextView
-        android:id="@+id/Txt_InfoProdutos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -44,7 +42,7 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="60dp"
-        android:background="@color/grey"
+        android:background="@color/botao"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="16dp"></Spinner>
 
@@ -66,7 +64,6 @@
         app:layout_constraintTop_toTopOf="parent"></EditText>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/Bt_AddProduto"
         style="@style/Button"
         android:layout_width="210dp"
         android:layout_height="64dp"
