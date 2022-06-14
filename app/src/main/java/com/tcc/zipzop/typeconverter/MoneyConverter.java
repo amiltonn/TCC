@@ -19,4 +19,10 @@ public class MoneyConverter {
     money.setScale(0);
     return money.intValue();
   }
+
+  public static String toString(Integer value) {
+    String valorString = String.valueOf(value);
+    Integer posiVirgula = valorString.length() - 2;
+    return valorString.substring(0, posiVirgula) + ',' + valorString.substring(posiVirgula);
+  }
 }

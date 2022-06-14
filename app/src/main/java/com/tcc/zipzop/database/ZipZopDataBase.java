@@ -32,7 +32,7 @@ import com.tcc.zipzop.typeconverter.MoneyConverter;
                 VendaProduto.class
             },
             exportSchema = false)
-@TypeConverters({MoneyConverter.class, DateTimeConverter.class})
+@TypeConverters({DateTimeConverter.class})
 public abstract class ZipZopDataBase extends RoomDatabase {
     public abstract ProdutoDAO getProdutoDAO();
     public abstract CaixaDAO getCaixaDAO();

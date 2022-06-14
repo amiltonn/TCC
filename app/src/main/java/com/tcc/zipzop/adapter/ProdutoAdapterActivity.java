@@ -16,6 +16,7 @@ import com.tcc.zipzop.R;
 import com.tcc.zipzop.database.ZipZopDataBase;
 import com.tcc.zipzop.database.dao.ProdutoDAO;
 import com.tcc.zipzop.entity.Produto;
+import com.tcc.zipzop.typeconverter.MoneyConverter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +58,7 @@ public class ProdutoAdapterActivity extends RecyclerView.Adapter<ProdutoAdapterA
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.nome.setText(String.valueOf(produtos.get(position).getNome()));
         holder.qtd.setText(String.valueOf(produtos.get(position).getQtd()));
-        holder.valor.setText("R$:"+String.valueOf(produtos.get(position).getPreco()));
+        holder.valor.setText("R$:"+ MoneyConverter.toString(produtos.get(position).getPreco()));
         int longClickPosition = position;
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override

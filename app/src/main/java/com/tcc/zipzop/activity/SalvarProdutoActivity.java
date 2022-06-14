@@ -17,6 +17,7 @@ import com.tcc.zipzop.asynctask.SalvarProdutoTask;
 import com.tcc.zipzop.database.ZipZopDataBase;
 import com.tcc.zipzop.database.dao.ProdutoDAO;
 import com.tcc.zipzop.entity.Produto;
+import com.tcc.zipzop.typeconverter.MoneyConverter;
 
 import java.util.concurrent.ExecutionException;
 
@@ -81,8 +82,8 @@ public class SalvarProdutoActivity extends AppCompatActivity {
         //edita o produto
         else{
             campoNome.setText(produto.getNome());
-            campoCustoProducao.setText("" + produto.getCusto());
-            campoPrecoVenda.setText("" + produto.getPreco());
+            campoCustoProducao.setText("" + MoneyConverter.toString(produto.getCusto()));
+            campoPrecoVenda.setText("" + MoneyConverter.toString(produto.getPreco()));
             campoQuantidade.setText("" + produto.getQtd());
         }
     }
