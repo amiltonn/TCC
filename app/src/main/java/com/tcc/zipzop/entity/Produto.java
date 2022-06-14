@@ -1,34 +1,47 @@
 package com.tcc.zipzop.entity;
 
-import android.widget.EditText;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Date;
 
-@Entity
+@Entity(foreignKeys = { @ForeignKey(entity = UnidadeMedida.class, parentColumns = "id", childColumns = "unidadeMedidaId", onUpdate = ForeignKey.RESTRICT, onDelete = ForeignKey.RESTRICT),
+                        @ForeignKey(entity = Formula.class, parentColumns = "id", childColumns = "formulaId", onUpdate = ForeignKey.RESTRICT, onDelete = ForeignKey.RESTRICT)})
 public class Produto implements Serializable {
 
     @PrimaryKey
     @NonNull
     private Integer id;
+    @NonNull
     private String nome;
+    @NonNull
     private Integer qtd;
-    // Float ? https://stackoverflow.com/questions/9364399/storing-floating-point-numbers-in-android-database
-    private Float custo;
-    private Float preco;
-    private Boolean ativo = (true);
-    private Boolean atual = (true);
-    private String dataAlteracao;
-    private Integer produtoAntesId;
-    // FK
-    private Integer unidadeMedidaId;
+    @NonNull
+    private Integer custo;
+    private Integer preco;
+    @ColumnInfo(defaultValue = "1")
+    @NonNull
+    private Boolean ativo = true;
+    @ColumnInfo(defaultValue = "1")
+    @NonNull
+    private Boolean atual = true;
+    @ColumnInfo(defaultValue = "(datetime())")
+    @NonNull
+    private Date dataAlteracao = new Date();
+    @ColumnInfo(defaultValue = "NULL")
+    private Integer produtoAntesId = null;
 
-    private Integer formulaId;
+    @ColumnInfo(index = true)
+    //TODO: descomentar quando o front for usar unidade de medida
+//    @NonNull
+    private Integer unidadeMedidaId;
+    @ColumnInfo(defaultValue = "NULL", index = true)
+    private Integer formulaId = null;
 
     public Integer getId() {
         return id;
@@ -54,19 +67,19 @@ public class Produto implements Serializable {
         this.qtd = qtd;
     }
 
-    public Float getCusto() {
+    public Integer getCusto() {
         return custo;
     }
 
-    public void setCusto(Float custo) {
+    public void setCusto(Integer custo) {
         this.custo = custo;
     }
 
-    public Float getPreco() {
+    public Integer getPreco() {
         return preco;
     }
 
-    public void setPreco(Float preco) {
+    public void setPreco(Integer preco) {
         this.preco = preco;
     }
 
@@ -86,11 +99,11 @@ public class Produto implements Serializable {
         this.atual = atual;
     }
 
-    public String getDataAlteracao() {
+    public Date getDataAlteracao() {
         return dataAlteracao;
     }
 
-    public void setDataAlteracao(String data_alteracao) {
+    public void setDataAlteracao(Date data_alteracao) {
         this.dataAlteracao = data_alteracao;
     }
 
@@ -118,6 +131,7 @@ public class Produto implements Serializable {
         this.formulaId = formulaId;
     }
 
+    //???
     @Override
     public String toString() {
         return this.id + " - " + this.nome + " - " + this.qtd;

@@ -2,16 +2,18 @@ package com.tcc.zipzop.entity;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity
+@Entity(indices = {@Index(value = {"apelido"}, unique = true)})
 public class VendaLocal {
 
     @PrimaryKey
     @NonNull
     private Integer id;
-
+    @NonNull
     private String apelido;
+    @NonNull
     private String endereco;
     private String complemento;
     private Float latitude;

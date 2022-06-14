@@ -90,9 +90,9 @@ public class SalvarProdutoActivity extends AppCompatActivity {
     private void preencheProduto() {
         String nome = campoNome.getText().toString();
         String auxCustoProducao = campoCustoProducao.getText().toString();
-        Float custoProducao = converteFloat(auxCustoProducao);
+        Integer custoProducao = converteParaCentavos(auxCustoProducao);
         String auxPrecoVenda = campoPrecoVenda.getText().toString();
-        Float precoVenda = converteFloat(auxPrecoVenda);
+        Integer precoVenda = converteParaCentavos(auxPrecoVenda);
         String auxQuantidade = campoQuantidade.getText().toString();
         Integer quantidade = Integer.parseInt(auxQuantidade);
 
@@ -114,17 +114,22 @@ public class SalvarProdutoActivity extends AppCompatActivity {
         }
 
     }
-    public Float converteFloat(String valor){
-        String retorno = new String();
-        int tamanhoString = valor.length();
-        for(int i = 0; i < tamanhoString; i++){
-            if (valor.charAt(i) == ',') {
-                retorno += '.';
-            }else {
-                retorno += valor.charAt(i);
+    public Integer converteParaCentavos(String valor){
+        char penultimo = 'n';
+        char antePenultimo = 'n';
+        if(valor.length() > 1) {
+            penultimo = valor.charAt(valor.length() - 2);
+            if (valor.length() > 2) {
+                antePenultimo = valor.charAt(valor.length() - 3);
             }
         }
-        return Float.parseFloat(retorno);
+
+        if(antePenultimo == ',' || antePenultimo == '.')
+            return Integer.parseInt(valor.replaceAll("[,.]", ""));
+        else if(penultimo == ',' || penultimo == '.')
+            return Integer.parseInt(valor.replaceAll("[,.]", "")) * 10;
+        else
+            return Integer.parseInt(valor.replaceAll("[,.]", "")) * 100;
     }
 
     public void salvarComSucesso(){

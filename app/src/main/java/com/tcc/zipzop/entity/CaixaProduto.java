@@ -1,24 +1,39 @@
 package com.tcc.zipzop.entity;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
-@Entity
+@Entity(foreignKeys = { @ForeignKey(entity = Produto.class, parentColumns = "id", childColumns = "produtoId", onUpdate = ForeignKey.RESTRICT, onDelete = ForeignKey.RESTRICT),
+                        @ForeignKey(entity = Caixa.class, parentColumns = "id", childColumns = "caixaId", onUpdate = ForeignKey.RESTRICT, onDelete = ForeignKey.RESTRICT)})
 public class CaixaProduto {
 
     @PrimaryKey
     @NonNull
     private Integer id;
-
+    @NonNull
     private Integer qtd;
+    @ColumnInfo(defaultValue = "1")
+    @NonNull
+    private Boolean ativo = true;
+    @ColumnInfo(defaultValue = "1")
+    @NonNull
+    private Boolean atual = true;
+    @ColumnInfo(defaultValue = "(datetime())")
+    @NonNull
+    private Date dataAlteracao = new Date();
 
-    private LocalDateTime dataAlteracao;
-
-    private Integer produtoId; //FK
-    private Integer caixaId; //FK
+    @ColumnInfo(index = true)
+    @NonNull
+    private Integer produtoId;
+    @ColumnInfo(index = true)
+    @NonNull
+    private Integer caixaId;
 
     public Integer getId() {
         return id;
@@ -36,12 +51,28 @@ public class CaixaProduto {
         this.qtd = qtd;
     }
 
-    public LocalDateTime getDataAlteracao() {
+    public Boolean getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(Boolean ativo) {
+        this.ativo = ativo;
+    }
+
+    public Boolean getAtual() {
+        return atual;
+    }
+
+    public void setAtual(Boolean atual) {
+        this.atual = atual;
+    }
+
+    public Date getDataAlteracao() {
         return dataAlteracao;
     }
 
-    public void setDataAlteracao(LocalDateTime dataAlteracao) {
-        this.dataAlteracao = dataAlteracao;
+    public void setDataAlteracao(Date data_alteracao) {
+        this.dataAlteracao = data_alteracao;
     }
 
     public Integer getProdutoId() {

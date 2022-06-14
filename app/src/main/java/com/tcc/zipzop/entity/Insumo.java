@@ -1,21 +1,37 @@
 package com.tcc.zipzop.entity;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-@Entity
+import java.util.Date;
+
+@Entity(foreignKeys = { @ForeignKey(entity = Formula.class, parentColumns = "id", childColumns = "formulaId", onUpdate = ForeignKey.RESTRICT, onDelete = ForeignKey.RESTRICT),
+                        @ForeignKey(entity = Produto.class, parentColumns = "id", childColumns = "insumoId", onUpdate = ForeignKey.RESTRICT, onDelete = ForeignKey.RESTRICT)})
 public class Insumo {
 
     @PrimaryKey
     @NonNull
     private Integer id;
-
+    @NonNull
     private Integer qtdInsumoProduto;
+    @ColumnInfo(defaultValue = "1")
+    @NonNull
     private Boolean ativo = (true);
+    @ColumnInfo(defaultValue = "1")
+    @NonNull
     private Boolean atual = (true);
-    private String dataAlteracao;
+    @ColumnInfo(defaultValue = "(datetime())")
+    @NonNull
+    private Date dataAlteracao = new Date();
+
+    @ColumnInfo(index = true)
+    @NonNull
     private Integer formulaId;
+    @ColumnInfo(index = true)
+    @NonNull
     private Integer insumoId;
 
     public Integer getId() {
@@ -50,11 +66,11 @@ public class Insumo {
         this.atual = atual;
     }
 
-    public String getDataAlteracao() {
+    public Date getDataAlteracao() {
         return dataAlteracao;
     }
 
-    public void setDataAlteracao(String dataAlteracao) {
+    public void setDataAlteracao(Date dataAlteracao) {
         this.dataAlteracao = dataAlteracao;
     }
 

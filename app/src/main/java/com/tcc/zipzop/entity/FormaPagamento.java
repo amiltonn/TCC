@@ -2,15 +2,16 @@ package com.tcc.zipzop.entity;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity
+@Entity(indices = {@Index(value = {"nome"}, unique = true)})
 public class FormaPagamento {
 
     @PrimaryKey
     @NonNull
     private Integer id;
-
+    @NonNull
     private String nome; // UQ
 
     public Integer getId() {

@@ -4,15 +4,20 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.Date;
+
 @Entity
 public class Gasto {
 
     @PrimaryKey
     @NonNull
     private Integer id;
-
+    @NonNull
     private String nome;
-    private String dataPagamento;
+    @NonNull
+    private Integer custo;
+    @NonNull
+    private Date dataPagamento;
 
     public Integer getId() {
         return id;
@@ -30,11 +35,19 @@ public class Gasto {
         this.nome = nome;
     }
 
-    public String getDataPagamento() {
+    public Integer getCusto() {
+        return custo;
+    }
+
+    public void setCusto(Integer custo) {
+        this.custo = custo;
+    }
+
+    public Date getDataPagamento() {
         return dataPagamento;
     }
 
-    public void setDataPagamento(String dataPagamento) {
+    public void setDataPagamento(Date dataPagamento) {
         this.dataPagamento = dataPagamento;
     }
 }

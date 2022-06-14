@@ -1,24 +1,38 @@
 package com.tcc.zipzop.entity;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
-@Entity
+@Entity(foreignKeys = { @ForeignKey(entity = VendaLocal.class, parentColumns = "id", childColumns = "vendaLocalId", onUpdate = ForeignKey.RESTRICT, onDelete = ForeignKey.RESTRICT),
+                        @ForeignKey(entity = FormaPagamento.class, parentColumns = "id", childColumns = "formaPagamentoId", onUpdate = ForeignKey.RESTRICT, onDelete = ForeignKey.RESTRICT),
+                        @ForeignKey(entity = Caixa.class, parentColumns = "id", childColumns = "caixaId", onUpdate = ForeignKey.RESTRICT, onDelete = ForeignKey.RESTRICT)})
 public class Venda {
 
     @PrimaryKey
     @NonNull
     private Integer id;
+    @NonNull
+    private Integer valorPago;
+    @NonNull
+    private Integer valorVenda;
+    @ColumnInfo(defaultValue = "(datetime())")
+    @NonNull
+    private Date dataPagamento;
 
-    private Float valorPago;
-    private Float valorVenda;
-    private LocalDateTime dataPagamento;
+    @ColumnInfo(index = true)
+    @NonNull
     private Integer vendaLocalId;
-    private Integer formaPagamentoId; //FK
-    private Integer caixaId; //FK
+    @ColumnInfo(index = true)
+    @NonNull
+    private Integer formaPagamentoId;
+    @ColumnInfo(index = true)
+    @NonNull
+    private Integer caixaId;
 
     public Integer getId() {
         return id;
@@ -28,27 +42,27 @@ public class Venda {
         this.id = id;
     }
 
-    public Float getValorPago() {
+    public Integer getValorPago() {
         return valorPago;
     }
 
-    public void setValorPago(Float valorPago) {
+    public void setValorPago(Integer valorPago) {
         this.valorPago = valorPago;
     }
 
-    public Float getValorVenda() {
+    public Integer getValorVenda() {
         return valorVenda;
     }
 
-    public void setValorVenda(Float valorVenda) {
+    public void setValorVenda(Integer valorVenda) {
         this.valorVenda = valorVenda;
     }
 
-    public LocalDateTime getDataPagamento() {
+    public Date getDataPagamento() {
         return dataPagamento;
     }
 
-    public void setDataPagamento(LocalDateTime dataPagamento) {
+    public void setDataPagamento(Date dataPagamento) {
         this.dataPagamento = dataPagamento;
     }
 

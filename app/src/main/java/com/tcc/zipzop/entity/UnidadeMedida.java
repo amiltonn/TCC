@@ -5,8 +5,6 @@ import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-import com.google.firebase.database.PropertyName;
-
 @Entity(indices = {@Index(value = {"nome"}, unique = true)})
 public class UnidadeMedida {
 

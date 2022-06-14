@@ -1,20 +1,27 @@
 package com.tcc.zipzop.entity;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-@Entity
+import java.util.Date;
+
+@Entity(foreignKeys = { @ForeignKey(entity = Estoque.class, parentColumns = "id", childColumns = "estoqueId", onUpdate = ForeignKey.RESTRICT, onDelete = ForeignKey.RESTRICT)})
 public class Caixa {
 
     @PrimaryKey
     @NonNull
     private Integer id;
+    @ColumnInfo(defaultValue = "(datetime())")
+    @NonNull
+    private Date dataAbertura = new Date();
+    private Date dataFechamento;
 
-    private Float fundo;
-    private String dataAbertura;
-    private String dataFechamento;
-    private Integer estoqueId; //FK
+    @ColumnInfo(index = true)
+    @NonNull
+    private Integer estoqueId;
 
     public Integer getId() {
         return id;
@@ -24,27 +31,19 @@ public class Caixa {
         this.id = id;
     }
 
-    public Float getFundo() {
-        return fundo;
-    }
-
-    public void setFundo(Float fundo) {
-        this.fundo = fundo;
-    }
-
-    public String getDataAbertura() {
+    public Date getDataAbertura() {
         return dataAbertura;
     }
 
-    public void setDataAbertura(String dataAbertura) {
+    public void setDataAbertura(Date dataAbertura) {
         this.dataAbertura = dataAbertura;
     }
 
-    public String getDataFechamento() {
+    public Date getDataFechamento() {
         return dataFechamento;
     }
 
-    public void setDataFechamento(String dataFechamento) {
+    public void setDataFechamento(Date dataFechamento) {
         this.dataFechamento = dataFechamento;
     }
 

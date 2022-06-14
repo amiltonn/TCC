@@ -1,20 +1,27 @@
 package com.tcc.zipzop.entity;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-@Entity
+@Entity(foreignKeys = { @ForeignKey(entity = Venda.class, parentColumns = "id", childColumns = "vendaId", onUpdate = ForeignKey.RESTRICT, onDelete = ForeignKey.RESTRICT),
+                        @ForeignKey(entity = CaixaProduto.class, parentColumns = "id", childColumns = "caixaProdutoId", onUpdate = ForeignKey.RESTRICT, onDelete = ForeignKey.RESTRICT)})
 public class VendaProduto {
 
     @PrimaryKey
     @NonNull
     private Integer id;
-
+    @NonNull
     private Integer qtd;
-    private Float precoVenda;
-    private Integer vendaId; //FK
-    private Integer caixaProdutoId; //FK
+    private Integer precoVenda;
+
+    @ColumnInfo(index = true)
+    private Integer vendaId;
+    @ColumnInfo(index = true)
+    @NonNull
+    private Integer caixaProdutoId;
 
     public Integer getId() {
         return id;
@@ -32,11 +39,11 @@ public class VendaProduto {
         this.qtd = qtd;
     }
 
-    public Float getPrecoVenda() {
+    public Integer getPrecoVenda() {
         return precoVenda;
     }
 
-    public void setPrecoVenda(Float precoVenda) {
+    public void setPrecoVenda(Integer precoVenda) {
         this.precoVenda = precoVenda;
     }
 
