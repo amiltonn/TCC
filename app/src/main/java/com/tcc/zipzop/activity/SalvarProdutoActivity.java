@@ -13,12 +13,16 @@ import com.tcc.zipzop.R;
 import com.tcc.zipzop.adapter.ProdutoAdapterActivity;
 import com.tcc.zipzop.asynctask.ConsultarProdutoTask;
 import com.tcc.zipzop.asynctask.EditarProdutoTask;
+import com.tcc.zipzop.asynctask.ListarUnidadeMedidaTask;
 import com.tcc.zipzop.asynctask.SalvarProdutoTask;
 import com.tcc.zipzop.database.ZipZopDataBase;
 import com.tcc.zipzop.database.dao.ProdutoDAO;
+import com.tcc.zipzop.database.dao.UnidadeMedidaDAO;
 import com.tcc.zipzop.entity.Produto;
+import com.tcc.zipzop.entity.UnidadeMedida;
 import com.tcc.zipzop.typeconverter.MoneyConverter;
 
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 
@@ -27,7 +31,9 @@ public class SalvarProdutoActivity extends AppCompatActivity {
     private AppCompatButton btSalvar;
     private ProdutoAdapterActivity adapter;
     private ProdutoDAO dao;
+    private UnidadeMedidaDAO unidadeMedidaDAO;
     private Produto produto;
+    List<UnidadeMedida> unidadeMedidas;
     private EditText    campoNome,
                         campoCustoProducao,
                         campoPrecoVenda,
@@ -43,6 +49,14 @@ public class SalvarProdutoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_salvar_produto);
         ZipZopDataBase dataBase = ZipZopDataBase.getInstance(this);
         dao = dataBase.getProdutoDAO();
+        unidadeMedidaDAO = dataBase.getUnidadeMedidaDAO();
+        try {
+            unidadeMedidas = new ListarUnidadeMedidaTask(unidadeMedidaDAO).execute().get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         inicializaCampos();
         preencheCampos();
@@ -118,6 +132,7 @@ public class SalvarProdutoActivity extends AppCompatActivity {
     public Integer converteParaCentavos(String valor){
         char penultimo = 'n';
         char antePenultimo = 'n';
+        Integer retorno = null;
         if(valor.length() > 1) {
             penultimo = valor.charAt(valor.length() - 2);
             if (valor.length() > 2) {
@@ -126,11 +141,14 @@ public class SalvarProdutoActivity extends AppCompatActivity {
         }
 
         if(antePenultimo == ',' || antePenultimo == '.')
-            return Integer.parseInt(valor.replaceAll("[,.]", ""));
+            retorno = Integer.parseInt(valor.replaceAll("[,.]", ""));
         else if(penultimo == ',' || penultimo == '.')
-            return Integer.parseInt(valor.replaceAll("[,.]", "")) * 10;
+            retorno = Integer.parseInt(valor.replaceAll("[,.]", "")) * 10;
         else
-            return Integer.parseInt(valor.replaceAll("[,.]", "")) * 100;
+            retorno = Integer.parseInt(valor.replaceAll("[,.]", "")) * 100;
+
+
+        return retorno;
     }
 
     public void salvarComSucesso(){

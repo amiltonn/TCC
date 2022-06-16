@@ -16,10 +16,10 @@ public interface CaixaDAO {
     @Insert
     void salvar(Caixa caixa);
 
-    @Query("SELECT * FROM caixa")
+    @Query("SELECT * FROM Caixa")
     List<Caixa> listar();
 
-    @Query("SELECT * FROM caixa WHERE id = :id")
+    @Query("SELECT * FROM Caixa WHERE id = :id")
     Caixa consultar(Integer id);
 
     @Delete

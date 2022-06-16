@@ -18,7 +18,7 @@ public interface ProdutoDAO {
     @Query("SELECT * FROM Produto WHERE ativo = 1")
     List<Produto> listar();
 
-    @Query("SELECT * FROM Produto WHERE id = :id AND ativo = 1")
+    @Query("SELECT * FROM Produto WHERE id = :id AND ativo = 1 AND atual = 1")
     Produto consultar(Integer id);
 
     @Query("UPDATE Produto SET ativo = 0 WHERE id = :id")

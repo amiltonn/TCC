@@ -9,12 +9,13 @@ import androidx.room.TypeConverters;
 
 import com.tcc.zipzop.database.dao.CaixaDAO;
 import com.tcc.zipzop.database.dao.ProdutoDAO;
+import com.tcc.zipzop.database.dao.UnidadeMedidaDAO;
 import com.tcc.zipzop.entity.*;
 import com.tcc.zipzop.typeconverter.DateTimeConverter;
-import com.tcc.zipzop.typeconverter.MoneyConverter;
 
 @Database(version = 1,
             entities = {
+                OperationActive.class,
                 UnidadeMedida.class,
                 Formula.class,
                 Produto.class,
@@ -35,6 +36,7 @@ import com.tcc.zipzop.typeconverter.MoneyConverter;
 @TypeConverters({DateTimeConverter.class})
 public abstract class ZipZopDataBase extends RoomDatabase {
     public abstract ProdutoDAO getProdutoDAO();
+    public abstract UnidadeMedidaDAO getUnidadeMedidaDAO();
     public abstract CaixaDAO getCaixaDAO();
 
     public static ZipZopDataBase getInstance(Context context) {

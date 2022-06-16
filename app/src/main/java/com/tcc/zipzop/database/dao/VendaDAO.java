@@ -17,16 +17,16 @@ public interface VendaDAO {
     @Insert
     void salvar(Venda venda);
 
-    @Query("SELECT * FROM venda")
+    @Query("SELECT * FROM Venda")
     List<Venda> listar();
 
-    @Query("SELECT * FROM venda WHERE id = :id")
+    @Query("SELECT * FROM Venda WHERE id = :id")
     Produto consultar(Long id);
 
     @Delete
-    void deletar(Produto produto);
+    void deletar(Venda venda);
 
     @Update
-    void alterar(Produto produto);
+    void alterar(Venda venda);
 
 }
