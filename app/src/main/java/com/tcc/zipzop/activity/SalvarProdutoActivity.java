@@ -7,7 +7,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import com.tcc.zipzop.R;
 import com.tcc.zipzop.adapter.ProdutoAdapterActivity;
@@ -22,6 +24,7 @@ import com.tcc.zipzop.entity.Produto;
 import com.tcc.zipzop.entity.UnidadeMedida;
 import com.tcc.zipzop.typeconverter.MoneyConverter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -38,6 +41,7 @@ public class SalvarProdutoActivity extends AppCompatActivity {
                         campoCustoProducao,
                         campoPrecoVenda,
                         campoQuantidade;
+    private Spinner campolistaUnidadeMedida;
     Intent intent;
     Integer id = 0;
     ProdutoAdapterActivity produtoAdapterActivity;
@@ -52,6 +56,7 @@ public class SalvarProdutoActivity extends AppCompatActivity {
         unidadeMedidaDAO = dataBase.getUnidadeMedidaDAO();
         try {
             unidadeMedidas = new ListarUnidadeMedidaTask(unidadeMedidaDAO).execute().get();
+
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -75,6 +80,11 @@ public class SalvarProdutoActivity extends AppCompatActivity {
         campoCustoProducao = findViewById(R.id.CustoProducao);
         campoPrecoVenda = findViewById(R.id.PrecoVenda);
         campoQuantidade = findViewById(R.id.Quantidade);
+        campolistaUnidadeMedida = findViewById(R.id.listaUnidadeMedida);
+
+        ArrayAdapter<UnidadeMedida> unidadeMedidaAdapter = new ArrayAdapter<UnidadeMedida>(this,
+                android.R.layout.simple_dropdown_item_1line, this.unidadeMedidas);
+        this.campolistaUnidadeMedida.setAdapter(unidadeMedidaAdapter);
 
     }
 
