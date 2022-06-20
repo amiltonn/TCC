@@ -87,7 +87,7 @@ public class ZipZopCallbacks {
                 "CREATE TRIGGER IF NOT EXISTS UpdateProduto\n" +
                     "\tBEFORE UPDATE\n" +
                     "\tON Produto\n" +
-                    "\tWHEN OLD.atual = 1 AND NOT EXISTS(SELECT 1 FROM OperationActive LIMIT 1)\n" +
+                    "\tWHEN NEW.ativo <> 0 AND OLD.atual = 1 AND NOT EXISTS(SELECT 1 FROM OperationActive LIMIT 1)\n" +
                     "\tBEGIN\n" +
                     "\t\tINSERT INTO OperationActive (recursionLayer)\n" +
                     "\t\t\tVALUES (1);\n" +
@@ -100,6 +100,25 @@ public class ZipZopCallbacks {
                     "\t\n" +
                     "\t\tINSERT INTO Produto (nome, qtd, custo, preco, produtoAntesId, ativo, unidadeMedidaId, formulaId)\n" +
                     "\t\t\tVALUES (NEW.nome, NEW.qtd, NEW.custo, NEW.preco, OLD.id, NEW.ativo, NEW.unidadeMedidaId, OLD.formulaId);\n" +
+                    "\t\t\n" +
+                    "\t\tSELECT RAISE(IGNORE);\n" +
+                    "\tEND;"
+            );
+            database.execSQL(
+                "CREATE TRIGGER IF NOT EXISTS UpdateDeleteProduto\n" +
+                    "\tBEFORE UPDATE\n" +
+                    "\tON Produto\n" +
+                    "\tWHEN NEW.ativo = 0 AND OLD.atual = 1 AND NOT EXISTS(SELECT 1 FROM OperationActive LIMIT 1)\n" +
+                    "\tBEGIN\n" +
+                    "\t\tINSERT INTO OperationActive (recursionLayer)\n" +
+                    "\t\t\tVALUES (1);\n" +
+                    "\n" +
+                    "\t\tUPDATE Produto\n" +
+                    "\t\tSET\tativo = 0,\n" +
+                    "\t\t\tatual = 0\n" +
+                    "\t\tWHERE id = OLD.id;\n" +
+                    "\t\n" +
+                    "\t\tDELETE FROM OperationActive;\n" +
                     "\t\t\n" +
                     "\t\tSELECT RAISE(IGNORE);\n" +
                     "\tEND;"
@@ -164,7 +183,7 @@ public class ZipZopCallbacks {
                 "CREATE TRIGGER IF NOT EXISTS UpdateCaixaProduto\n" +
                     "\tBEFORE UPDATE\n" +
                     "\tON CaixaProduto\n" +
-                    "\tWHEN OLD.atual = 1 AND NOT EXISTS(SELECT 1 FROM OperationActive LIMIT 1)\n" +
+                    "\tWHEN NEW.ativo <> 0 AND OLD.atual = 1 AND NOT EXISTS(SELECT 1 FROM OperationActive LIMIT 1)\n" +
                     "\tBEGIN\n" +
                     "\t\tINSERT INTO OperationActive (recursionLayer)\n" +
                     "\t\t\tVALUES (1);\n" +
@@ -177,6 +196,25 @@ public class ZipZopCallbacks {
                     "\t\t\n" +
                     "\t\tINSERT INTO CaixaProduto (qtd, ativo, produtoId, caixaId)\n" +
                     "\t\t\tVALUES (NEW.qtd, NEW.ativo, OLD.produtoId, OLD.caixaId);\n" +
+                    "\t\t\t\t\n" +
+                    "\t\tSELECT RAISE(IGNORE);\n" +
+                    "\tEND;"
+            );
+            database.execSQL(
+                "CREATE TRIGGER IF NOT EXISTS UpdateDeleteCaixaProduto\n" +
+                    "\tBEFORE UPDATE\n" +
+                    "\tON CaixaProduto\n" +
+                    "\tWHEN NEW.ativo = 0 AND OLD.atual = 1 AND NOT EXISTS(SELECT 1 FROM OperationActive LIMIT 1)\n" +
+                    "\tBEGIN\n" +
+                    "\t\tINSERT INTO OperationActive (recursionLayer)\n" +
+                    "\t\t\tVALUES (1);\n" +
+                    "\t\t\n" +
+                    "\t\tUPDATE CaixaProduto\n" +
+                    "\t\tSET\tativo = 0,\n" +
+                    "\t\t\tatual = 0\n" +
+                    "\t\tWHERE id = OLD.id;\n" +
+                    "\t\n" +
+                    "\t\tDELETE FROM OperationActive;\n" +
                     "\t\t\t\t\n" +
                     "\t\tSELECT RAISE(IGNORE);\n" +
                     "\tEND;"
@@ -357,7 +395,7 @@ public class ZipZopCallbacks {
                 "CREATE TRIGGER IF NOT EXISTS UpdateInsumo\n" +
                     "\tBEFORE UPDATE\n" +
                     "\tON Insumo\n" +
-                    "\tWHEN OLD.atual = 1 AND NOT EXISTS(SELECT 1 FROM OperationActive LIMIT 1)\n" +
+                    "\tWHEN NEW.ativo <> 0 AND OLD.atual = 1 AND NOT EXISTS(SELECT 1 FROM OperationActive LIMIT 1)\n" +
                     "\tBEGIN\n" +
                     "\t\tINSERT INTO OperationActive (recursionLayer)\n" +
                     "\t\t\tVALUES (1);\n" +
@@ -370,6 +408,25 @@ public class ZipZopCallbacks {
                     "\t\t\n" +
                     "\t\tINSERT INTO Insumo (qtdInsumoProduto, ativo, formulaId, insumoId)\n" +
                     "\t\t\tVALUES (NEW.qtdInsumoProduto, NEW.ativo, OLD.formulaId, OLD.insumoId);\n" +
+                    "\t\t\t\t\n" +
+                    "\t\tSELECT RAISE(IGNORE);\n" +
+                    "\tEND;"
+            );
+            database.execSQL(
+                "CREATE TRIGGER IF NOT EXISTS UpdateDeleteInsumo\n" +
+                    "\tBEFORE UPDATE\n" +
+                    "\tON Insumo\n" +
+                    "\tWHEN NEW.ativo = 0 AND OLD.atual = 1 AND NOT EXISTS(SELECT 1 FROM OperationActive LIMIT 1)\n" +
+                    "\tBEGIN\n" +
+                    "\t\tINSERT INTO OperationActive (recursionLayer)\n" +
+                    "\t\t\tVALUES (1);\n" +
+                    "\t\t\n" +
+                    "\t\tUPDATE Insumo\n" +
+                    "\t\tSET\tativo = 0,\n" +
+                    "\t\t\tatual = 0\n" +
+                    "\t\tWHERE id = OLD.id;\n" +
+                    "\t\n" +
+                    "\t\tDELETE FROM OperationActive;\n" +
                     "\t\t\t\t\n" +
                     "\t\tSELECT RAISE(IGNORE);\n" +
                     "\tEND;"

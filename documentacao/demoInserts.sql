@@ -1,9 +1,9 @@
 INSERT INTO Produto (nome, qtd, custo, preco, unidadeMedidaId)
 	VALUES
-		('produto1', 1, 1, 1.5, 1),
-		('produto2', 2, 2, 2.5, 1),
-		('produto3', 3, 3, 3.5, 1),
-		('produto4', 4, 4, 4.5, 1);
+		('produto1', 1, 100, 150, 1),
+		('produto2', 2, 200, 250, 1),
+		('produto3', 3, 300, 350, 1),
+		('produto4', 4, 400, 450, 1);
 
 SELECT * FROM ProdutoView;
 
@@ -12,7 +12,7 @@ SELECT * FROM ProdutoAtual;
 UPDATE Produto
 	SET nome = nome || ' alterado',
 		qtd = qtd + 1,
-		custo = custo - 0.5
+		custo = custo - 50
 	WHERE id > 2;
 	
 SELECT * FROM ProdutoView;
@@ -26,7 +26,7 @@ SELECT * FROM Produto;
 INSERT INTO Caixa DEFAULT VALUES;
 
 INSERT INTO CaixaFundo (valor, caixaId)
-	VALUES (9000.8, 1);
+	VALUES (900080, 1);
 
 INSERT INTO CaixaProduto (qtd, produtoId, caixaId)
 	VALUES 	(1, 1, 1),
@@ -63,3 +63,4 @@ SELECT c.id, c.dataAbertura, c.dataFechamento, cf.valor AS fundo, cf.dataAlterac
 	WHERE cf.dataAlteracao = (SELECT MAX(dataAlteracao) FROM CaixaFundo WHERE caixaId = c.id);
 
 -- UPDATE Caixa SET dataFechamento = datetime();
+

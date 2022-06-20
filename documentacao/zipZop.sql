@@ -1,5 +1,7 @@
 -- DROP EM TUDO
 
+DROP TABLE IF EXISTS OperationActive;
+
 DROP VIEW IF EXISTS VendaProdutoView;
 
 DROP VIEW IF EXISTS CaixaProdutoAberto;
@@ -43,6 +45,8 @@ DROP TABLE IF EXISTS UnidadeMedida;
 
 -- PRAGA DO PRAGMA
 
+PRAGMA foreign_keys = OFF;
+
 PRAGMA foreign_keys = ON;
 
 
@@ -62,11 +66,11 @@ CREATE TABLE IF NOT EXISTS Produto(
 	id INTEGER PRIMARY KEY NOT NULL,
 	nome TEXT NOT NULL,
 	qtd INTEGER NOT NULL,
-	custo NUMERIC NOT NULL,
-	preco NUMERIC,
+	custo INTEGER NOT NULL,
+	preco INTEGER,
 	ativo BOOLEAN NOT NULL DEFAULT 1 CHECK (ativo IN (0, 1)),
 	atual BOOLEAN NOT NULL DEFAULT 1 CHECK (atual IN (0, 1)),
-	dataAlteracao DATETIME NOT NULL DEFAULT (datetime()),
+	dataAlteracao TEXT NOT NULL DEFAULT (datetime()),
 	produtoAntesId INTEGER DEFAULT NULL,
 	unidadeMedidaId INTEGER NOT NULL,
 	formulaId INTEGER DEFAULT NULL,
@@ -77,8 +81,8 @@ CREATE TABLE IF NOT EXISTS Produto(
 CREATE TABLE IF NOT EXISTS Gasto(
 	id INTEGER PRIMARY KEY NOT NULL,
 	nome TEXT NOT NULL,
-	custo NUMERIC NOT NULL,
-	dataPagamento DATETIME NOT NULL
+	custo INTEGER NOT NULL,
+	dataPagamento TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS GastoProduto(
@@ -87,14 +91,14 @@ CREATE TABLE IF NOT EXISTS GastoProduto(
 	PRIMARY KEY (gastoId, produtoId),
 	FOREIGN KEY (gastoId) REFERENCES gasto (id) ON UPDATE RESTRICT ON DELETE RESTRICT,
 	FOREIGN KEY (produtoId) REFERENCES produto (id) ON UPDATE RESTRICT ON DELETE RESTRICT
-) WITHOUT ROWID;
+);
 
 CREATE TABLE IF NOT EXISTS Insumo(
 	id INTEGER PRIMARY KEY NOT NULL,
 	qtdInsumoProduto INTEGER NOT NULL,
 	ativo BOOLEAN NOT NULL DEFAULT 1 CHECK (ativo IN (0, 1)),
 	atual BOOLEAN NOT NULL DEFAULT 1 CHECK (atual IN (0, 1)),
-	dataAlteracao DATETIME NOT NULL DEFAULT (datetime()),
+	dataAlteracao TEXT NOT NULL DEFAULT (datetime()),
 	formulaId INTEGER NOT NULL,
 	insumoId INTEGER NOT NULL,
 	FOREIGN KEY (formulaId) REFERENCES formula (id) ON UPDATE RESTRICT ON DELETE RESTRICT,
@@ -103,7 +107,7 @@ CREATE TABLE IF NOT EXISTS Insumo(
 
 CREATE TABLE IF NOT EXISTS Estoque(
 	id INTEGER PRIMARY KEY NOT NULL,
-	dataAlteracao DATETIME NOT NULL UNIQUE DEFAULT (datetime())
+	dataAlteracao TEXT NOT NULL UNIQUE DEFAULT (datetime())
 );
 
 CREATE TABLE IF NOT EXISTS EstoqueProduto(
@@ -112,20 +116,20 @@ CREATE TABLE IF NOT EXISTS EstoqueProduto(
 	PRIMARY KEY (estoqueId, produtoId),
 	FOREIGN KEY (estoqueId) REFERENCES estoque (id) ON UPDATE RESTRICT ON DELETE RESTRICT,
 	FOREIGN KEY (produtoId) REFERENCES produto (id) ON UPDATE RESTRICT ON DELETE RESTRICT
-) WITHOUT ROWID;
+);
 
 CREATE TABLE IF NOT EXISTS Caixa(
 	id INTEGER PRIMARY KEY NOT NULL,
-	dataAbertura DATETIME NOT NULL DEFAULT (datetime()),
-	dataFechamento DATETIME,
+	dataAbertura TEXT NOT NULL DEFAULT (datetime()),
+	dataFechamento TEXT,
 	estoqueId INTEGER NOT NULL,
 	FOREIGN KEY (estoqueId) REFERENCES estoque (id) ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 
 CREATE TABLE IF NOT EXISTS CaixaFundo(
 	id INTEGER PRIMARY KEY NOT NULL,
-	valor NUMERIC NOT NULL,
-	dataAlteracao DATETIME NOT NULL DEFAULT (datetime()),
+	valor INTEGER NOT NULL,
+	dataAlteracao TEXT NOT NULL DEFAULT (datetime()),
 	caixaId INTEGER NOT NULL,
 	FOREIGN KEY (caixaId) REFERENCES caixa (id) ON UPDATE RESTRICT ON DELETE RESTRICT
 );
@@ -135,7 +139,7 @@ CREATE TABLE IF NOT EXISTS CaixaProduto(
 	qtd INTEGER NOT NULL,
 	ativo BOOLEAN NOT NULL DEFAULT 1 CHECK (ativo IN (0, 1)),
 	atual BOOLEAN NOT NULL DEFAULT 1 CHECK (atual IN (0, 1)),
-	dataAlteracao DATETIME NOT NULL DEFAULT (datetime()),
+	dataAlteracao TEXT NOT NULL DEFAULT (datetime()),
 	produtoId INTEGER NOT NULL,
 	caixaId INTEGER NOT NULL,
 	FOREIGN KEY (produtoId) REFERENCES produto (id) ON UPDATE RESTRICT ON DELETE RESTRICT,
@@ -158,10 +162,10 @@ CREATE TABLE IF NOT EXISTS FormaPagamento(
 
 CREATE TABLE IF NOT EXISTS Venda(
 	id INTEGER PRIMARY KEY NOT NULL,
-	valorPago NUMERIC NOT NULL,
-	valorVenda NUMERIC NOT NULL,
+	valorPago INTEGER NOT NULL,
+	valorVenda INTEGER NOT NULL,
 	aberta BOOLEAN NOT NULL DEFAULT 1 CHECK (aberta IN (0, 1)),
-	dataPagamento DATETIME NOT NULL DEFAULT (datetime()),
+	dataPagamento TEXT NOT NULL DEFAULT (datetime()),
 	vendaLocalId INTEGER NOT NULL,
 	formaPagamentoId INTEGER NOT NULL,
 	caixaId INTEGER NOT NULL,
@@ -173,12 +177,27 @@ CREATE TABLE IF NOT EXISTS Venda(
 CREATE TABLE IF NOT EXISTS VendaProduto(
 	id INTEGER PRIMARY KEY NOT NULL,
 	qtd INTEGER NOT NULL,
-	precoVenda NUMERIC,
+	precoVenda INTEGER,
 	vendaId INTEGER,
 	caixaProdutoId INTEGER NOT NULL,
 	FOREIGN KEY (vendaId) REFERENCES venda (id) ON UPDATE RESTRICT ON DELETE RESTRICT,
 	FOREIGN KEY (caixaProdutoId) REFERENCES caixaProduto (id) ON UPDATE RESTRICT ON DELETE RESTRICT
 );
+
+
+-- CREATE TABLE AND TRIGGER FOR OPERATION
+
+CREATE TABLE IF NOT EXISTS OperationActive(
+	recursionLayer INTEGER PRIMARY KEY NOT NULL DEFAULT 1
+);
+
+CREATE TRIGGER IF NOT EXISTS ValidateInsertOperationActive
+	BEFORE INSERT
+	ON OperationActive
+	WHEN EXISTS(SELECT 1 FROM OperationActive LIMIT 1)
+	BEGIN
+		SELECT RAISE(ROLLBACK, 'Não é possível começar uma nova operação recursiva antes de acabar uma! Tente incrementar o "recursionLayer" se estiver mergulhandoo em recursões.');
+	END;
 
 
 -- TRIGGERS PRODUTO
@@ -225,13 +244,18 @@ CREATE TRIGGER IF NOT EXISTS ValidateDeleteProduto
 CREATE TRIGGER IF NOT EXISTS InsertProduto
 	BEFORE INSERT
 	ON Produto
-	WHEN NEW.formulaId IS NULL
+	WHEN NEW.formulaId IS NULL AND NOT EXISTS(SELECT 1 FROM OperationActive LIMIT 1)
 	BEGIN
-		INSERT INTO formula (aberta)
+		INSERT INTO Formula (aberta)
 			VALUES (0);
-	
-		INSERT INTO produto (nome, qtd, custo, preco, ativo, unidadeMedidaId, formulaId)
+		
+		INSERT INTO OperationActive (recursionLayer)
+			VALUES (1);
+		
+		INSERT INTO Produto (nome, qtd, custo, preco, ativo, unidadeMedidaId, formulaId)
 			VALUES (NEW.nome, NEW.qtd, NEW.custo, NEW.preco, NEW.ativo, NEW.unidadeMedidaId, (SELECT MAX(id) FROM Formula));
+
+		DELETE FROM OperationActive;
 		
 		SELECT RAISE(IGNORE);
 	END;
@@ -239,14 +263,37 @@ CREATE TRIGGER IF NOT EXISTS InsertProduto
 CREATE TRIGGER IF NOT EXISTS UpdateProduto
 	BEFORE UPDATE
 	ON Produto
-	WHEN OLD.atual = 1
+	WHEN NEW.ativo <> 0 AND OLD.atual = 1 AND NOT EXISTS(SELECT 1 FROM OperationActive LIMIT 1)
 	BEGIN
-		UPDATE produto
+		INSERT INTO OperationActive (recursionLayer)
+			VALUES (1);
+
+		UPDATE Produto
 		SET atual = 0
 		WHERE id = OLD.id;
 	
-		INSERT INTO produto (nome, qtd, custo, preco, produtoAntesId, ativo, unidadeMedidaId, formulaId)
+		DELETE FROM OperationActive;
+	
+		INSERT INTO Produto (nome, qtd, custo, preco, produtoAntesId, ativo, unidadeMedidaId, formulaId)
 			VALUES (NEW.nome, NEW.qtd, NEW.custo, NEW.preco, OLD.id, NEW.ativo, NEW.unidadeMedidaId, OLD.formulaId);
+		
+		SELECT RAISE(IGNORE);
+	END;
+
+CREATE TRIGGER IF NOT EXISTS UpdateDeleteProduto
+	BEFORE UPDATE
+	ON Produto
+	WHEN NEW.ativo = 0 AND OLD.atual = 1 AND NOT EXISTS(SELECT 1 FROM OperationActive LIMIT 1)
+	BEGIN
+		INSERT INTO OperationActive (recursionLayer)
+			VALUES (1);
+
+		UPDATE Produto
+		SET	ativo = 0,
+			atual = 0
+		WHERE id = OLD.id;
+	
+		DELETE FROM OperationActive;
 		
 		SELECT RAISE(IGNORE);
 	END;
@@ -298,7 +345,7 @@ CREATE TRIGGER IF NOT EXISTS AfterInsertCaixaProduto
 	ON CaixaProduto
 	WHEN EXISTS(SELECT 1 FROM CaixaFundo WHERE caixaId = NEW.caixaId LIMIT 1)
 	BEGIN
-		INSERT INTO caixaFundo (valor, caixaId)
+		INSERT INTO CaixaFundo (valor, caixaId)
 			SELECT valor, caixaId FROM CaixaFundo AS cf
 				WHERE cf.dataAlteracao = (SELECT MAX(dataAlteracao) FROM CaixaFundo WHERE caixaId = NEW.caixaId) LIMIT 1;
 	END;
@@ -306,14 +353,37 @@ CREATE TRIGGER IF NOT EXISTS AfterInsertCaixaProduto
 CREATE TRIGGER IF NOT EXISTS UpdateCaixaProduto
 	BEFORE UPDATE
 	ON CaixaProduto
-	WHEN OLD.atual = 1
+	WHEN NEW.ativo <> 0 AND OLD.atual = 1 AND NOT EXISTS(SELECT 1 FROM OperationActive LIMIT 1)
 	BEGIN
-		UPDATE caixaProduto
+		INSERT INTO OperationActive (recursionLayer)
+			VALUES (1);
+		
+		UPDATE CaixaProduto
 		SET atual = 0
 		WHERE id = OLD.id;
+	
+		DELETE FROM OperationActive;
 		
-		INSERT INTO caixaProduto (qtd, ativo, produtoId, caixaId)
+		INSERT INTO CaixaProduto (qtd, ativo, produtoId, caixaId)
 			VALUES (NEW.qtd, NEW.ativo, OLD.produtoId, OLD.caixaId);
+				
+		SELECT RAISE(IGNORE);
+	END;
+
+CREATE TRIGGER IF NOT EXISTS UpdateDeleteCaixaProduto
+	BEFORE UPDATE
+	ON CaixaProduto
+	WHEN NEW.ativo = 0 AND OLD.atual = 1 AND NOT EXISTS(SELECT 1 FROM OperationActive LIMIT 1)
+	BEGIN
+		INSERT INTO OperationActive (recursionLayer)
+			VALUES (1);
+		
+		UPDATE CaixaProduto
+		SET	ativo = 0,
+			atual = 0
+		WHERE id = OLD.id;
+	
+		DELETE FROM OperationActive;
 				
 		SELECT RAISE(IGNORE);
 	END;
@@ -381,11 +451,11 @@ CREATE TRIGGER IF NOT EXISTS ValidateUpdateCaixa
 CREATE TRIGGER IF NOT EXISTS InsertCaixa
 	BEFORE INSERT
 	ON Caixa
-	WHEN NOT EXISTS(SELECT 1 FROM Caixa WHERE dataFechamento IS NULL LIMIT 1)
+	WHEN NOT EXISTS(SELECT 1 FROM Caixa WHERE dataFechamento IS NULL LIMIT 1) AND NOT EXISTS(SELECT 1 FROM OperationActive LIMIT 1)
 	BEGIN
-		INSERT INTO estoque (dataAlteracao) VALUES (datetime());
+		INSERT INTO Estoque (dataAlteracao) VALUES (datetime());
 		
-		INSERT INTO estoqueProduto (estoqueId, produtoId)
+		INSERT INTO EstoqueProduto (estoqueId, produtoId)
 			SELECT e.id, i.id
 				FROM Estoque AS e, produto AS i
 				WHERE
@@ -393,11 +463,16 @@ CREATE TRIGGER IF NOT EXISTS InsertCaixa
 						AND
 					i.atual = 1;
 		
-		INSERT INTO caixa (estoqueId)
+		INSERT INTO OperationActive (recursionLayer)
+			VALUES (1);
+				
+		INSERT INTO Caixa (estoqueId)
 			SELECT e.id
 				FROM Estoque AS e
 				WHERE
 					e.dataAlteracao =  (SELECT MAX(dataAlteracao) FROM Estoque);
+	
+		DELETE FROM OperationActive;
 		
 		SELECT RAISE(IGNORE);
 	END;
@@ -484,14 +559,37 @@ CREATE TRIGGER IF NOT EXISTS ValidateDeleteInsumo
 CREATE TRIGGER IF NOT EXISTS UpdateInsumo
 	BEFORE UPDATE
 	ON Insumo
-	WHEN OLD.atual = 1
+	WHEN NEW.ativo <> 0 AND OLD.atual = 1 AND NOT EXISTS(SELECT 1 FROM OperationActive LIMIT 1)
 	BEGIN
-		UPDATE insumo
+		INSERT INTO OperationActive (recursionLayer)
+			VALUES (1);
+		
+		UPDATE Insumo
 		SET atual = 0
 		WHERE id = OLD.id;
+	
+		DELETE FROM OperationActive;
 		
-		INSERT INTO insumo (qtdInsumoProduto, ativo, formulaId, insumoId)
+		INSERT INTO Insumo (qtdInsumoProduto, ativo, formulaId, insumoId)
 			VALUES (NEW.qtdInsumoProduto, NEW.ativo, OLD.formulaId, OLD.insumoId);
+				
+		SELECT RAISE(IGNORE);
+	END;
+
+CREATE TRIGGER IF NOT EXISTS UpdateDeleteInsumo
+	BEFORE UPDATE
+	ON Insumo
+	WHEN NEW.ativo = 0 AND OLD.atual = 1 AND NOT EXISTS(SELECT 1 FROM OperationActive LIMIT 1)
+	BEGIN
+		INSERT INTO OperationActive (recursionLayer)
+			VALUES (1);
+		
+		UPDATE Insumo
+		SET	ativo = 0,
+			atual = 0
+		WHERE id = OLD.id;
+	
+		DELETE FROM OperationActive;
 				
 		SELECT RAISE(IGNORE);
 	END;
@@ -630,17 +728,16 @@ AS
 -- INSERTS BASICOS
 
 INSERT INTO UnidadeMedida (nome)
-	VALUES	('UNIDADES'),
-			('KILOS'),
-			('GRAMAS'),
-			('LITROS'),
-			('MILILITROS'),
-			('METROS'),
-			('PUNHADO'),
-			('LAPADA');
+	VALUES	('un'),
+			('kg'),
+			('g'),
+			('l'),
+			('ml'),
+			('m');
 
 INSERT INTO FormaPagamento (nome)
 	VALUES	('DINHEIRO'),
 			('PIX'),
 			('CARTAO_DEBITO'),
 			('CARTAO_CREDITO');
+

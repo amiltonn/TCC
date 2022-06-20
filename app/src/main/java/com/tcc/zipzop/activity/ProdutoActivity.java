@@ -68,14 +68,12 @@ public class ProdutoActivity extends AppCompatActivity {
         });
 
     }
-    public void atualizaProdutos() throws ExecutionException, InterruptedException {
-        produtos = new ListarProdutoTask(dao).execute().get();
-    }
+
     @Override
     protected void onResume() {
         super.onResume();
         try {
-            atualizaProdutos();
+            produtos = new ListarProdutoTask(dao).execute().get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -92,8 +90,8 @@ public class ProdutoActivity extends AppCompatActivity {
         int posicao = ((produtoAdapterActivity.getPosicao()));
         switch (menuItem.getItemId()){
             case R.id.excluir:
-                Produto produtos = produtoAdapterActivity.getProduto(posicao);
-                new ExcluirProdutoTask(dao, produtoAdapterActivity, produtos).execute();
+                Produto produto = produtoAdapterActivity.getProduto(posicao);
+                new ExcluirProdutoTask(dao, produtoAdapterActivity, produto).execute();
                 break;
             case R.id.editar:
                 intent = new Intent(this, SalvarProdutoActivity.class);
