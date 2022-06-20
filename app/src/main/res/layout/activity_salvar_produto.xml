@@ -95,16 +95,14 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layout_Qtd"
-        android:layout_width="160dp"
-        android:layout_height="84dp"
+        android:layout_width="175dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginTop="50dp"
-        android:layout_marginEnd="8dp"
         android:hint="Quantidade:"
         android:textColorHint="@color/black"
         app:helperText="Obrigatorio*"
         app:helperTextTextColor="@color/red"
-        app:layout_constraintEnd_toStartOf="@+id/listaUnidadeMedida"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layout_PrecoVenda">
 
@@ -122,7 +120,7 @@
 
     <Spinner
         android:id="@+id/listaUnidadeMedida"
-        android:layout_width="120dp"
+        android:layout_width="175dp"
         android:layout_height="57dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="50dp"

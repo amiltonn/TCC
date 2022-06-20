@@ -37,8 +37,7 @@ public class Produto implements Serializable {
     private Integer produtoAntesId = null;
 
     @ColumnInfo(index = true)
-    //TODO: descomentar quando o front for usar unidade de medida
-//    @NonNull
+    @NonNull
     private Integer unidadeMedidaId;
     @ColumnInfo(defaultValue = "NULL", index = true)
     private Integer formulaId = null;
@@ -131,7 +130,7 @@ public class Produto implements Serializable {
         this.formulaId = formulaId;
     }
 
-    //???
+    //TODO:melhor implementacao?
     @Override
     public String toString() {
         return this.id + " - " + this.nome + " - " + this.qtd;

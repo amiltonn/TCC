@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -24,7 +25,6 @@ import com.tcc.zipzop.entity.Produto;
 import com.tcc.zipzop.entity.UnidadeMedida;
 import com.tcc.zipzop.typeconverter.MoneyConverter;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -36,12 +36,14 @@ public class SalvarProdutoActivity extends AppCompatActivity {
     private ProdutoDAO dao;
     private UnidadeMedidaDAO unidadeMedidaDAO;
     private Produto produto;
+    private Spinner spinnerUnidadeMedidas;
+    ArrayAdapter<UnidadeMedida> unidadeMedidaAdapter;
+    private UnidadeMedida unidadeMedidaSelected;
     List<UnidadeMedida> unidadeMedidas;
     private EditText    campoNome,
                         campoCustoProducao,
                         campoPrecoVenda,
                         campoQuantidade;
-    private Spinner campolistaUnidadeMedida;
     Intent intent;
     Integer id = 0;
     ProdutoAdapterActivity produtoAdapterActivity;
@@ -80,11 +82,23 @@ public class SalvarProdutoActivity extends AppCompatActivity {
         campoCustoProducao = findViewById(R.id.CustoProducao);
         campoPrecoVenda = findViewById(R.id.PrecoVenda);
         campoQuantidade = findViewById(R.id.Quantidade);
-        campolistaUnidadeMedida = findViewById(R.id.listaUnidadeMedida);
+        spinnerUnidadeMedidas = (Spinner) findViewById(R.id.listaUnidadeMedida);
 
-        ArrayAdapter<UnidadeMedida> unidadeMedidaAdapter = new ArrayAdapter<UnidadeMedida>(this,
+        unidadeMedidaAdapter = new ArrayAdapter<UnidadeMedida>(this,
                 android.R.layout.simple_dropdown_item_1line, this.unidadeMedidas);
-        this.campolistaUnidadeMedida.setAdapter(unidadeMedidaAdapter);
+        spinnerUnidadeMedidas.setAdapter(unidadeMedidaAdapter);
+
+        spinnerUnidadeMedidas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                unidadeMedidaSelected = (UnidadeMedida) parent.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                unidadeMedidaSelected = null;
+            }
+        });
 
     }
 
@@ -125,6 +139,7 @@ public class SalvarProdutoActivity extends AppCompatActivity {
         produto.setCusto(custoProducao);
         produto.setPreco(precoVenda);
         produto.setQtd(quantidade);
+        produto.setUnidadeMedidaId(unidadeMedidaSelected.getId());
     }
 
     private void finalizaFormulario() {

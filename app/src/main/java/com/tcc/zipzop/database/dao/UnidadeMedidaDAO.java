@@ -13,4 +13,7 @@ public interface UnidadeMedidaDAO {
   @Query("SELECT * FROM UnidadeMedida")
   List<UnidadeMedida> listar();
 
+  @Query("SELECT * FROM UnidadeMedida WHERE id = :id")
+  UnidadeMedida consultar(Integer id);
+
 }
