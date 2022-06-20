@@ -117,6 +117,7 @@ public class ProdutoAdapterActivity extends RecyclerView.Adapter<ProdutoAdapterA
     }
 
     private int posicao;
+
     public int getPosicao(){
         return posicao;
     }

@@ -95,7 +95,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layout_Qtd"
-        android:layout_width="175dp"
+        android:layout_width="170dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginTop="50dp"
@@ -120,7 +120,7 @@
 
     <Spinner
         android:id="@+id/listaUnidadeMedida"
-        android:layout_width="175dp"
+        android:layout_width="170dp"
         android:layout_height="57dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="50dp"

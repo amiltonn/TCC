@@ -5,6 +5,7 @@ import androidx.appcompat.widget.AppCompatButton;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import android.widget.AdapterView;
@@ -15,6 +16,7 @@ import android.widget.Spinner;
 import com.tcc.zipzop.R;
 import com.tcc.zipzop.adapter.ProdutoAdapterActivity;
 import com.tcc.zipzop.asynctask.ConsultarProdutoTask;
+import com.tcc.zipzop.asynctask.ConsultarUnidadeMedidaTask;
 import com.tcc.zipzop.asynctask.EditarProdutoTask;
 import com.tcc.zipzop.asynctask.ListarUnidadeMedidaTask;
 import com.tcc.zipzop.asynctask.SalvarProdutoTask;
@@ -58,7 +60,6 @@ public class SalvarProdutoActivity extends AppCompatActivity {
         unidadeMedidaDAO = dataBase.getUnidadeMedidaDAO();
         try {
             unidadeMedidas = new ListarUnidadeMedidaTask(unidadeMedidaDAO).execute().get();
-
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -83,11 +84,6 @@ public class SalvarProdutoActivity extends AppCompatActivity {
         campoPrecoVenda = findViewById(R.id.PrecoVenda);
         campoQuantidade = findViewById(R.id.Quantidade);
         spinnerUnidadeMedidas = (Spinner) findViewById(R.id.listaUnidadeMedida);
-
-        unidadeMedidaAdapter = new ArrayAdapter<UnidadeMedida>(this,
-                android.R.layout.simple_dropdown_item_1line, this.unidadeMedidas);
-        spinnerUnidadeMedidas.setAdapter(unidadeMedidaAdapter);
-
         spinnerUnidadeMedidas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -99,7 +95,9 @@ public class SalvarProdutoActivity extends AppCompatActivity {
                 unidadeMedidaSelected = null;
             }
         });
-
+        unidadeMedidaAdapter = new ArrayAdapter<UnidadeMedida>(getBaseContext(),
+            android.R.layout.simple_dropdown_item_1line, this.unidadeMedidas);
+        spinnerUnidadeMedidas.setAdapter(unidadeMedidaAdapter);
     }
 
     private void preencheCampos() {
@@ -123,6 +121,14 @@ public class SalvarProdutoActivity extends AppCompatActivity {
             campoCustoProducao.setText("" + MoneyConverter.toString(produto.getCusto()));
             campoPrecoVenda.setText("" + MoneyConverter.toString(produto.getPreco()));
             campoQuantidade.setText("" + produto.getQtd());
+            try {
+                unidadeMedidaSelected = new ConsultarUnidadeMedidaTask(unidadeMedidaDAO, produto.getUnidadeMedidaId()).execute().get();
+                spinnerUnidadeMedidas.setSelection(unidadeMedidaSelected.getId() - 1);
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
