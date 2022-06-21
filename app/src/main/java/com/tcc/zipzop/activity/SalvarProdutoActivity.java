@@ -161,22 +161,31 @@ public class SalvarProdutoActivity extends AppCompatActivity {
 
     }
     public Integer converteParaCentavos(String valor){
-        char penultimo = 'n';
-        char antePenultimo = 'n';
         Integer retorno = null;
-        if(valor.length() > 1) {
-            penultimo = valor.charAt(valor.length() - 2);
-            if (valor.length() > 2) {
-                antePenultimo = valor.charAt(valor.length() - 3);
+
+        Integer quantosAlgarismos = 0;
+        Integer quantosAtrasVirgula = 0;
+        Boolean ultimoIsVirgula = false;
+
+        for (int i = valor.length() - 1; i >= 0 && quantosAlgarismos < 3; i--) {
+            if(valor.charAt(i) == ',' || valor.charAt(i) == '.') {
+                if(ultimoIsVirgula.equals(false)) {
+                    quantosAtrasVirgula = quantosAlgarismos;
+                    ultimoIsVirgula = true;
+                }
+            } else if(valor.charAt(i) >= '0' || valor.charAt(i) <= '9') {
+                quantosAlgarismos++;
+                ultimoIsVirgula = false;
             }
         }
 
-        if(antePenultimo == ',' || antePenultimo == '.')
+        if(quantosAtrasVirgula == 2) {
             retorno = Integer.parseInt(valor.replaceAll("[,.]", ""));
-        else if(penultimo == ',' || penultimo == '.')
+        } else if(quantosAtrasVirgula == 1) {
             retorno = Integer.parseInt(valor.replaceAll("[,.]", "")) * 10;
-        else
+        } else {
             retorno = Integer.parseInt(valor.replaceAll("[,.]", "")) * 100;
+        }
 
 
         return retorno;
