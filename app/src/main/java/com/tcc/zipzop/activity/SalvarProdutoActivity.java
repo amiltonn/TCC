@@ -5,6 +5,7 @@ import androidx.appcompat.widget.AppCompatButton;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
@@ -73,7 +74,7 @@ public class SalvarProdutoActivity extends AppCompatActivity {
         btSalvar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finalizaFormulario();
+                verifcarCampo();
             }
         });
     }
@@ -133,6 +134,7 @@ public class SalvarProdutoActivity extends AppCompatActivity {
     }
 
     private void preencheProduto() {
+
         String nome = campoNome.getText().toString();
         String auxCustoProducao = campoCustoProducao.getText().toString();
         Integer custoProducao = converteParaCentavos(auxCustoProducao);
@@ -194,6 +196,19 @@ public class SalvarProdutoActivity extends AppCompatActivity {
     public void salvarComSucesso(){
         finish();
 
+    }
+    public void  verifcarCampo(){
+        if(TextUtils.isEmpty(campoNome.getText())){
+            campoNome.setError("Campo Obrigatorio!");
+        }else if (TextUtils.isEmpty(campoPrecoVenda.getText())) {
+            campoPrecoVenda.setError("Campo Obrigatorio!");
+        }else if (TextUtils.isEmpty(campoCustoProducao.getText())) {
+            campoCustoProducao.setError("Campo Obrigatorio!");
+        }else if (TextUtils.isEmpty(campoQuantidade.getText())) {
+            campoQuantidade.setError("Campo Obrigatorio!");
+        }else {
+            finalizaFormulario();
+        }
     }
 
 }
