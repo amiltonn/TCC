@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="Nome"
+        android:textColor="@color/letra"
         android:textAlignment="center"
         android:textAllCaps="true"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -29,6 +30,7 @@
 
         <TextView
             android:id="@+id/qtdProduto"
+            android:textColor="@color/letra"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
         </TextView>

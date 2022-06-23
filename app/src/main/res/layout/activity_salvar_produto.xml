@@ -128,8 +128,7 @@
         android:layout_height="57dp"
         android:layout_marginTop="50dp"
         android:layout_marginEnd="30dp"
-        android:background="@drawable/edit_text"
-        android:spinnerMode="dropdown"
+        android:background="@drawable/style_spinner2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/layout_Qtd"
@@ -148,7 +147,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layout_Qtd" />
-
 
 
 

@@ -133,7 +133,7 @@ public class Produto implements Serializable {
     //TODO:melhor implementacao?
     @Override
     public String toString() {
-        return this.id + " - " + this.nome + " - " + this.qtd;
+        return this.nome + " Qtd:  " + this.qtd;
     }
 
 }
