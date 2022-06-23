@@ -398,6 +398,20 @@ CREATE TRIGGER IF NOT EXISTS ValidateDuplicadoInsertCaixaFundo
 	BEGIN 
 		SELECT RAISE(IGNORE);
 	END;
+
+CREATE TRIGGER IF NOT EXISTS ValidateUpdateCaixaFundo
+	BEFORE UPDATE
+	ON CaixaFundo
+	BEGIN
+		SELECT RAISE(ROLLBACK, '"caixaFundo" nao pode ser atualizado, insira outro caixa fundo relacionado ao mesmo caixa!');
+	END;
+
+CREATE TRIGGER IF NOT EXISTS ValidateDeleteCaixaFundo
+	BEFORE DELETE
+	ON CaixaFundo
+	BEGIN
+		SELECT RAISE(ROLLBACK, '"caixaFundo" nao pode ser deletado!');
+	END;
 	
 
 -- TRIGGERS ASSOCIADOS A CAIXA
@@ -446,6 +460,13 @@ CREATE TRIGGER IF NOT EXISTS ValidateUpdateCaixa
 		OR	OLD.dataFechamento IS NOT NULL
 	BEGIN
 		SELECT RAISE(ROLLBACK, 'UPDATE em "caixa" desautorizado! Você tentou mudar "id", "dataAbertura", "estoqueId" ou alterar um "caixa" já fechado.');
+	END;
+
+CREATE TRIGGER IF NOT EXISTS ValidateDeleteCaixa
+	BEFORE DELETE
+	ON Caixa
+	BEGIN
+		SELECT RAISE(ROLLBACK, '"caixa" nao pode ser deletado!');
 	END;
 
 CREATE TRIGGER IF NOT EXISTS InsertCaixa

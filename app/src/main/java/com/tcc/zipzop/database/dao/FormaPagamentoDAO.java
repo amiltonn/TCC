@@ -8,23 +8,17 @@ import androidx.room.Update;
 
 import com.tcc.zipzop.entity.Estoque;
 import com.tcc.zipzop.entity.FormaPagamento;
+import com.tcc.zipzop.entity.UnidadeMedida;
 
 import java.util.List;
 
 @Dao
 public interface FormaPagamentoDAO {
-    @Insert
-    void salvar(FormaPagamento formaPagamento);
 
     @Query("SELECT * FROM FormaPagamento")
-    List<FormaPagamento> listar();
+    List<UnidadeMedida> listar();
 
     @Query("SELECT * FROM FormaPagamento WHERE id = :id")
-    FormaPagamento consultar(Integer id);
+    UnidadeMedida consultar(Integer id);
 
-    @Delete
-    void deletar(FormaPagamento formaPagamento);
-
-    @Update
-    void alterar(FormaPagamento formaPagamento);
 }

@@ -22,9 +22,4 @@ public interface CaixaFundoDAO {
     @Query("SELECT * FROM CaixaFundo WHERE id = :id")
     CaixaFundo consultar(Integer id);
 
-    @Delete
-    void deletar(CaixaFundo caixaFundo);
-
-    @Update
-    void alterar(CaixaFundo caixaFundo);
 }

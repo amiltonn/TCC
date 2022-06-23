@@ -16,9 +16,6 @@ public interface VendaLocalDAO {
     @Insert
     void salvar(VendaLocal vendaLocal);
 
-    @Query("SELECT * FROM VendaLocal")
-    List<VendaLocal> listar();
-
     @Query("SELECT * FROM VendaLocal WHERE id = :id")
     VendaLocal consultar(Integer id);
 

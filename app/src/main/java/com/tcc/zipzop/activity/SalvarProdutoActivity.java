@@ -181,13 +181,8 @@ public class SalvarProdutoActivity extends AppCompatActivity {
             }
         }
 
-        if(quantosAtrasVirgula == 2) {
-            retorno = Integer.parseInt(valor.replaceAll("[,.]", ""));
-        } else if(quantosAtrasVirgula == 1) {
-            retorno = Integer.parseInt(valor.replaceAll("[,.]", "")) * 10;
-        } else {
-            retorno = Integer.parseInt(valor.replaceAll("[,.]", "")) * 100;
-        }
+        valor = valor.replaceAll("[\\D]", "");
+        retorno = valor.equals("") ? null : Integer.parseInt(valor) * (int)Math.pow(10, 2 - quantosAtrasVirgula);
 
 
         return retorno;
@@ -200,9 +195,9 @@ public class SalvarProdutoActivity extends AppCompatActivity {
     public void  verifcarCampo(){
         if(TextUtils.isEmpty(campoNome.getText())){
             campoNome.setError("Campo Obrigatorio!");
-        }else if (TextUtils.isEmpty(campoPrecoVenda.getText())) {
-            campoPrecoVenda.setError("Campo Obrigatorio!");
         }else if (TextUtils.isEmpty(campoCustoProducao.getText())) {
+            campoPrecoVenda.setError("Campo Obrigatorio!");
+        }else if (TextUtils.isEmpty(campoPrecoVenda.getText())) {
             campoCustoProducao.setError("Campo Obrigatorio!");
         }else if (TextUtils.isEmpty(campoQuantidade.getText())) {
             campoQuantidade.setError("Campo Obrigatorio!");

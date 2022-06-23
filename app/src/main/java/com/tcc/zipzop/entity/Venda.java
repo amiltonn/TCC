@@ -20,6 +20,9 @@ public class Venda {
     private Integer valorPago;
     @NonNull
     private Integer valorVenda;
+    @ColumnInfo(defaultValue = "1")
+    @NonNull
+    private Boolean aberta = true;
     @ColumnInfo(defaultValue = "(datetime())")
     @NonNull
     private Date dataPagamento;
@@ -56,6 +59,14 @@ public class Venda {
 
     public void setValorVenda(Integer valorVenda) {
         this.valorVenda = valorVenda;
+    }
+
+    public Boolean getAberta() {
+        return aberta;
+    }
+
+    public void setAberta(Boolean aberta) {
+        this.aberta = aberta;
     }
 
     public Date getDataPagamento() {

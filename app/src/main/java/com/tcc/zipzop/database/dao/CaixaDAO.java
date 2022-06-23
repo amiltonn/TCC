@@ -1,10 +1,7 @@
 package com.tcc.zipzop.database.dao;
 
 import androidx.room.Dao;
-import androidx.room.Delete;
-import androidx.room.Insert;
 import androidx.room.Query;
-import androidx.room.Update;
 
 import com.tcc.zipzop.entity.Caixa;
 
@@ -13,8 +10,8 @@ import java.util.List;
 @Dao
 public interface CaixaDAO {
 
-    @Insert
-    void salvar(Caixa caixa);
+    @Query("INSERT INTO Caixa DEFAULT VALUES")
+    void salvar();
 
     @Query("SELECT * FROM Caixa")
     List<Caixa> listar();
@@ -22,10 +19,7 @@ public interface CaixaDAO {
     @Query("SELECT * FROM Caixa WHERE id = :id")
     Caixa consultar(Integer id);
 
-    @Delete
-    void deletar(Caixa caixa);
-
-    @Update
-    void alterar(Caixa caixa);
+    @Query("UPDATE Caixa SET dataFechamento = (datetime())")
+    void fechar();
 
 }

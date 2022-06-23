@@ -14,18 +14,10 @@ import java.util.List;
 @Dao
 public interface FormulaDAO {
 
-    @Insert
-    void salvar(Formula formula);
-
     @Query("SELECT * FROM Formula")
     List<Formula> listar();
 
     @Query("SELECT * FROM Formula WHERE id = :id")
     Formula consultar(Integer id);
 
-    @Delete
-    void deletar(Formula formula);
-
-    @Update
-    void alterar(Formula formula);
 }

@@ -13,15 +13,8 @@ import java.util.List;
 
 @Dao
 public interface EstoqueProdutoDAO {
-    @Insert
-    void salvar(EstoqueProduto estoqueProduto);
 
-    @Query("SELECT * FROM EstoqueProduto")
-    List<EstoqueProduto> listar();
+    @Query("SELECT * FROM EstoqueProduto WHERE estoqueId = :estoqueId")
+    List<EstoqueProduto> listar(Integer estoqueId);
 
-    @Delete
-    void deletar(EstoqueProduto estoqueProduto);
-
-    @Update
-    void alterar(EstoqueProduto estoqueProduto);
 }

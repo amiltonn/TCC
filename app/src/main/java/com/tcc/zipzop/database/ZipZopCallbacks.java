@@ -229,6 +229,22 @@ public class ZipZopCallbacks {
                     "\t\tSELECT RAISE(IGNORE);\n" +
                     "\tEND;"
             );
+            database.execSQL(
+                "CREATE TRIGGER IF NOT EXISTS ValidateUpdateCaixaFundo\n" +
+                    "\tBEFORE UPDATE\n" +
+                    "\tON CaixaFundo\n" +
+                    "\tBEGIN\n" +
+                    "\t\tSELECT RAISE(ROLLBACK, '\"caixaFundo\" nao pode ser atualizado, insira outro caixa fundo relacionado ao mesmo caixa!');\n" +
+                    "\tEND;"
+            );
+            database.execSQL(
+                "CREATE TRIGGER IF NOT EXISTS ValidateDeleteCaixaFundo\n" +
+                    "\tBEFORE DELETE\n" +
+                    "\tON CaixaFundo\n" +
+                    "\tBEGIN\n" +
+                    "\t\tSELECT RAISE(ROLLBACK, '\"caixaFundo\" nao pode ser deletado!');\n" +
+                    "\tEND;"
+            );
             /*Triggers associados a Caixa*/
             database.execSQL(
                 "CREATE TRIGGER IF NOT EXISTS ValidateCaixaInsertProduto\n" +
@@ -277,6 +293,14 @@ public class ZipZopCallbacks {
                     "\t\tOR\tOLD.dataFechamento IS NOT NULL\n" +
                     "\tBEGIN\n" +
                     "\t\tSELECT RAISE(ROLLBACK, 'UPDATE em \"caixa\" desautorizado! Você tentou mudar \"id\", \"dataAbertura\", \"estoqueId\" ou alterar um \"caixa\" já fechado.');\n" +
+                    "\tEND;"
+            );
+            database.execSQL(
+                "CREATE TRIGGER IF NOT EXISTS ValidateDeleteCaixa\n" +
+                    "\tBEFORE DELETE\n" +
+                    "\tON Caixa\n" +
+                    "\tBEGIN\n" +
+                    "\t\tSELECT RAISE(ROLLBACK, '\"caixa\" nao pode ser deletado!');\n" +
                     "\tEND;"
             );
             database.execSQL(

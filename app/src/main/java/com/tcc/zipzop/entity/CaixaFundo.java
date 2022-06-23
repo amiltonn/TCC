@@ -18,7 +18,7 @@ public class CaixaFundo {
     private Integer valor;
     @ColumnInfo(defaultValue = "(datetime())")
     @NonNull
-    private Date dataAlteracao;
+    private Date dataAlteracao = new Date();
 
     @ColumnInfo(index = true)
     @NonNull
