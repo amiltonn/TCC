@@ -1,9 +1,11 @@
 package com.tcc.zipzop;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,6 +24,7 @@ import com.tcc.zipzop.entity.NaoEntityNomeProvisorioProdutoDoCaixa;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 public class AbrirCaixaActivity extends AppCompatActivity {
     private AppCompatButton ButtonAbrirCaixa;
@@ -82,22 +85,23 @@ public class AbrirCaixaActivity extends AppCompatActivity {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void eventAddProduto(View view) {
         NaoEntityNomeProvisorioProdutoDoCaixa produtoDoCaixa = new NaoEntityNomeProvisorioProdutoDoCaixa();
 
         Produto produtoSelecionado = (Produto) this.spinnerProdutos.getSelectedItem();
-
-        int quantidadeProduto = 0;
-        if(this.quantidadeProdutos.getText().toString().equals("")){
-            quantidadeProduto = 1;
-        }else {
-            quantidadeProduto = Integer.parseInt(this.quantidadeProdutos.getText().toString());
-        }
-
         produtoDoCaixa.setNome(produtoSelecionado.getNome());
-        produtoDoCaixa.setQtdSelecionada(quantidadeProduto);
+        List<String> listaTemp = listaProdutosDoCaixa.stream().map(prodCaixa -> prodCaixa.getNome()).collect(Collectors.toList());
+        if (produtoSelecionado != null && !listaTemp.contains(produtoSelecionado.getNome())){
+            int quantidadeProduto = 0;
+            if(this.quantidadeProdutos.getText().toString().equals("")){
+                quantidadeProduto = 1;
+            }else {
+                quantidadeProduto = Integer.parseInt(this.quantidadeProdutos.getText().toString());
+            }
+            produtoDoCaixa.setQtdSelecionada(quantidadeProduto);
 
-        this.produtoCaixaAdapterActivity.addProdutoCaixa(produtoDoCaixa);
-
+            this.produtoCaixaAdapterActivity.addProdutoCaixa(produtoDoCaixa);
+        }
     }
 }
