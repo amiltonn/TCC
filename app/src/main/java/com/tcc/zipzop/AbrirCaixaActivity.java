@@ -83,6 +83,7 @@ public class AbrirCaixaActivity extends AppCompatActivity {
         });
 
 
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -90,15 +91,15 @@ public class AbrirCaixaActivity extends AppCompatActivity {
         NaoEntityNomeProvisorioProdutoDoCaixa produtoDoCaixa = new NaoEntityNomeProvisorioProdutoDoCaixa();
 
         Produto produtoSelecionado = (Produto) this.spinnerProdutos.getSelectedItem();
-        produtoDoCaixa.setNome(produtoSelecionado.getNome());
-        List<String> listaTemp = listaProdutosDoCaixa.stream().map(prodCaixa -> prodCaixa.getNome()).collect(Collectors.toList());
-        if (produtoSelecionado != null && !listaTemp.contains(produtoSelecionado.getNome())){
+
+        if (produtoSelecionado != null && !listaProdutosDoCaixa.stream().map(prodCaixa -> prodCaixa.getNome()).collect(Collectors.toList()).contains(produtoSelecionado.getNome())){
             int quantidadeProduto = 0;
             if(this.quantidadeProdutos.getText().toString().equals("")){
                 quantidadeProduto = 1;
             }else {
                 quantidadeProduto = Integer.parseInt(this.quantidadeProdutos.getText().toString());
             }
+            produtoDoCaixa.setNome(produtoSelecionado.getNome());
             produtoDoCaixa.setQtdSelecionada(quantidadeProduto);
 
             this.produtoCaixaAdapterActivity.addProdutoCaixa(produtoDoCaixa);

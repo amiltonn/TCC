@@ -82,21 +82,21 @@ public class NovaVendaActivity extends AppCompatActivity {
     }
 
     public void eventAddProduto(View view) {
-        NaoEntityNomeProvisorioProdutoDoCaixa produtoDaVenda = new NaoEntityNomeProvisorioProdutoDoCaixa();
-
-        Produto produtoSelecionado = (Produto) this.spinnerProdutos.getSelectedItem();
-
-        int quantidadeProduto = 0;
-        if(this.quantidadeProdutos.getText().toString().equals("")){
-            quantidadeProduto = 1;
-        }else {
-            quantidadeProduto = Integer.parseInt(this.quantidadeProdutos.getText().toString());
-        }
-
-        produtoDaVenda.setNome(produtoSelecionado.getNome());
-        produtoDaVenda.setQtdSelecionada(quantidadeProduto);
-
-        this.produtoVendaAdapterActivity.addProdutoVenda(produtoDaVenda);
+//        NaoEntityNomeProvisorioProdutoDoCaixa produtoDaVenda = new NaoEntityNomeProvisorioProdutoDoCaixa();
+//
+//        Produto produtoSelecionado = (Produto) this.spinnerProdutos.getSelectedItem();
+//
+//        int quantidadeProduto = 0;
+//        if(this.quantidadeProdutos.getText().toString().equals("")){
+//            quantidadeProduto = 1;
+//        }else {
+//            quantidadeProduto = Integer.parseInt(this.quantidadeProdutos.getText().toString());
+//        }
+//
+//        produtoDaVenda.setNome(produtoSelecionado.getNome());
+//        produtoDaVenda.setQtdSelecionada(quantidadeProduto);
+//
+//        this.produtoVendaAdapterActivity.addProdutoVenda(produtoDaVenda);
 
     }
 
