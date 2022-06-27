@@ -11,14 +11,13 @@ public class ListarUnidadeMedidaTask extends AsyncTask<Void, Void, List<UnidadeM
 
   private final UnidadeMedidaDAO dao;
 
-  public ListarUnidadeMedidaTask(
-      UnidadeMedidaDAO dao
-  ){
+  public ListarUnidadeMedidaTask(UnidadeMedidaDAO dao){
     this.dao = dao;
   }
 
   @Override
   protected List<UnidadeMedida> doInBackground(Void... voids) {
+
     return dao.listar();
   }
 

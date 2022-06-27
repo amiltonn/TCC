@@ -13,11 +13,8 @@ public class SalvarProdutoTask extends AsyncTask<Void, Void, Void> {
     private final SalvarProdutoActivity salvarProdutoActivity;
     private final Produto produto;
 
-    public SalvarProdutoTask(
-            ProdutoDAO dao,
-            SalvarProdutoActivity salvarProdutoActivity,
-            Produto produto
-    ){
+    public SalvarProdutoTask(ProdutoDAO dao, SalvarProdutoActivity salvarProdutoActivity, Produto produto){
+
         this.dao = dao;
         this.salvarProdutoActivity = salvarProdutoActivity;
         this.produto = produto;

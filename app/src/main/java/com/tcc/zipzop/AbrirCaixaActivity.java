@@ -15,9 +15,18 @@ import android.widget.ListView;
 import android.widget.Spinner;
 
 import com.tcc.zipzop.adapter.ProdutoCaixaAdapterActivity;
+import com.tcc.zipzop.asynctask.ListarCaixaTask;
 import com.tcc.zipzop.asynctask.ListarProdutoTask;
+import com.tcc.zipzop.asynctask.SalvarCaixaTask;
+import com.tcc.zipzop.asynctask.SalvarProdutoTask;
 import com.tcc.zipzop.database.ZipZopDataBase;
+import com.tcc.zipzop.database.dao.CaixaDAO;
+import com.tcc.zipzop.database.dao.CaixaFundoDAO;
+import com.tcc.zipzop.database.dao.CaixaProdutoDAO;
 import com.tcc.zipzop.database.dao.ProdutoDAO;
+import com.tcc.zipzop.entity.Caixa;
+import com.tcc.zipzop.entity.CaixaFundo;
+import com.tcc.zipzop.entity.CaixaProduto;
 import com.tcc.zipzop.entity.Produto;
 import com.tcc.zipzop.entity.NaoEntityNomeProvisorioProdutoDoCaixa;
 
@@ -38,6 +47,12 @@ public class AbrirCaixaActivity extends AppCompatActivity {
     private Spinner spinnerProdutos;
     List<Produto> listaProdutos;
     private ProdutoDAO produtosCtrl;
+    //Abrir Caixa
+    private CaixaDAO caixaDAO;
+    private CaixaFundoDAO caixaFundoDAO;
+    private CaixaProdutoDAO caixaProdutoDAO;
+    private CaixaFundo caixaFundo;
+    private CaixaProduto caixaProduto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +63,7 @@ public class AbrirCaixaActivity extends AppCompatActivity {
         //spinner
         ZipZopDataBase dataBase = ZipZopDataBase.getInstance(this);
         produtosCtrl = dataBase.getProdutoDAO();
+        caixaDAO = dataBase.getCaixaDAO();
 
         try {
             listaProdutos = new ListarProdutoTask(produtosCtrl).execute().get();
@@ -75,6 +91,7 @@ public class AbrirCaixaActivity extends AppCompatActivity {
         ButtonAbrirCaixa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                abrirCaixa();
                 Intent intent = new Intent(AbrirCaixaActivity.this,CaixaActivity.class);
 
                 startActivity(intent);
@@ -104,5 +121,18 @@ public class AbrirCaixaActivity extends AppCompatActivity {
 
             this.produtoCaixaAdapterActivity.addProdutoCaixa(produtoDoCaixa);
         }
+    }
+    public void abrirCaixa(){
+        new SalvarCaixaTask(caixaDAO).execute();
+        try {
+            List<Caixa> caixa =  new ListarCaixaTask(caixaDAO).execute().get();
+            Log.i("teste", String.valueOf(caixa));
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
     }
 }
