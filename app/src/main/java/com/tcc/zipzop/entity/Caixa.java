@@ -54,4 +54,8 @@ public class Caixa {
     public void setEstoqueId(Integer estoqueId) {
         this.estoqueId = estoqueId;
     }
+    @Override
+    public String toString() {
+        return this.id+"////"+ this.dataAbertura+"////"+ this.dataFechamento +"////"+ this.estoqueId;
+    }
 }

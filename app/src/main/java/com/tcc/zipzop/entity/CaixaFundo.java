@@ -44,8 +44,8 @@ public class CaixaFundo {
         return dataAlteracao;
     }
 
-    public void setDataAlteracao(Date data_alteracao) {
-        this.dataAlteracao = data_alteracao;
+    public void setDataAlteracao(Date dataAlteracao) {
+        this.dataAlteracao = dataAlteracao;
     }
 
     public Integer getCaixaId() {
@@ -54,5 +54,9 @@ public class CaixaFundo {
 
     public void setCaixaId(Integer caixaId) {
         this.caixaId = caixaId;
+    }
+    @Override
+    public String toString() {
+        return this.id+"////"+ this.valor+"////"+ this.caixaId +"////"+ this.dataAlteracao;
     }
 }

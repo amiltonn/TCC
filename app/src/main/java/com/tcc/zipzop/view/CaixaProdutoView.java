@@ -1,6 +1,6 @@
-package com.tcc.zipzop.entity;
+package com.tcc.zipzop.view;
 
-public class NaoEntityNomeProvisorioProdutoDoCaixa {
+public class CaixaProdutoView {
 
     private Integer id;
     private String nome;

@@ -11,12 +11,11 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 
-import com.tcc.zipzop.adapter.ProdutoCaixaAdapterActivity;
 import com.tcc.zipzop.adapter.ProdutoVendaAdapterActivity;
 import com.tcc.zipzop.asynctask.ListarProdutoTask;
 import com.tcc.zipzop.database.ZipZopDataBase;
 import com.tcc.zipzop.database.dao.ProdutoDAO;
-import com.tcc.zipzop.entity.NaoEntityNomeProvisorioProdutoDoCaixa;
+import com.tcc.zipzop.view.CaixaProdutoView;
 import com.tcc.zipzop.entity.Produto;
 
 import java.util.ArrayList;
@@ -29,7 +28,7 @@ public class NovaVendaActivity extends AppCompatActivity {
 
     //Produtos do Caixa
     private ListView listarProdutos;
-    private List<NaoEntityNomeProvisorioProdutoDoCaixa> listaProdutosDaVenda;
+    private List<CaixaProdutoView> listaProdutosDaVenda;
     private ProdutoVendaAdapterActivity produtoVendaAdapterActivity;
 
     private Spinner spinnerProdutos;
@@ -82,7 +81,7 @@ public class NovaVendaActivity extends AppCompatActivity {
     }
 
     public void eventAddProduto(View view) {
-//        NaoEntityNomeProvisorioProdutoDoCaixa produtoDaVenda = new NaoEntityNomeProvisorioProdutoDoCaixa();
+//        CaixaProdutoView produtoDaVenda = new CaixaProdutoView();
 //
 //        Produto produtoSelecionado = (Produto) this.spinnerProdutos.getSelectedItem();
 //

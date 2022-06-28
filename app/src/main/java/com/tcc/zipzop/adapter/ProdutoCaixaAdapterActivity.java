@@ -8,16 +8,16 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.tcc.zipzop.R;
-import com.tcc.zipzop.entity.NaoEntityNomeProvisorioProdutoDoCaixa;
+import com.tcc.zipzop.view.CaixaProdutoView;
 
 import java.util.List;
 
 public class ProdutoCaixaAdapterActivity extends BaseAdapter {
 
     private Context context;
-    private List<NaoEntityNomeProvisorioProdutoDoCaixa> produtosDoCaixa;
+    private List<CaixaProdutoView> produtosDoCaixa;
 
-    public ProdutoCaixaAdapterActivity(Context context, List<NaoEntityNomeProvisorioProdutoDoCaixa>produtosDoCaixa) {
+    public ProdutoCaixaAdapterActivity(Context context, List<CaixaProdutoView>produtosDoCaixa) {
         this.context = context;
         this.produtosDoCaixa = produtosDoCaixa;
     }
@@ -48,12 +48,12 @@ public class ProdutoCaixaAdapterActivity extends BaseAdapter {
         return v;
     }
 
-    public void addProdutoCaixa(NaoEntityNomeProvisorioProdutoDoCaixa pProdutoDoCaixa){
+    public void addProdutoCaixa(CaixaProdutoView pProdutoDoCaixa){
         this.produtosDoCaixa.add(pProdutoDoCaixa);
         this.notifyDataSetChanged();
     }
 
-    public void atualizar(List<NaoEntityNomeProvisorioProdutoDoCaixa> pProdutosDoCaixa){
+    public void atualizar(List<CaixaProdutoView> pProdutosDoCaixa){
         this.produtosDoCaixa.clear();
         this.produtosDoCaixa = pProdutosDoCaixa;
         this.notifyDataSetChanged();

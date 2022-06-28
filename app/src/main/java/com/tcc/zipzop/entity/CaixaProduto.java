@@ -90,4 +90,8 @@ public class CaixaProduto {
     public void setCaixaId(Integer caixaId) {
         this.caixaId = caixaId;
     }
+    @Override
+    public String toString() {
+        return this.id+"////"+ this.qtd+"////"+ this.produtoId +"////"+ this.caixaId;
+    }
 }
