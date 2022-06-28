@@ -22,4 +22,6 @@ public interface CaixaFundoDAO {
     @Query("SELECT * FROM CaixaFundo WHERE id = :id")
     CaixaFundo consultar(Integer id);
 
+    @Query("SELECT * FROM CaixaFundo WHERE caixaId = :id")
+    CaixaFundo buscarpelocaixaaberto(Integer id);
 }
