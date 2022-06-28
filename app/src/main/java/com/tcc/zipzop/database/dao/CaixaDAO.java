@@ -19,6 +19,9 @@ public interface CaixaDAO {
     @Query("SELECT * FROM Caixa WHERE id = :id")
     Caixa consultar(Integer id);
 
+    @Query("SELECT EXISTS(SELECT 1 FROM Caixa WHERE dataFechamento IS NULL LIMIT 1)")
+    Boolean existeCaixaAberto();
+
     @Query("UPDATE Caixa SET dataFechamento = (datetime())")
     void fechar();
 

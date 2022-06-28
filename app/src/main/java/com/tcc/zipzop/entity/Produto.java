@@ -102,8 +102,8 @@ public class Produto implements Serializable {
         return dataAlteracao;
     }
 
-    public void setDataAlteracao(Date data_alteracao) {
-        this.dataAlteracao = data_alteracao;
+    public void setDataAlteracao(Date dataAlteracao) {
+        this.dataAlteracao = dataAlteracao;
     }
 
     public Integer getProdutoAntesId() {

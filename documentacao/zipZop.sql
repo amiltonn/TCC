@@ -424,12 +424,28 @@ CREATE TRIGGER IF NOT EXISTS ValidateCaixaInsertProduto
 		SELECT RAISE(ROLLBACK, 'Não é possível dar INSERT ou UPDATE em "produto" com um "caixa" aberto!');
 	END;
 
+CREATE TRIGGER IF NOT EXISTS ValidateCaixaUpdateProduto
+	BEFORE UPDATE
+	ON Produto
+	WHEN EXISTS(SELECT 1 FROM Caixa WHERE dataFechamento IS NULL LIMIT 1)
+	BEGIN
+		SELECT RAISE(ROLLBACK, 'Não é possível dar UPDATE ou DELETE em "produto" com um "caixa" aberto!');
+	END;
+
 CREATE TRIGGER IF NOT EXISTS ValidateCaixaInsertCaixaProduto
 	BEFORE INSERT
 	ON CaixaProduto
 	WHEN EXISTS(SELECT 1 FROM Caixa WHERE NEW.caixaId = id AND dataFechamento IS NOT NULL LIMIT 1)
 	BEGIN
 		SELECT RAISE(ROLLBACK, 'Não é possível dar INSERT ou UPDATE em "caixaProduto" com um "caixa" fechado!');
+	END;
+
+CREATE TRIGGER IF NOT EXISTS ValidateCaixaUpdateCaixaProduto
+	BEFORE UPDATE
+	ON CaixaProduto
+	WHEN EXISTS(SELECT 1 FROM Caixa WHERE NEW.caixaId = id AND dataFechamento IS NOT NULL LIMIT 1)
+	BEGIN
+		SELECT RAISE(ROLLBACK, 'Não é possível dar UPDATE ou DELETE em "caixaProduto" com um "caixa" fechado!');
 	END;
 
 CREATE TRIGGER IF NOT EXISTS ValidateCaixaInsertCaixaFundo

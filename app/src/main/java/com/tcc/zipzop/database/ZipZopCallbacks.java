@@ -256,12 +256,30 @@ public class ZipZopCallbacks {
                     "\tEND;"
             );
             database.execSQL(
+                "CREATE TRIGGER IF NOT EXISTS ValidateCaixaUpdateProduto\n" +
+                    "\tBEFORE UPDATE\n" +
+                    "\tON Produto\n" +
+                    "\tWHEN EXISTS(SELECT 1 FROM Caixa WHERE dataFechamento IS NULL LIMIT 1)\n" +
+                    "\tBEGIN\n" +
+                    "\t\tSELECT RAISE(ROLLBACK, 'Não é possível dar UPDATE ou DELETE em \"produto\" com um \"caixa\" aberto!');\n" +
+                    "\tEND;"
+            );
+            database.execSQL(
                 "CREATE TRIGGER IF NOT EXISTS ValidateCaixaInsertCaixaProduto\n" +
                     "\tBEFORE INSERT\n" +
                     "\tON CaixaProduto\n" +
                     "\tWHEN EXISTS(SELECT 1 FROM Caixa WHERE NEW.caixaId = id AND dataFechamento IS NOT NULL LIMIT 1)\n" +
                     "\tBEGIN\n" +
                     "\t\tSELECT RAISE(ROLLBACK, 'Não é possível dar INSERT ou UPDATE em \"caixaProduto\" com um \"caixa\" fechado!');\n" +
+                    "\tEND;"
+            );
+            database.execSQL(
+                "CREATE TRIGGER IF NOT EXISTS ValidateCaixaUpdateCaixaProduto\n" +
+                    "\tBEFORE UPDATE\n" +
+                    "\tON CaixaProduto\n" +
+                    "\tWHEN EXISTS(SELECT 1 FROM Caixa WHERE NEW.caixaId = id AND dataFechamento IS NOT NULL LIMIT 1)\n" +
+                    "\tBEGIN\n" +
+                    "\t\tSELECT RAISE(ROLLBACK, 'Não é possível dar UPDATE ou DELETE em \"caixaProduto\" com um \"caixa\" fechado!');\n" +
                     "\tEND;"
             );
             database.execSQL(
