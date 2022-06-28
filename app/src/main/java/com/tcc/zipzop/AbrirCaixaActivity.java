@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 
 import com.tcc.zipzop.adapter.ProdutoCaixaAdapterActivity;
+import com.tcc.zipzop.asynctask.ConsultarCaixaAbertoTask;
 import com.tcc.zipzop.asynctask.ListarCaixaFundoTask;
 import com.tcc.zipzop.asynctask.ListarCaixaProdutoTask;
 import com.tcc.zipzop.asynctask.ListarCaixaTask;
@@ -151,10 +152,8 @@ public class AbrirCaixaActivity extends AppCompatActivity {
         caixaFundo.setValor(fundoCaixa);
         caixaFundo.setCaixaId(1);
         new SalvarCaixaFundoTask(caixaFundoDAO,caixaFundo,this).execute();
-        Log.d("ObjetoCaixaFundo", String.valueOf(caixaFundo));
         try {
          listaCaixaFundo=  new ListarCaixaFundoTask(caixaFundoDAO).execute().get();
-         Log.d("BancoCaixaFundo", String.valueOf(listaCaixaFundo));
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -173,7 +172,6 @@ public class AbrirCaixaActivity extends AppCompatActivity {
         });
         try {
             listaCaixaProduto=  new ListarCaixaProdutoTask(caixaProdutoDAO).execute().get();
-            Log.d("BancoCaixaProduto", String.valueOf(listaCaixaProduto));
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
