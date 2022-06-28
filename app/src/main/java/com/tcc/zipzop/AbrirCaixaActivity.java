@@ -103,11 +103,6 @@ public class AbrirCaixaActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 abrirCaixa();
-                finish();
-                Intent intent = new Intent(AbrirCaixaActivity.this,MainActivity.class);
-                startActivity(intent);
-
-
             }
         });
 
@@ -137,7 +132,7 @@ public class AbrirCaixaActivity extends AppCompatActivity {
         }
     }
     public void abrirCaixa(){
-      new SalvarCaixaTask(caixaDAO).execute();
+      new SalvarCaixaTask(caixaDAO,this).execute();
        try {
             listaCaixa =  new ListarCaixaTask(caixaDAO).execute().get();
            Log.d("BancodoCaixa", String.valueOf(listaCaixa));
@@ -146,7 +141,6 @@ public class AbrirCaixaActivity extends AppCompatActivity {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-       salvarCaixaFundo();
 
     }
     public void salvarCaixaFundo(){
@@ -156,7 +150,7 @@ public class AbrirCaixaActivity extends AppCompatActivity {
         Integer fundoCaixa = Integer.parseInt(auxFundoCaixa);
         caixaFundo.setValor(fundoCaixa);
         caixaFundo.setCaixaId(1);
-        new SalvarCaixaFundoTask(caixaFundoDAO,caixaFundo).execute();
+        new SalvarCaixaFundoTask(caixaFundoDAO,caixaFundo,this).execute();
         Log.d("ObjetoCaixaFundo", String.valueOf(caixaFundo));
         try {
          listaCaixaFundo=  new ListarCaixaFundoTask(caixaFundoDAO).execute().get();
@@ -167,10 +161,8 @@ public class AbrirCaixaActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        salvarCaixaProduto();
 
     }
-
     public void salvarCaixaProduto(){
         listaCaixaProdutoView.forEach(caixaPView-> {
             caixaProduto = new CaixaProduto();
@@ -187,5 +179,11 @@ public class AbrirCaixaActivity extends AppCompatActivity {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        abrirCaixaSucesso();
+    }
+    public  void abrirCaixaSucesso(){
+        finish();
+        Intent intent = new Intent(AbrirCaixaActivity.this,MainActivity.class);
+        startActivity(intent);
     }
 }
