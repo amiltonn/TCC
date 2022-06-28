@@ -15,7 +15,7 @@ public interface ProdutoDAO {
     @Insert
     void salvar(Produto produto);
 
-    @Query("SELECT * FROM Produto WHERE ativo = 1 AND atual = 1")
+    @Query("SELECT * FROM Produto WHERE ativo = 1 AND atual = 1 ORDER BY nome ASC")
     List<Produto> listar();
 
     @Query("SELECT * FROM Produto WHERE id = :id AND ativo = 1 AND atual = 1")

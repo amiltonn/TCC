@@ -4,6 +4,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -102,11 +103,10 @@ public class AbrirCaixaActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 abrirCaixa();
-                /*Intent intent = new Intent(AbrirCaixaActivity.this,CaixaActivity.class);
-
+                finish();
+                Intent intent = new Intent(AbrirCaixaActivity.this,MainActivity.class);
                 startActivity(intent);
 
-                 */
 
             }
         });
