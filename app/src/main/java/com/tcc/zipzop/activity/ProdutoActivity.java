@@ -42,6 +42,7 @@ public class ProdutoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(R.style.Actionbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_produto);
         //listagem dos produtos
         ZipZopDataBase dataBase = ZipZopDataBase.getInstance(this);

@@ -25,6 +25,9 @@ public interface CaixaProdutoDAO {
     @Query("UPDATE CaixaProduto SET ativo = 0 WHERE id = :id")
     void deletar(Integer id);
 
+    @Query("SELECT * FROM CaixaProduto WHERE caixaId = :caixaId")
+    List<CaixaProduto> listarcaixaprodutoaberto(Integer caixaId);
+
     @Update
     void alterar(CaixaProduto caixaProduto);
 

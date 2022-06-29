@@ -11,58 +11,48 @@
         <activity
             android:name=".CaixaAbertoActivity"
             android:exported="false"
-            android:label="Caixa Aberto">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+            android:label="Caixa Aberto"
+            android:parentActivityName=".MainActivity">
         </activity>
         <activity
             android:name=".NovaVendaActivity"
             android:exported="false"
-            android:label="Nova Venda" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".VendaActivity" />
+            android:label="Nova Venda"
+            android:parentActivityName=".VendaActivity">
         </activity>
         <activity
             android:name=".VendaActivity"
             android:exported="false"
-            android:label="Lista de Vendas" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+            android:label="Lista de Vendas"
+            android:parentActivityName=".MainActivity">
+
         </activity>
         <activity
             android:name=".AbrirCaixaActivity"
             android:exported="false"
-            android:label="Novo Caixa" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".CaixaActivity" />
+            android:label="Novo Caixa"
+            android:parentActivityName=".CaixaActivity">
         </activity>
         <activity
             android:name=".CaixaActivity"
             android:exported="false"
-            android:label="Caixa" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+            android:label="Caixa"
+            android:parentActivityName=".MainActivity">
+
         </activity>
         <activity
             android:name=".activity.SalvarProdutoActivity"
             android:exported="false"
-            android:label="Produto" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.ProdutoActivity" />
+            android:label="Produto"
+            android:parentActivityName=".activity.ProdutoActivity">
+
         </activity>
         <activity
             android:name=".activity.ProdutoActivity"
             android:exported="false"
-            android:label="Lista de Produtos" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+            android:label="Lista de Produtos"
+            android:parentActivityName=".MainActivity">
+
         </activity>
         <activity
             android:name=".MainActivity"

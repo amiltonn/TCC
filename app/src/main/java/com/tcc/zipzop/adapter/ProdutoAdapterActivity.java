@@ -82,8 +82,8 @@ public class ProdutoAdapterActivity extends RecyclerView.Adapter<ProdutoAdapterA
         TextView valor;
         public MyViewHolder(@NonNull View produtoView) {
             super(produtoView);
-            nome = produtoView.findViewById(R.id.nomeProduto);
-            qtd = produtoView.findViewById(R.id.qtdProduto);
+            nome = produtoView.findViewById(R.id.nomeProdutoCaixaAberto);
+            qtd = produtoView.findViewById(R.id.qtdProdutoCaixaAberto);
             valor = produtoView.findViewById(R.id.valorProduto);
             produtoView.setOnCreateContextMenuListener(this);
 

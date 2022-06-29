@@ -38,8 +38,8 @@ public class ProdutoVendaAdapterActivity extends BaseAdapter {
     @Override
     public View getView(int posicao, View view, ViewGroup viewGroup) {
         View v = View.inflate(this.context, R.layout.layout_produto_caixa, null);
-        TextView nomeProduto = (TextView) v.findViewById(R.id.nomeProduto);
-        TextView qtdProduto = (TextView) v.findViewById(R.id.qtdProduto);
+        TextView nomeProduto = (TextView) v.findViewById(R.id.nomeProdutoCaixaAberto);
+        TextView qtdProduto = (TextView) v.findViewById(R.id.qtdProdutoCaixaAberto);
 
         nomeProduto.setText(this.produtosDaVenda.get(posicao).getNome());
         qtdProduto.setText(String.valueOf(this.produtosDaVenda.get(posicao).getQtdSelecionada()));

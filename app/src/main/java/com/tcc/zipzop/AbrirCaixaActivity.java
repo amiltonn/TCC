@@ -15,10 +15,9 @@ import android.widget.ListView;
 import android.widget.Spinner;
 
 import com.tcc.zipzop.adapter.ProdutoCaixaAdapterActivity;
-import com.tcc.zipzop.asynctask.ConsultarCaixaAbertoTask;
 import com.tcc.zipzop.asynctask.ListarCaixaFundoTask;
 import com.tcc.zipzop.asynctask.ListarCaixaProdutoTask;
-import com.tcc.zipzop.asynctask.ListarCaixaTask;
+import com.tcc.zipzop.asynctask.ListarCaixaAbertoTask;
 import com.tcc.zipzop.asynctask.ListarProdutoTask;
 import com.tcc.zipzop.asynctask.SalvarCaixaFundoTask;
 import com.tcc.zipzop.asynctask.SalvarCaixaProdutoTask;
@@ -55,10 +54,9 @@ public class AbrirCaixaActivity extends AppCompatActivity {
     private CaixaDAO caixaDAO;
     private CaixaFundoDAO caixaFundoDAO;
     private CaixaProdutoDAO caixaProdutoDAO;
-    private Caixa caixa;
+    private Caixa caixaAberto ;
     private CaixaFundo caixaFundo;
     private CaixaProduto caixaProduto;
-    private List<Caixa> listaCaixa;
     private List<CaixaFundo> listaCaixaFundo;
     private List<CaixaProduto> listaCaixaProduto;
 
@@ -67,6 +65,7 @@ public class AbrirCaixaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(R.style.Actionbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_abrir_caixa);
 
         //spinner
@@ -135,8 +134,8 @@ public class AbrirCaixaActivity extends AppCompatActivity {
     public void abrirCaixa(){
       new SalvarCaixaTask(caixaDAO,this).execute();
        try {
-            listaCaixa =  new ListarCaixaTask(caixaDAO).execute().get();
-           Log.d("BancodoCaixa", String.valueOf(listaCaixa));
+            caixaAberto =  new ListarCaixaAbertoTask(caixaDAO).execute().get();
+           Log.d("BancodoCaixa", String.valueOf(caixaAberto));
        } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -150,7 +149,7 @@ public class AbrirCaixaActivity extends AppCompatActivity {
         String auxFundoCaixa = campoFundoCaixa.getText().toString();
         Integer fundoCaixa = Integer.parseInt(auxFundoCaixa);
         caixaFundo.setValor(fundoCaixa);
-        caixaFundo.setCaixaId(1);
+        caixaFundo.setCaixaId(caixaAberto.getId());
         new SalvarCaixaFundoTask(caixaFundoDAO,caixaFundo,this).execute();
         try {
          listaCaixaFundo=  new ListarCaixaFundoTask(caixaFundoDAO).execute().get();
@@ -165,7 +164,7 @@ public class AbrirCaixaActivity extends AppCompatActivity {
     public void salvarCaixaProduto(){
         listaCaixaProdutoView.forEach(caixaPView-> {
             caixaProduto = new CaixaProduto();
-            caixaProduto.setCaixaId(1);//TODO:Criar DAO para esse evento
+            caixaProduto.setCaixaId(caixaAberto.getId());//TODO:Criar DAO para esse evento
             caixaProduto.setProdutoId(caixaPView.getId());
             caixaProduto.setQtd(caixaPView.getQtdSelecionada());
             new SalvarCaixaProdutoTask(caixaProdutoDAO,caixaProduto).execute();

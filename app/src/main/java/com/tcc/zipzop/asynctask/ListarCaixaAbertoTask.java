@@ -7,16 +7,16 @@ import com.tcc.zipzop.entity.Caixa;
 
 import java.util.List;
 
-public class ListarCaixaTask extends AsyncTask<Void, Void, List<Caixa>> {
+public class ListarCaixaAbertoTask extends AsyncTask<Void, Void, Caixa> {
     private final CaixaDAO dao;
 
-    public ListarCaixaTask(CaixaDAO dao){
+    public ListarCaixaAbertoTask(CaixaDAO dao){
 
         this.dao = dao;
     }
     @Override
-    protected List<Caixa> doInBackground(Void... voids) {
+    protected Caixa doInBackground(Void... voids) {
 
-        return dao.listar();
+        return dao.caixaAberto();
     }
 }

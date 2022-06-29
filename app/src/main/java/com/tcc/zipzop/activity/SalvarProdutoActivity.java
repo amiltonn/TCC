@@ -55,6 +55,7 @@ public class SalvarProdutoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(R.style.Actionbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_salvar_produto);
         ZipZopDataBase dataBase = ZipZopDataBase.getInstance(this);
         dao = dataBase.getProdutoDAO();

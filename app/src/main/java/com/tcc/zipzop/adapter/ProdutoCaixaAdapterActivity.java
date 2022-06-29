@@ -26,10 +26,13 @@ public class ProdutoCaixaAdapterActivity extends BaseAdapter {
     public int getCount() {return this.produtosDoCaixa.size();}
 
     @Override
-    public Object getItem(int posicao) {return this.produtosDoCaixa.get(posicao); }
+    public Object getItem(int posicao) {
+        return this.produtosDoCaixa.get(posicao);
+    }
 
     @Override
-    public long getItemId(int posicao) {return posicao; }
+    public long getItemId(int posicao) {
+        return posicao; }
 
     public void removerProduto(int posicao) {
         this.produtosDoCaixa.remove(posicao);
@@ -39,8 +42,8 @@ public class ProdutoCaixaAdapterActivity extends BaseAdapter {
     @Override
     public View getView(int posicao, View view, ViewGroup viewGroup) {
         View v = View.inflate(this.context, R.layout.layout_produto_caixa, null);
-        TextView nomeProduto = (TextView) v.findViewById(R.id.nomeProduto);
-        TextView qtdProduto = (TextView) v.findViewById(R.id.qtdProduto);
+        TextView nomeProduto = (TextView) v.findViewById(R.id.nomeProdutoCaixaAberto);
+        TextView qtdProduto = (TextView) v.findViewById(R.id.qtdProdutoCaixaAberto);
 
         nomeProduto.setText(this.produtosDoCaixa.get(posicao).getNome());
         qtdProduto.setText(String.valueOf(this.produtosDoCaixa.get(posicao).getQtdSelecionada()));
