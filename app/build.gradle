@@ -6,11 +6,11 @@ android {
     compileSdk 32
 
     defaultConfig {
-        applicationId "com.tcc.zipzop"
+        applicationId "com.tcc.zipzopapp"
         minSdk 21
         targetSdk 32
-        versionCode 8
-        versionName "8"
+        versionCode 1
+        versionName "1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
