@@ -1,126 +1,216 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/cordefundo"
     tools:context=".NovaVendaActivity">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/cordefundo">
 
 
-    <EditText
-        style="@style/Edit_Text"
-        android:layout_width="214dp"
-        android:layout_height="52dp"
-        android:layout_marginTop="516dp"
-        android:hint="Valor Pago"
-        android:imeOptions="actionNext"
-        android:inputType="numberDecimal"
-        android:maxLength="25"
-        android:textColor="@color/black"
-        android:textColorHint="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></EditText>
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="8dp"
+            android:text="Selecione o produto que vai ser Vendido:"
+            android:textColor="@color/letra"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/SpnCaixaProduto"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Selecione um produto:"
-        android:textColor="@color/letra"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.067"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <Spinner
+            android:id="@+id/SpnCaixaProduto"
+            android:layout_width="0dp"
+            android:layout_height="57dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/style_spinner"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-    <Spinner
-        android:id="@+id/SpnProduto"
-        android:layout_width="0dp"
-        android:layout_height="57dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="32dp"
-        android:background="@drawable/style_spinner"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-    <EditText
-        android:id="@+id/Quantidade"
-        style="@style/Edit_Text"
-        android:layout_width="210dp"
-        android:layout_height="52dp"
-        android:layout_marginTop="116dp"
-        android:hint="Informe a Quantidade"
-        android:imeOptions="actionNext"
-        android:inputType="numberSigned"
-        android:maxLength="25"
-        android:textColor="@color/black"
-        android:textColorHint="@color/letra"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></EditText>
-
-    <androidx.appcompat.widget.AppCompatButton
-        style="@style/Button"
-        android:layout_width="210dp"
-        android:layout_height="64dp"
-        android:layout_marginLeft="90dp"
-        android:layout_marginTop="172dp"
-        android:layout_marginRight="90dp"
-        android:layout_marginBottom="16dp"
-        android:onClick="eventAddProduto"
-        android:text="Adicionar Produto"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/Txt_InfoCaixa"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/Bt_NovaVenda"
-        style="@style/Button"
-        android:layout_marginLeft="90dp"
-        android:layout_marginTop="412dp"
-        android:layout_marginRight="90dp"
-        android:text="Fechar Venda"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Quantidade" />
-
-    <TextView
-        android:id="@+id/Txt_InfoCaixa"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="252dp"
-        android:text="Produtos incluidos na venda:"
-        android:textColor="@color/letra"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.083"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ListView
-        android:id="@+id/lsvProdutos"
-        android:layout_width="366dp"
-        android:layout_height="212dp"
-        android:layout_marginTop="284dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.355"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/appCompatButton2"
+            style="@style/Button"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="32dp"
+            android:onClick="eventAddProduto"
+            android:text="Adicionar"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/layoutQuantidade"
+            app:layout_constraintTop_toBottomOf="@+id/SpnCaixaProduto"/>
 
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/Bt_Vender"
+            style="@style/Button"
+            android:layout_marginLeft="90dp"
+            android:layout_marginTop="55dp"
+            android:layout_marginRight="90dp"
+            android:layout_marginBottom="8dp"
+            android:text="Finalizar Venda"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layoutValorPago" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/Txt_InfoCaixa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:text=" Produto que está sendo vendido:"
+            android:textColor="@color/letra"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.083"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/appCompatButton2" />
+
+        <ListView
+            android:id="@+id/listVendaProduto"
+            android:layout_width="match_parent"
+            android:layout_height="212dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/layoutValorPago"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Txt_InfoCaixa" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layoutQuantidade"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="8dp"
+            android:hint="Quantidade:"
+            android:textColorHint="@color/black"
+            app:layout_constraintEnd_toStartOf="@+id/appCompatButton2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/SpnCaixaProduto">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/Quantidade"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/edit_text"
+                android:digits="0123456789"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:padding="18dp"
+                android:textColor="@color/black" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layoutValorPago"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:hint="Valor Pago: "
+            android:textColorHint="@color/black"
+            app:layout_constraintEnd_toStartOf="@+id/formaPagamento"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/valorTotal">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/valorPago"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text"
+                android:digits="0123456789"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:padding="18dp"
+                android:textColor="@color/black" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/valorTotalText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="32dp"
+            android:text="Valor Total:"
+            android:textColor="@color/letra"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/valorTotal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/listVendaProduto" />
+
+        <TextView
+            android:id="@+id/valorTotal"
+            style="@style/Edit_Text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="16dp"
+            android:textColor="@color/letra"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/formaPagamento"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/valorTotalText" />
+
+        <Spinner
+            android:id="@+id/formaPagamento"
+            android:layout_width="0dp"
+            android:layout_height="57dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/style_spinner"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/layoutValorPago"
+            app:layout_constraintTop_toBottomOf="@+id/valorTotal" />
+
+        <TextView
+            android:id="@+id/formadePagamento"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="19dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="8dp"
+            android:text="Forma de Pagamaneto:"
+            android:textColor="@color/letra"
+            android:textSize="13dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/formaPagamento"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/layoutValorPago"
+            app:layout_constraintTop_toBottomOf="@+id/valorTotal" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

@@ -54,7 +54,7 @@ public class NovaVendaActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        this.spinnerProdutos = (Spinner) this.findViewById(R.id.SpnProduto);
+        this.spinnerProdutos = (Spinner) this.findViewById(R.id.SpnCaixaProduto);
         ArrayAdapter<Produto> spnProdutoAdapter = new ArrayAdapter<Produto>(this, android.R.layout.simple_dropdown_item_1line, this.listaProdutos);
         this.spinnerProdutos.setAdapter(spnProdutoAdapter);
         //end spinner
@@ -62,13 +62,13 @@ public class NovaVendaActivity extends AppCompatActivity {
         this.quantidadeProdutos = (EditText) this.findViewById(R.id.Quantidade);
 
         // variaveis e objetos dos produtos do caixa
-        this.listarProdutos = (ListView) this.findViewById(R.id.lsvProdutos);
+        this.listarProdutos = (ListView) this.findViewById(R.id.listVendaProduto);
         this.listaProdutosDaVenda = new ArrayList<>();
         this.produtoVendaAdapterActivity = new ProdutoVendaAdapterActivity(NovaVendaActivity.this, this.listaProdutosDaVenda);
         this.listarProdutos.setAdapter(this.produtoVendaAdapterActivity);
 
         //Função do botão
-        ButtonNovaVenda = findViewById(R.id.Bt_NovaVenda);
+        ButtonNovaVenda = findViewById(R.id.Bt_Vender);
         ButtonNovaVenda.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
