@@ -24,14 +24,14 @@
             android:textColor="@color/letra"
             android:textSize="15dp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/SpnCaixaProduto"
+            app:layout_constraintBottom_toTopOf="@+id/spinnerProdutoVenda"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Spinner
-            android:id="@+id/SpnCaixaProduto"
+            android:id="@+id/spinnerProdutoVenda"
             android:layout_width="0dp"
             android:layout_height="57dp"
             android:layout_marginStart="32dp"
@@ -56,7 +56,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/layoutQuantidade"
-            app:layout_constraintTop_toBottomOf="@+id/SpnCaixaProduto"/>
+            app:layout_constraintTop_toBottomOf="@+id/spinnerProdutoVenda"/>
 
 
         <androidx.appcompat.widget.AppCompatButton
@@ -114,7 +114,7 @@
             android:textColorHint="@color/black"
             app:layout_constraintEnd_toStartOf="@+id/appCompatButton2"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/SpnCaixaProduto">
+            app:layout_constraintTop_toBottomOf="@+id/spinnerProdutoVenda">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/Quantidade"

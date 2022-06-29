@@ -84,7 +84,7 @@ public class AbrirCaixaActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        this.spinnerProdutos = (Spinner) this.findViewById(R.id.SpnCaixaProduto);
+        this.spinnerProdutos = (Spinner) this.findViewById(R.id.spinnerProdutoVenda);
         ArrayAdapter<Produto> spnProdutoAdapter = new ArrayAdapter<Produto>(this, android.R.layout.simple_dropdown_item_1line, this.listaProdutos);
         this.spinnerProdutos.setAdapter(spnProdutoAdapter);
         //end spinner
