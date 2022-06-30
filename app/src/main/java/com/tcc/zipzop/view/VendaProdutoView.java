@@ -2,13 +2,23 @@ package com.tcc.zipzop.view;
 
 public class VendaProdutoView {
 
+    private Integer id;
     private Integer produtoId;
     private Integer caixaProdutoId;
-    private String nome;
-    private Integer preco;
+    private String produtoNome;
+    private Integer produtoPreco;
+    //TODO: parar de usar esse campo
     private Integer qtdCaixa;
-    private Integer qtdSelecionada;
+    private Integer qtd;
     private Integer precoVenda;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public Integer getProdutoId() {
         return produtoId;
@@ -26,20 +36,20 @@ public class VendaProdutoView {
         this.caixaProdutoId = caixaProdutoId;
     }
 
-    public String getNome() {
-        return nome;
+    public String getProdutoNome() {
+        return produtoNome;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setProdutoNome(String produtoNome) {
+        this.produtoNome = produtoNome;
     }
 
-    public Integer getPreco() {
-        return preco;
+    public Integer getProdutoPreco() {
+        return produtoPreco;
     }
 
-    public void setPreco(Integer preco) {
-        this.preco = preco;
+    public void setProdutoPreco(Integer produtoPreco) {
+        this.produtoPreco = produtoPreco;
     }
 
     public Integer getQtdCaixa() {
@@ -50,12 +60,12 @@ public class VendaProdutoView {
         this.qtdCaixa = qtdCaixa;
     }
 
-    public Integer getQtdSelecionada() {
-        return qtdSelecionada;
+    public Integer getQtd() {
+        return qtd;
     }
 
-    public void setQtdSelecionada(Integer qtdSelecionada) {
-        this.qtdSelecionada = qtdSelecionada;
+    public void setQtd(Integer qtd) {
+        this.qtd = qtd;
     }
 
     public Integer getPrecoVenda() {
@@ -67,6 +77,6 @@ public class VendaProdutoView {
     }
 
     public String toString(){
-        return this.produtoId +"----"+ this.nome +"----"+ this.preco +"----"+ qtdCaixa +"----"+ qtdSelecionada +"----"+ precoVenda;
+        return this.produtoId +"----"+ this.produtoNome +"----"+ this.produtoPreco +"----"+ qtdCaixa +"----"+ qtd +"----"+ precoVenda;
     }
 }

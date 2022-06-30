@@ -121,9 +121,9 @@ public class CaixaAbertoActivity extends AppCompatActivity {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            caixaProdutoView.setId(caixaPView.getProdutoId());
-            caixaProdutoView.setNome(produto.getNome());
-            caixaProdutoView.setQtdSelecionada(caixaPView.getQtd());
+            caixaProdutoView.setProdutoId(caixaPView.getProdutoId());
+            caixaProdutoView.setProdutoNome(produto.getNome());
+            caixaProdutoView.setQtd(caixaPView.getQtd());
             listaCaixaProdutoView.add(caixaProdutoView);
         });
         listViewProdutoCaixaAberto = findViewById(R.id.listaProdutoCaixaAberto);

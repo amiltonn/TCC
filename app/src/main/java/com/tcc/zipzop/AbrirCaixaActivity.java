@@ -112,16 +112,16 @@ public class AbrirCaixaActivity extends AppCompatActivity {
 
         Produto produtoSelecionado = (Produto) this.spinnerProdutos.getSelectedItem();
 
-        if (produtoSelecionado != null && !listaCaixaProdutoView.stream().map(prodCaixa -> prodCaixa.getNome()).collect(Collectors.toList()).contains(produtoSelecionado.getNome())){
+        if (produtoSelecionado != null && !listaCaixaProdutoView.stream().map(prodCaixa -> prodCaixa.getProdutoNome()).collect(Collectors.toList()).contains(produtoSelecionado.getNome())){
             int quantidadeProduto = 0;
             if(this.quantidadeProdutos.getText().toString().equals("")){
                 quantidadeProduto = 1;
             }else {
                 quantidadeProduto = Integer.parseInt(this.quantidadeProdutos.getText().toString());
             }
-            produtoDoCaixa.setId(produtoSelecionado.getId());
-            produtoDoCaixa.setNome(produtoSelecionado.getNome());
-            produtoDoCaixa.setQtdSelecionada(quantidadeProduto);
+            produtoDoCaixa.setProdutoId(produtoSelecionado.getId());
+            produtoDoCaixa.setProdutoNome(produtoSelecionado.getNome());
+            produtoDoCaixa.setQtd(quantidadeProduto);
 
 
             this.produtoCaixaAdapterActivity.addProdutoCaixa(produtoDoCaixa);
@@ -152,8 +152,8 @@ public class AbrirCaixaActivity extends AppCompatActivity {
         listaCaixaProdutoView.forEach(caixaPView-> {
             caixaProduto = new CaixaProduto();
             caixaProduto.setCaixaId(caixaAberto.getId());//TODO:Criar DAO para esse evento
-            caixaProduto.setProdutoId(caixaPView.getId());
-            caixaProduto.setQtd(caixaPView.getQtdSelecionada());
+            caixaProduto.setProdutoId(caixaPView.getProdutoId());
+            caixaProduto.setQtd(caixaPView.getQtd());
             new SalvarCaixaProdutoTask(caixaProdutoDAO,caixaProduto).execute();
         });
 

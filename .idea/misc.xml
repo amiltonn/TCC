@@ -61,6 +61,7 @@
         <entry key="app/src/main/res/drawable/edit_text.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_abrir_caixa.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_caixa.xml" value="0.12635869565217392" />
+        <entry key="app/src/main/res/layout/activity_caixa_aberto.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_item.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_item_adapter.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.16767983789260385" />

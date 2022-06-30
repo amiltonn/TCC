@@ -7,8 +7,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.tcc.zipzop.R;
-import com.tcc.zipzop.entity.CaixaProduto;
-import com.tcc.zipzop.entity.Produto;
 import com.tcc.zipzop.view.CaixaProdutoView;
 
 import java.util.List;
@@ -44,8 +42,8 @@ public class ProdutoCaixaAbertoAdapterActivity extends BaseAdapter {
         TextView nomeProduto = v.findViewById(R.id.nomeProdutoCaixaAberto);
         TextView qtdProduto = v.findViewById(R.id.qtdProdutoCaixaAberto);
         // colocando os dados no campo
-        nomeProduto.setText(caixaProdutos.get(position).getNome());
-        qtdProduto.setText(""+caixaProdutos.get(position).getQtdSelecionada());
+        nomeProduto.setText(caixaProdutos.get(position).getProdutoNome());
+        qtdProduto.setText(""+caixaProdutos.get(position).getQtd());
 
         return v;
     }

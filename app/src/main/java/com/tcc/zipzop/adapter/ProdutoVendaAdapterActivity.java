@@ -41,8 +41,8 @@ public class ProdutoVendaAdapterActivity extends BaseAdapter {
         TextView nomeProduto = (TextView) v.findViewById(R.id.nomeProdutoCaixaAberto);
         TextView qtdProduto = (TextView) v.findViewById(R.id.qtdProdutoCaixaAberto);
 
-        nomeProduto.setText(this.produtosDaVenda.get(posicao).getNome());
-        qtdProduto.setText(String.valueOf(this.produtosDaVenda.get(posicao).getQtdSelecionada()));
+        nomeProduto.setText(this.produtosDaVenda.get(posicao).getProdutoNome());
+        qtdProduto.setText(String.valueOf(this.produtosDaVenda.get(posicao).getQtd()));
 
         return v;
     }

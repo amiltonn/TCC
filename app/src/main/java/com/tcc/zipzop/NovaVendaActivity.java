@@ -16,6 +16,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.tcc.zipzop.adapter.ProdutoVendaAdapterActivity;
+import com.tcc.zipzop.asynctask.venda.ConsultarVendaAbertaTask;
+import com.tcc.zipzop.asynctask.venda.FecharVendaTask;
 import com.tcc.zipzop.asynctask.venda.ListarVendaProdutoTask;
 import com.tcc.zipzop.asynctask.venda.ListarVendaTask;
 import com.tcc.zipzop.asynctask.venda.SalvarVendaProdutoTask;
@@ -183,10 +185,11 @@ public class NovaVendaActivity extends AppCompatActivity {
     }
 
     public void eventAddProduto(View view) {
+        //TODO: usando produto para setar vendaProduto, mudar isso
         vendaProdutoView = new VendaProdutoView();
         quantidadeProdutos = findViewById(R.id.Quantidade);
         Produto produtoSelecionado = (Produto) spinnerCaixaproduto.getSelectedItem();
-        if (produtoSelecionado != null && !listaProdutosDaVenda.stream().map(prodVenda -> prodVenda.getNome())
+        if (produtoSelecionado != null && !listaProdutosDaVenda.stream().map(prodVenda -> prodVenda.getProdutoNome())
                 .collect(Collectors.toList()).contains(produtoSelecionado.getNome())){
             int quantidadeProduto = 0;
             if(this.quantidadeProdutos.getText().toString().equals("")) {
@@ -198,9 +201,9 @@ public class NovaVendaActivity extends AppCompatActivity {
             vendaProdutoView.setProdutoId(produtoSelecionado.getId());
             vendaProdutoView.setCaixaProdutoId(listaCaixaProdutos.stream().filter(cProduto -> cProduto.getProdutoId()
                             .equals(produtoSelecionado.getId())).findFirst().get().getProdutoId());
-            vendaProdutoView.setNome(produtoSelecionado.getNome());
-            vendaProdutoView.setPreco(produtoSelecionado.getPreco());
-            vendaProdutoView.setQtdSelecionada(quantidadeProduto);
+            vendaProdutoView.setProdutoNome(produtoSelecionado.getNome());
+            vendaProdutoView.setProdutoPreco(produtoSelecionado.getPreco());
+            vendaProdutoView.setQtd(quantidadeProduto);
             vendaProdutoView.setQtdCaixa(produtoSelecionado.getQtd());
             vendaProdutoView.setPrecoVenda(produtoSelecionado.getPreco() * quantidadeProduto);
             produtoVendaAdapterActivity.addProdutoVenda(vendaProdutoView);
@@ -242,14 +245,22 @@ public class NovaVendaActivity extends AppCompatActivity {
     }
 
     private void salvarVendaProduto() {
+        try {
+            venda = new ConsultarVendaAbertaTask(vendaDAO).execute().get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         vendaProduto = new VendaProduto();
         listaProdutosDaVenda.forEach(vendaP ->{
-            vendaProduto.setQtd(vendaP.getQtdSelecionada());
+            vendaProduto.setQtd(vendaP.getQtd());
             vendaProduto.setPrecoVenda(vendaP.getPrecoVenda());
-            vendaProduto.setVendaId(1);
+            vendaProduto.setVendaId(venda.getId());
             vendaProduto.setCaixaProdutoId(vendaP.getCaixaProdutoId());
             new SalvarVendaProdutoTask(vendaProdutoDAO,vendaProduto).execute();
         });
+        new FecharVendaTask(vendaDAO).execute();
         try {
             vendaProdutoList = new ListarVendaProdutoTask(vendaProdutoDAO).execute().get();
         } catch (ExecutionException e) {
