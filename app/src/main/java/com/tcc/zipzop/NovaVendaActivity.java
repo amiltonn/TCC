@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.tcc.zipzop.adapter.ProdutoVendaAdapterActivity;
 import com.tcc.zipzop.asynctask.caixa.BuscarCaixaAbertoTask;
@@ -34,17 +35,20 @@ import com.tcc.zipzop.entity.FormaPagamento;
 import com.tcc.zipzop.entity.Venda;
 import com.tcc.zipzop.entity.VendaProduto;
 import com.tcc.zipzop.entity.Produto;
+import com.tcc.zipzop.view.CaixaProdutoView;
 import com.tcc.zipzop.view.VendaProdutoView;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
+
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class NovaVendaActivity extends AppCompatActivity {
     private AppCompatButton ButtonNovaVenda;
     private EditText quantidadeProdutos;
-
-    //Produtos da VendaProduto
+    private TextView valorTotal;
+    //Produtos da VendaProduto/adapter
     private ListView listarCaixaProdutos;
     private List<VendaProdutoView> listaProdutosDaVenda;
     private ProdutoVendaAdapterActivity produtoVendaAdapterActivity;
@@ -65,12 +69,12 @@ public class NovaVendaActivity extends AppCompatActivity {
     private Caixa caixa;
     private CaixaProduto caixaProduto;
     private Produto produto;
+    private VendaProdutoView vendaProdutoView;
     //formaPagamento
     private Spinner spinnerFormaPagamento;
     ArrayAdapter<FormaPagamento> formaPagamentoAdapter;
     private FormaPagamento formaPagamentoSelected;
     List<FormaPagamento> formaPagamentos;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,13 +102,14 @@ public class NovaVendaActivity extends AppCompatActivity {
 
         inicializaCampos();
 
-        this.quantidadeProdutos = (EditText) this.findViewById(R.id.Quantidade);
+       quantidadeProdutos = findViewById(R.id.Quantidade);
 
         // variaveis e objetos dos produtos do caixa
         this.listarCaixaProdutos = (ListView) this.findViewById(R.id.listVendaProduto);
         this.listaProdutosDaVenda = new ArrayList<>();
         this.produtoVendaAdapterActivity = new ProdutoVendaAdapterActivity(NovaVendaActivity.this, this.listaProdutosDaVenda);
         this.listarCaixaProdutos.setAdapter(this.produtoVendaAdapterActivity);
+
 
         //Função do botão
         ButtonNovaVenda = findViewById(R.id.Bt_Vender);
@@ -119,18 +124,6 @@ public class NovaVendaActivity extends AppCompatActivity {
         });
 
     }
-
-    private void preencheCampos() {
-        try {
-            formaPagamentoSelected = new ConsultarFormaPagamentoTask(formaPagamentoDAO, venda.getFormaPagamentoId()).execute().get();
-            spinnerFormaPagamento.setSelection(formaPagamentoSelected.getId() - 1);
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
     private void inicializaCampos() {
         spinnerFormaPagamento = (Spinner) findViewById(R.id.listaFormaPagamento);
         spinnerFormaPagamento.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -185,22 +178,26 @@ public class NovaVendaActivity extends AppCompatActivity {
     }
 
     public void eventAddProduto(View view) {
-//        CaixaProdutoView produtoDaVenda = new CaixaProdutoView();
-//
-//        Produto produtoSelecionado = (Produto) this.spinnerProdutos.getSelectedItem();
-//
-//        int quantidadeProduto = 0;
-//        if(this.quantidadeProdutos.getText().toString().equals("")){
-//            quantidadeProduto = 1;
-//        }else {
-//            quantidadeProduto = Integer.parseInt(this.quantidadeProdutos.getText().toString());
-//        }
-//
-//        produtoDaVenda.setNome(produtoSelecionado.getNome());
-//        produtoDaVenda.setQtdSelecionada(quantidadeProduto);
-//
-//        this.produtoVendaAdapterActivity.addProdutoVenda(produtoDaVenda);
+        vendaProdutoView = new VendaProdutoView();
+        Produto produtoSelecionado = (Produto) spinnerCaixaproduto.getSelectedItem();
+        if (produtoSelecionado != null && !listaProdutosDaVenda.stream().map(prodVenda -> prodVenda.getNome())
+                .collect(Collectors.toList()).contains(produtoSelecionado.getNome())){
+            int quantidadeProduto = 0;
+            if(this.quantidadeProdutos.getText().toString().equals("")) {
+                quantidadeProduto = 1;
 
+            }else {
+                quantidadeProduto = Integer.parseInt(this.quantidadeProdutos.getText().toString());
+            }
+            vendaProdutoView.setId(produtoSelecionado.getId());
+            vendaProdutoView.setNome(produtoSelecionado.getNome());
+            vendaProdutoView.setPreco(produtoSelecionado.getPreco());
+            vendaProdutoView.setQtdSelecionada(quantidadeProduto);
+            vendaProdutoView.setQtdCaixa(produtoSelecionado.getQtd());
+            vendaProdutoView.setPrecoVenda(produtoSelecionado.getPreco() * quantidadeProduto);
+            produtoVendaAdapterActivity.addProdutoVenda(vendaProdutoView);
+        }
+        Log.d("teste", String.valueOf(listaProdutosDaVenda));
     }
 
 

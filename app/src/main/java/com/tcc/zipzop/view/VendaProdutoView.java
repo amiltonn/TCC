@@ -56,4 +56,8 @@ public class VendaProdutoView {
     public void setPrecoVenda(Integer precoVenda) {
         this.precoVenda = precoVenda;
     }
+
+    public String toString(){
+        return this.id +"----"+ this.nome +"----"+ this.preco +"----"+ qtdCaixa +"----"+ qtdSelecionada +"----"+ precoVenda;
+    }
 }
