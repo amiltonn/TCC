@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.tcc.zipzop.activity.ProdutoActivity;
 import com.tcc.zipzop.adapter.ProdutoCaixaAbertoAdapterActivity;
 import com.tcc.zipzop.asynctask.BuscarCaixaAbertoTask;
 import com.tcc.zipzop.asynctask.BuscarCaixaFundoPeloCaixaAbertoTask;

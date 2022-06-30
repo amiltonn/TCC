@@ -1,4 +1,4 @@
-package com.tcc.zipzop.activity;
+package com.tcc.zipzop;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;

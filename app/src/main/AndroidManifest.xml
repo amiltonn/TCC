@@ -41,14 +41,14 @@
 
         </activity>
         <activity
-            android:name=".activity.SalvarProdutoActivity"
+            android:name=".SalvarProdutoActivity"
             android:exported="false"
             android:label="Produto"
-            android:parentActivityName=".activity.ProdutoActivity">
+            android:parentActivityName=".ProdutoActivity">
 
         </activity>
         <activity
-            android:name=".activity.ProdutoActivity"
+            android:name=".ProdutoActivity"
             android:exported="false"
             android:label="Lista de Produtos"
             android:parentActivityName=".MainActivity">

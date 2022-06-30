@@ -24,7 +24,7 @@ import com.tcc.zipzop.database.dao.VendaProdutoDAO;
 import com.tcc.zipzop.entity.*;
 import com.tcc.zipzop.typeconverter.DateTimeConverter;
 
-@Database(version = 1,
+@Database(version = 2,
             entities = {
                 OperationActive.class,
                 UnidadeMedida.class,
@@ -66,6 +66,7 @@ public abstract class ZipZopDataBase extends RoomDatabase {
         return Room
                 .databaseBuilder(context, ZipZopDataBase.class, "zipzop.db")
                 .addCallback(ZipZopCallbacks.callbacks)
+                .addMigrations(ZipZopMigrations.TODAS_MIGRATIONS)
                 .build();
     }
 }

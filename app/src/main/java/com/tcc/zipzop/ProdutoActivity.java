@@ -1,4 +1,4 @@
-package com.tcc.zipzop.activity;
+package com.tcc.zipzop;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,9 +15,7 @@ import android.view.View;
 
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.tcc.zipzop.R;
 import com.tcc.zipzop.adapter.ProdutoAdapterActivity;
-import com.tcc.zipzop.asynctask.ConsultarProdutoTask;
 import com.tcc.zipzop.asynctask.ExcluirProdutoTask;
 import com.tcc.zipzop.asynctask.ListarProdutoTask;
 import com.tcc.zipzop.database.ZipZopDataBase;

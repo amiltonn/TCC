@@ -147,7 +147,7 @@ public class AbrirCaixaActivity extends AppCompatActivity {
         caixaFundo = new CaixaFundo();
         campoFundoCaixa = findViewById(R.id.fundoCaixa);
         String auxFundoCaixa = campoFundoCaixa.getText().toString();
-        Integer fundoCaixa = Integer.parseInt(auxFundoCaixa);
+        Integer fundoCaixa = auxFundoCaixa != null ? Integer.parseInt(auxFundoCaixa) : 0;
         caixaFundo.setValor(fundoCaixa);
         caixaFundo.setCaixaId(caixaAberto.getId());
         new SalvarCaixaFundoTask(caixaFundoDAO,caixaFundo,this).execute();

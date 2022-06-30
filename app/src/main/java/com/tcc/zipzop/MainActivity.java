@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.tcc.zipzop.activity.ProdutoActivity;
 import com.tcc.zipzop.asynctask.ConsultarCaixaAbertoTask;
 import com.tcc.zipzop.database.ZipZopDataBase;
 import com.tcc.zipzop.database.dao.CaixaDAO;

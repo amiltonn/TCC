@@ -137,7 +137,7 @@ public class ZipZopCallbacks {
                 "CREATE TRIGGER IF NOT EXISTS ValidateProdutoIdInsertCaixaProduto\n" +
                     "\tBEFORE INSERT\n" +
                     "\tON CaixaProduto\n" +
-                    "\tWHEN EXISTS(SELECT 1 FROM CaixaProduto WHERE produtoId = NEW.produtoId AND atual = 1 LIMIT 1)\n" +
+                    "\tWHEN EXISTS(SELECT 1 FROM CaixaProduto AS cp INNER JOIN Caixa AS c ON c.id = cp.caixaId WHERE cp.produtoId = NEW.produtoId AND cp.ativo = 1 AND cp.atual = 1 AND c.dataFechamento IS NULL LIMIT 1)\n" +
                     "\tBEGIN\n" +
                     "\t\tSELECT RAISE(ROLLBACK, '\"caixaProduto\" com \"ativo\" 1 e mesmo \"produtoId\" já existe!');\n" +
                     "\tEND;"
