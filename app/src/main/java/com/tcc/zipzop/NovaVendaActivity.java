@@ -167,7 +167,7 @@ public class NovaVendaActivity extends AppCompatActivity {
             try {
                 produto = new ConsultarProdutoTask(produtoDAO,produtoPView.getProdutoId()).execute().get();
                 produto.setQtd(produtoPView.getQtd());
-                Log.d("produto", String.valueOf(produto));
+                Log.d("produtosdoCaixaProduto", String.valueOf(produto));
             } catch (ExecutionException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {
@@ -196,7 +196,8 @@ public class NovaVendaActivity extends AppCompatActivity {
                 quantidadeProduto = Integer.parseInt(this.quantidadeProdutos.getText().toString());
             }
             vendaProdutoView.setProdutoId(produtoSelecionado.getId());
-            vendaProdutoView.setCaixaProdutoId(2);
+            vendaProdutoView.setCaixaProdutoId(listaCaixaProdutos.stream().filter(cProduto -> cProduto.getProdutoId()
+                            .equals(produtoSelecionado.getId())).findFirst().get().getProdutoId());
             vendaProdutoView.setNome(produtoSelecionado.getNome());
             vendaProdutoView.setPreco(produtoSelecionado.getPreco());
             vendaProdutoView.setQtdSelecionada(quantidadeProduto);
@@ -205,7 +206,7 @@ public class NovaVendaActivity extends AppCompatActivity {
             produtoVendaAdapterActivity.addProdutoVenda(vendaProdutoView);
         }
         preencherValorTotal();
-        Log.d("3", String.valueOf(listaProdutosDaVenda));
+        Log.d("ListaProdutodaVenda", String.valueOf(listaProdutosDaVenda));
     }
 
     private void preencherValorTotal() {
@@ -245,8 +246,8 @@ public class NovaVendaActivity extends AppCompatActivity {
         listaProdutosDaVenda.forEach(vendaP ->{
             vendaProduto.setQtd(vendaP.getQtdSelecionada());
             vendaProduto.setPrecoVenda(vendaP.getPrecoVenda());
-            vendaProduto.setVendaId(2);
-            vendaProduto.setCaixaProdutoId(1);
+            vendaProduto.setVendaId(1);
+            vendaProduto.setCaixaProdutoId(vendaP.getCaixaProdutoId());
             new SalvarVendaProdutoTask(vendaProdutoDAO,vendaProduto).execute();
         });
         try {
