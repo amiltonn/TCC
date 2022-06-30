@@ -9,24 +9,32 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 
 import com.tcc.zipzop.adapter.ProdutoVendaAdapterActivity;
-import com.tcc.zipzop.asynctask.BuscarCaixaAbertoTask;
-import com.tcc.zipzop.asynctask.ConsultarProdutoTask;
-import com.tcc.zipzop.asynctask.ListaCaixaProdutoAbertoTask;
+import com.tcc.zipzop.asynctask.caixa.BuscarCaixaAbertoTask;
+import com.tcc.zipzop.asynctask.produto.ConsultarProdutoTask;
+import com.tcc.zipzop.asynctask.caixa.caixaProduto.ListaCaixaProdutoAbertoTask;
+import com.tcc.zipzop.asynctask.venda.formaPagamento.ConsultarFormaPagamentoTask;
+import com.tcc.zipzop.asynctask.venda.formaPagamento.ListarFormaPagamentoTask;
 import com.tcc.zipzop.database.ZipZopDataBase;
 import com.tcc.zipzop.database.dao.CaixaDAO;
-import com.tcc.zipzop.database.dao.CaixaFundoDAO;
 import com.tcc.zipzop.database.dao.CaixaProdutoDAO;
+import com.tcc.zipzop.database.dao.FormaPagamentoDAO;
 import com.tcc.zipzop.database.dao.ProdutoDAO;
+import com.tcc.zipzop.database.dao.VendaDAO;
+import com.tcc.zipzop.database.dao.VendaProdutoDAO;
 import com.tcc.zipzop.entity.Caixa;
 import com.tcc.zipzop.entity.CaixaProduto;
-import com.tcc.zipzop.view.CaixaProdutoView;
+import com.tcc.zipzop.entity.FormaPagamento;
+import com.tcc.zipzop.entity.Venda;
+import com.tcc.zipzop.entity.VendaProduto;
 import com.tcc.zipzop.entity.Produto;
+import com.tcc.zipzop.view.VendaProdutoView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,22 +44,32 @@ public class NovaVendaActivity extends AppCompatActivity {
     private AppCompatButton ButtonNovaVenda;
     private EditText quantidadeProdutos;
 
-    //Produtos do CaixaProduto
-    private ListView listarProdutos;
-    private List<CaixaProdutoView> listaProdutosDaVenda;
+    //Produtos da VendaProduto
+    private ListView listarCaixaProdutos;
+    private List<VendaProdutoView> listaProdutosDaVenda;
     private ProdutoVendaAdapterActivity produtoVendaAdapterActivity;
     //Spinner
     private Spinner spinnerCaixaproduto;
-    List<CaixaProduto> listaCaixaProdutoSpinner;
+    List<CaixaProduto> listaCaixaProdutos;
     List<Produto> listaProdutos;
     //banco
+    private VendaDAO vendaDAO;
+    private VendaProdutoDAO vendaProdutoDAO;
+    private FormaPagamentoDAO formaPagamentoDAO;
     private CaixaDAO caixaDAO;
-    private CaixaFundoDAO caixaFundoDAO;
     private CaixaProdutoDAO caixaProdutoDAO;
     private ProdutoDAO produtoDAO;
     //entity
+    private Venda venda;
+    private VendaProduto vendaProduto;
     private Caixa caixa;
+    private CaixaProduto caixaProduto;
     private Produto produto;
+    //formaPagamento
+    private Spinner spinnerFormaPagamento;
+    ArrayAdapter<FormaPagamento> formaPagamentoAdapter;
+    private FormaPagamento formaPagamentoSelected;
+    List<FormaPagamento> formaPagamentos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,20 +79,32 @@ public class NovaVendaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_nova_venda);
         //banco
         ZipZopDataBase dataBase = ZipZopDataBase.getInstance(this);
+        produtoDAO = dataBase.getProdutoDAO();
         caixaDAO = dataBase.getCaixaDAO();
         caixaProdutoDAO = dataBase.getCaixaProdutoDAO();
-        produtoDAO = dataBase.getProdutoDAO();
+        vendaDAO = dataBase.getVendaDAO();
+        vendaProdutoDAO = dataBase.getVendaProdutoDAO();
+        formaPagamentoDAO = dataBase.getFormaPagamentoDAO();
         //spinner
         popularSpinner();
 
+        try {
+            formaPagamentos = new ListarFormaPagamentoTask(formaPagamentoDAO).execute().get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        inicializaCampos();
 
         this.quantidadeProdutos = (EditText) this.findViewById(R.id.Quantidade);
 
         // variaveis e objetos dos produtos do caixa
-        this.listarProdutos = (ListView) this.findViewById(R.id.listVendaProduto);
+        this.listarCaixaProdutos = (ListView) this.findViewById(R.id.listVendaProduto);
         this.listaProdutosDaVenda = new ArrayList<>();
         this.produtoVendaAdapterActivity = new ProdutoVendaAdapterActivity(NovaVendaActivity.this, this.listaProdutosDaVenda);
-        this.listarProdutos.setAdapter(this.produtoVendaAdapterActivity);
+        this.listarCaixaProdutos.setAdapter(this.produtoVendaAdapterActivity);
 
         //Função do botão
         ButtonNovaVenda = findViewById(R.id.Bt_Vender);
@@ -90,6 +120,35 @@ public class NovaVendaActivity extends AppCompatActivity {
 
     }
 
+    private void preencheCampos() {
+        try {
+            formaPagamentoSelected = new ConsultarFormaPagamentoTask(formaPagamentoDAO, venda.getFormaPagamentoId()).execute().get();
+            spinnerFormaPagamento.setSelection(formaPagamentoSelected.getId() - 1);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void inicializaCampos() {
+        spinnerFormaPagamento = (Spinner) findViewById(R.id.listaFormaPagamento);
+        spinnerFormaPagamento.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                formaPagamentoSelected = (FormaPagamento) parent.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                formaPagamentoSelected = null;
+            }
+        });
+        formaPagamentoAdapter = new ArrayAdapter<FormaPagamento>(getBaseContext(),
+            android.R.layout.simple_dropdown_item_1line, this.formaPagamentos);
+        spinnerFormaPagamento.setAdapter(formaPagamentoAdapter);
+
+    }
 
     private void popularSpinner() {
         try {
@@ -100,15 +159,15 @@ public class NovaVendaActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         try {
-            listaCaixaProdutoSpinner = new ListaCaixaProdutoAbertoTask(caixaProdutoDAO,caixa.getId()).execute().get();
-            Log.d("teste", String.valueOf(listaCaixaProdutoSpinner));
+            listaCaixaProdutos = new ListaCaixaProdutoAbertoTask(caixaProdutoDAO,caixa.getId()).execute().get();
+            Log.d("teste", String.valueOf(listaCaixaProdutos));
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         listaProdutos = new ArrayList<>();
-        listaCaixaProdutoSpinner.forEach(produtoPView ->{
+        listaCaixaProdutos.forEach(produtoPView ->{
             try {
                 produto = new ConsultarProdutoTask(produtoDAO,produtoPView.getProdutoId()).execute().get();
                 Log.d("teste", String.valueOf(produto));

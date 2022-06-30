@@ -1,4 +1,4 @@
-package com.tcc.zipzop.asynctask;
+package com.tcc.zipzop.asynctask.caixa.caixaProduto;
 
 import android.os.AsyncTask;
 
@@ -16,6 +16,6 @@ public class ListaCaixaProdutoAbertoTask extends AsyncTask<Void, Void, List<Caix
     }
     @Override
     protected List<CaixaProduto> doInBackground(Void... voids) {
-        return dao.listarcaixaprodutoaberto(caixaId);
+        return dao.listarCaixaProdutoAberto(caixaId);
     }
 }

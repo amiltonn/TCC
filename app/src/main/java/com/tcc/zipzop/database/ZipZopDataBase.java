@@ -19,6 +19,7 @@ import com.tcc.zipzop.database.dao.GastoProdutoDAO;
 import com.tcc.zipzop.database.dao.InsumoDAO;
 import com.tcc.zipzop.database.dao.ProdutoDAO;
 import com.tcc.zipzop.database.dao.UnidadeMedidaDAO;
+import com.tcc.zipzop.database.dao.VendaDAO;
 import com.tcc.zipzop.database.dao.VendaLocalDAO;
 import com.tcc.zipzop.database.dao.VendaProdutoDAO;
 import com.tcc.zipzop.entity.*;
@@ -58,6 +59,7 @@ public abstract class ZipZopDataBase extends RoomDatabase {
     public abstract GastoDAO getGastoDAO();
     public abstract GastoProdutoDAO getGastoProdutoDAO();
     public abstract InsumoDAO getInsumoDAO();
+    public abstract VendaDAO getVendaDAO();
     public abstract VendaLocalDAO getVendaLocalDAO();
     public abstract VendaProdutoDAO getVendaProdutoDAO();
 

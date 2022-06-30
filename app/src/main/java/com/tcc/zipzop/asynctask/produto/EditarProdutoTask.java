@@ -1,36 +1,37 @@
-package com.tcc.zipzop.asynctask;
+package com.tcc.zipzop.asynctask.produto;
+
 import android.os.AsyncTask;
 
-import com.tcc.zipzop.adapter.ProdutoAdapterActivity;
+import com.tcc.zipzop.SalvarProdutoActivity;
 import com.tcc.zipzop.database.dao.ProdutoDAO;
 import com.tcc.zipzop.entity.Produto;
 
-public class ExcluirProdutoTask extends AsyncTask<Void, Void, Void> {
+public class EditarProdutoTask extends AsyncTask<Void, Void, Void> {
 
     private final ProdutoDAO dao;
-    private final ProdutoAdapterActivity adapter;
+    private final SalvarProdutoActivity salvarProdutoActivity;
     private final Produto produto;
 
-    public ExcluirProdutoTask(
+    public EditarProdutoTask(
             ProdutoDAO dao,
-            ProdutoAdapterActivity adapter,
+            SalvarProdutoActivity salvarProdutoActivity,
             Produto produto
     ){
         this.dao = dao;
-        this.adapter = adapter;
+        this.salvarProdutoActivity = salvarProdutoActivity;
         this.produto = produto;
     }
 
     @Override
     protected Void doInBackground(Void... voids) {
-        dao.deletar(produto.getId());
+        dao.alterar(produto);
         return null;
     }
 
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-        adapter.excluir(produto);
+        salvarProdutoActivity.salvarComSucesso();
     }
 
 }

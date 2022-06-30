@@ -137,7 +137,7 @@
             android:layout_marginEnd="16dp"
             android:hint="Valor Pago: "
             android:textColorHint="@color/black"
-            app:layout_constraintEnd_toStartOf="@+id/formaPagamento"
+            app:layout_constraintEnd_toStartOf="@+id/listaFormaPagamento"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/valorTotal">
 
@@ -179,12 +179,12 @@
             android:textColor="@color/letra"
             android:textSize="15dp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/formaPagamento"
+            app:layout_constraintEnd_toStartOf="@+id/listaFormaPagamento"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/valorTotalText" />
 
         <Spinner
-            android:id="@+id/formaPagamento"
+            android:id="@+id/listaFormaPagamento"
             android:layout_width="0dp"
             android:layout_height="57dp"
             android:layout_marginStart="2dp"
@@ -206,7 +206,7 @@
             android:textColor="@color/letra"
             android:textSize="13dp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/formaPagamento"
+            app:layout_constraintBottom_toTopOf="@+id/listaFormaPagamento"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/layoutValorPago"
             app:layout_constraintTop_toBottomOf="@+id/valorTotal" />

@@ -1,13 +1,13 @@
-package com.tcc.zipzop.asynctask;
+package com.tcc.zipzop.asynctask.caixa;
 
 import android.os.AsyncTask;
 
 import com.tcc.zipzop.database.dao.CaixaDAO;
 
-public class ConsultarCaixaAbertoTask extends AsyncTask<Void, Void, Boolean> {
+public class ChecarCaixaAbertoTask extends AsyncTask<Void, Void, Boolean> {
     private final CaixaDAO dao;
 
-    public ConsultarCaixaAbertoTask(CaixaDAO dao) {
+    public ChecarCaixaAbertoTask(CaixaDAO dao) {
         this.dao = dao;
     }
 

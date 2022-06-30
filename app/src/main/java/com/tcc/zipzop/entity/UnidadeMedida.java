@@ -28,7 +28,6 @@ public class UnidadeMedida {
         this.nome = nome;
     }
 
-    //TODO:melhor implementacao?
     @Override
     public String toString() {
         return this.nome;

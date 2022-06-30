@@ -16,8 +16,8 @@ import android.view.View;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.tcc.zipzop.adapter.ProdutoAdapterActivity;
-import com.tcc.zipzop.asynctask.ExcluirProdutoTask;
-import com.tcc.zipzop.asynctask.ListarProdutoTask;
+import com.tcc.zipzop.asynctask.produto.ExcluirProdutoTask;
+import com.tcc.zipzop.asynctask.produto.ListarProdutoTask;
 import com.tcc.zipzop.database.ZipZopDataBase;
 import com.tcc.zipzop.database.dao.ProdutoDAO;
 import com.tcc.zipzop.entity.Produto;

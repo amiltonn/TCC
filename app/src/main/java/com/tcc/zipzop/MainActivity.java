@@ -8,7 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.tcc.zipzop.asynctask.ConsultarCaixaAbertoTask;
+import com.tcc.zipzop.asynctask.caixa.ChecarCaixaAbertoTask;
 import com.tcc.zipzop.database.ZipZopDataBase;
 import com.tcc.zipzop.database.dao.CaixaDAO;
 
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void caixaAberto(){
         try {
-            existeCaixaAberto = new ConsultarCaixaAbertoTask(caixaDAO).execute().get();
+            existeCaixaAberto = new ChecarCaixaAbertoTask(caixaDAO).execute().get();
             Log.d("teste", String.valueOf(existeCaixaAberto));
         } catch (ExecutionException e) {
             e.printStackTrace();

@@ -19,6 +19,6 @@ public interface VendaDAO {
     List<Venda> listar();
 
     @Query("SELECT * FROM Venda WHERE id = :id")
-    Produto consultar(Long id);
+    Venda consultar(Long id);
 
 }

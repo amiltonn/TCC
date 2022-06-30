@@ -6,7 +6,6 @@ import androidx.appcompat.widget.AppCompatButton;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 
 import android.widget.AdapterView;
@@ -14,13 +13,12 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import com.tcc.zipzop.R;
 import com.tcc.zipzop.adapter.ProdutoAdapterActivity;
-import com.tcc.zipzop.asynctask.ConsultarProdutoTask;
-import com.tcc.zipzop.asynctask.ConsultarUnidadeMedidaTask;
-import com.tcc.zipzop.asynctask.EditarProdutoTask;
-import com.tcc.zipzop.asynctask.ListarUnidadeMedidaTask;
-import com.tcc.zipzop.asynctask.SalvarProdutoTask;
+import com.tcc.zipzop.asynctask.produto.ConsultarProdutoTask;
+import com.tcc.zipzop.asynctask.produto.unidadeMedida.ConsultarUnidadeMedidaTask;
+import com.tcc.zipzop.asynctask.produto.EditarProdutoTask;
+import com.tcc.zipzop.asynctask.produto.unidadeMedida.ListarUnidadeMedidaTask;
+import com.tcc.zipzop.asynctask.produto.SalvarProdutoTask;
 import com.tcc.zipzop.database.ZipZopDataBase;
 import com.tcc.zipzop.database.dao.ProdutoDAO;
 import com.tcc.zipzop.database.dao.UnidadeMedidaDAO;

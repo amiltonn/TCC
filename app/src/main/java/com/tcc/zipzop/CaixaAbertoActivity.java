@@ -13,11 +13,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.tcc.zipzop.adapter.ProdutoCaixaAbertoAdapterActivity;
-import com.tcc.zipzop.asynctask.BuscarCaixaAbertoTask;
-import com.tcc.zipzop.asynctask.BuscarCaixaFundoPeloCaixaAbertoTask;
-import com.tcc.zipzop.asynctask.ConsultarProdutoTask;
-import com.tcc.zipzop.asynctask.FecharCaixaTask;
-import com.tcc.zipzop.asynctask.ListaCaixaProdutoAbertoTask;
+import com.tcc.zipzop.asynctask.caixa.BuscarCaixaAbertoTask;
+import com.tcc.zipzop.asynctask.caixa.caixaFundo.BuscarCaixaFundoPeloCaixaAbertoTask;
+import com.tcc.zipzop.asynctask.produto.ConsultarProdutoTask;
+import com.tcc.zipzop.asynctask.caixa.FecharCaixaTask;
+import com.tcc.zipzop.asynctask.caixa.caixaProduto.ListaCaixaProdutoAbertoTask;
 import com.tcc.zipzop.database.ZipZopDataBase;
 import com.tcc.zipzop.database.dao.CaixaDAO;
 import com.tcc.zipzop.database.dao.CaixaFundoDAO;

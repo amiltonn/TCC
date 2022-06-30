@@ -7,7 +7,6 @@ import androidx.appcompat.widget.AppCompatButton;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -15,13 +14,11 @@ import android.widget.ListView;
 import android.widget.Spinner;
 
 import com.tcc.zipzop.adapter.ProdutoCaixaAdapterActivity;
-import com.tcc.zipzop.asynctask.ListarCaixaFundoTask;
-import com.tcc.zipzop.asynctask.ListarCaixaProdutoTask;
-import com.tcc.zipzop.asynctask.ListarCaixaAbertoTask;
-import com.tcc.zipzop.asynctask.ListarProdutoTask;
-import com.tcc.zipzop.asynctask.SalvarCaixaFundoTask;
-import com.tcc.zipzop.asynctask.SalvarCaixaProdutoTask;
-import com.tcc.zipzop.asynctask.SalvarCaixaTask;
+import com.tcc.zipzop.asynctask.caixa.ConsultarCaixaAbertoTask;
+import com.tcc.zipzop.asynctask.produto.ListarProdutoTask;
+import com.tcc.zipzop.asynctask.caixa.caixaFundo.SalvarCaixaFundoTask;
+import com.tcc.zipzop.asynctask.caixa.caixaProduto.SalvarCaixaProdutoTask;
+import com.tcc.zipzop.asynctask.caixa.SalvarCaixaTask;
 import com.tcc.zipzop.database.ZipZopDataBase;
 import com.tcc.zipzop.database.dao.CaixaDAO;
 import com.tcc.zipzop.database.dao.CaixaFundoDAO;
@@ -37,6 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
+
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class AbrirCaixaActivity extends AppCompatActivity {
     private AppCompatButton ButtonAbrirCaixa;
@@ -49,7 +47,7 @@ public class AbrirCaixaActivity extends AppCompatActivity {
 
     private Spinner spinnerProdutos;
     List<Produto> listaProdutos;
-    private ProdutoDAO produtosCtrl;
+    private ProdutoDAO produtoDAO;
     //Abrir Caixa
     private CaixaDAO caixaDAO;
     private CaixaFundoDAO caixaFundoDAO;
@@ -57,8 +55,6 @@ public class AbrirCaixaActivity extends AppCompatActivity {
     private Caixa caixaAberto ;
     private CaixaFundo caixaFundo;
     private CaixaProduto caixaProduto;
-    private List<CaixaFundo> listaCaixaFundo;
-    private List<CaixaProduto> listaCaixaProduto;
 
 
     @Override
@@ -70,14 +66,14 @@ public class AbrirCaixaActivity extends AppCompatActivity {
 
         //spinner
         ZipZopDataBase dataBase = ZipZopDataBase.getInstance(this);
-        produtosCtrl = dataBase.getProdutoDAO();
+        produtoDAO = dataBase.getProdutoDAO();
         caixaDAO = dataBase.getCaixaDAO();
         caixaFundoDAO = dataBase.getCaixaFundoDAO();
         caixaProdutoDAO = dataBase.getCaixaProdutoDAO();
 
 
         try {
-            listaProdutos = new ListarProdutoTask(produtosCtrl).execute().get();
+            listaProdutos = new ListarProdutoTask(produtoDAO).execute().get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -134,8 +130,7 @@ public class AbrirCaixaActivity extends AppCompatActivity {
     public void abrirCaixa(){
       new SalvarCaixaTask(caixaDAO,this).execute();
        try {
-            caixaAberto =  new ListarCaixaAbertoTask(caixaDAO).execute().get();
-           Log.d("BancodoCaixa", String.valueOf(caixaAberto));
+            caixaAberto =  new ConsultarCaixaAbertoTask(caixaDAO).execute().get();
        } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -151,14 +146,6 @@ public class AbrirCaixaActivity extends AppCompatActivity {
         caixaFundo.setValor(fundoCaixa);
         caixaFundo.setCaixaId(caixaAberto.getId());
         new SalvarCaixaFundoTask(caixaFundoDAO,caixaFundo,this).execute();
-        try {
-         listaCaixaFundo=  new ListarCaixaFundoTask(caixaFundoDAO).execute().get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
 
     }
     public void salvarCaixaProduto(){
@@ -169,13 +156,7 @@ public class AbrirCaixaActivity extends AppCompatActivity {
             caixaProduto.setQtd(caixaPView.getQtdSelecionada());
             new SalvarCaixaProdutoTask(caixaProdutoDAO,caixaProduto).execute();
         });
-        try {
-            listaCaixaProduto=  new ListarCaixaProdutoTask(caixaProdutoDAO).execute().get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
         abrirCaixaSucesso();
     }
     public  void abrirCaixaSucesso(){
