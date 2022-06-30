@@ -102,7 +102,6 @@ public class NovaVendaActivity extends AppCompatActivity {
 
         inicializaCampos();
 
-       quantidadeProdutos = findViewById(R.id.Quantidade);
 
         // variaveis e objetos dos produtos do caixa
         this.listarCaixaProdutos = (ListView) this.findViewById(R.id.listVendaProduto);
@@ -153,7 +152,7 @@ public class NovaVendaActivity extends AppCompatActivity {
         }
         try {
             listaCaixaProdutos = new ListaCaixaProdutoAbertoTask(caixaProdutoDAO,caixa.getId()).execute().get();
-            Log.d("teste", String.valueOf(listaCaixaProdutos));
+            Log.d("CaixaProduto", String.valueOf(listaCaixaProdutos));
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -163,12 +162,14 @@ public class NovaVendaActivity extends AppCompatActivity {
         listaCaixaProdutos.forEach(produtoPView ->{
             try {
                 produto = new ConsultarProdutoTask(produtoDAO,produtoPView.getProdutoId()).execute().get();
-                Log.d("teste", String.valueOf(produto));
+                produto.setQtd(produtoPView.getQtd());
+                Log.d("produto", String.valueOf(produto));
             } catch (ExecutionException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
             listaProdutos.add(produto);
 
         });
@@ -179,6 +180,7 @@ public class NovaVendaActivity extends AppCompatActivity {
 
     public void eventAddProduto(View view) {
         vendaProdutoView = new VendaProdutoView();
+        quantidadeProdutos = findViewById(R.id.Quantidade);
         Produto produtoSelecionado = (Produto) spinnerCaixaproduto.getSelectedItem();
         if (produtoSelecionado != null && !listaProdutosDaVenda.stream().map(prodVenda -> prodVenda.getNome())
                 .collect(Collectors.toList()).contains(produtoSelecionado.getNome())){
@@ -197,7 +199,17 @@ public class NovaVendaActivity extends AppCompatActivity {
             vendaProdutoView.setPrecoVenda(produtoSelecionado.getPreco() * quantidadeProduto);
             produtoVendaAdapterActivity.addProdutoVenda(vendaProdutoView);
         }
-        Log.d("teste", String.valueOf(listaProdutosDaVenda));
+        preencherValorTotal();
+        Log.d("3", String.valueOf(listaProdutosDaVenda));
+    }
+
+    private void preencherValorTotal() {
+        valorTotal = findViewById(R.id.valorTotal);
+        Integer somaValorTotal = 0;
+        for (VendaProdutoView precoPvenda : listaProdutosDaVenda) {
+            somaValorTotal += precoPvenda.getPrecoVenda();
+        }
+        valorTotal.setText(""+somaValorTotal);
     }
 
 
