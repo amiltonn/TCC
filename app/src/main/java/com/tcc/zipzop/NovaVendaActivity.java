@@ -4,7 +4,6 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,10 +16,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.tcc.zipzop.adapter.ProdutoVendaAdapterActivity;
+import com.tcc.zipzop.asynctask.ListarVendaProdutoTask;
+import com.tcc.zipzop.asynctask.ListarVendaTask;
+import com.tcc.zipzop.asynctask.SalvarVendaProdutoTask;
+import com.tcc.zipzop.asynctask.SalvarVendaTask;
 import com.tcc.zipzop.asynctask.caixa.BuscarCaixaAbertoTask;
 import com.tcc.zipzop.asynctask.produto.ConsultarProdutoTask;
 import com.tcc.zipzop.asynctask.caixa.caixaProduto.ListaCaixaProdutoAbertoTask;
-import com.tcc.zipzop.asynctask.venda.formaPagamento.ConsultarFormaPagamentoTask;
 import com.tcc.zipzop.asynctask.venda.formaPagamento.ListarFormaPagamentoTask;
 import com.tcc.zipzop.database.ZipZopDataBase;
 import com.tcc.zipzop.database.dao.CaixaDAO;
@@ -35,7 +37,6 @@ import com.tcc.zipzop.entity.FormaPagamento;
 import com.tcc.zipzop.entity.Venda;
 import com.tcc.zipzop.entity.VendaProduto;
 import com.tcc.zipzop.entity.Produto;
-import com.tcc.zipzop.view.CaixaProdutoView;
 import com.tcc.zipzop.view.VendaProdutoView;
 
 import java.util.ArrayList;
@@ -46,7 +47,7 @@ import java.util.stream.Collectors;
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class NovaVendaActivity extends AppCompatActivity {
     private AppCompatButton ButtonNovaVenda;
-    private EditText quantidadeProdutos;
+    private EditText quantidadeProdutos, valorPago;
     private TextView valorTotal;
     //Produtos da VendaProduto/adapter
     private ListView listarCaixaProdutos;
@@ -75,6 +76,9 @@ public class NovaVendaActivity extends AppCompatActivity {
     ArrayAdapter<FormaPagamento> formaPagamentoAdapter;
     private FormaPagamento formaPagamentoSelected;
     List<FormaPagamento> formaPagamentos;
+    //List
+    private List<Venda> vendaList;
+    private List<VendaProduto> vendaProdutoList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,7 +105,7 @@ public class NovaVendaActivity extends AppCompatActivity {
         }
 
         inicializaCampos();
-
+        valorPago = findViewById(R.id.valorPago);
 
         // variaveis e objetos dos produtos do caixa
         this.listarCaixaProdutos = (ListView) this.findViewById(R.id.listVendaProduto);
@@ -115,14 +119,14 @@ public class NovaVendaActivity extends AppCompatActivity {
         ButtonNovaVenda.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(NovaVendaActivity.this,CaixaActivity.class);
+                finalizarVenda();
 
-                startActivity(intent);
 
             }
         });
 
     }
+
     private void inicializaCampos() {
         spinnerFormaPagamento = (Spinner) findViewById(R.id.listaFormaPagamento);
         spinnerFormaPagamento.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -191,7 +195,8 @@ public class NovaVendaActivity extends AppCompatActivity {
             }else {
                 quantidadeProduto = Integer.parseInt(this.quantidadeProdutos.getText().toString());
             }
-            vendaProdutoView.setId(produtoSelecionado.getId());
+            vendaProdutoView.setProdutoId(produtoSelecionado.getId());
+            vendaProdutoView.setCaixaProdutoId(2);
             vendaProdutoView.setNome(produtoSelecionado.getNome());
             vendaProdutoView.setPreco(produtoSelecionado.getPreco());
             vendaProdutoView.setQtdSelecionada(quantidadeProduto);
@@ -210,6 +215,48 @@ public class NovaVendaActivity extends AppCompatActivity {
             somaValorTotal += precoPvenda.getPrecoVenda();
         }
         valorTotal.setText(""+somaValorTotal);
+    }
+    private void finalizarVenda() {
+        venda = new Venda();
+        if (valorPago.getText().toString().equals("")){
+            venda.setValorPago(Integer.parseInt(valorTotal.getText().toString()));
+        }else{
+            venda.setValorPago(Integer.parseInt(valorPago.getText().toString()));
+        }
+        venda.setValorVenda(Integer.parseInt(valorTotal.getText().toString()));
+        //venda.setVendaLocalId(1);
+        venda.setFormaPagamentoId(formaPagamentoSelected.getId());
+        venda.setCaixaId(caixa.getId());
+        new SalvarVendaTask(vendaDAO,venda).execute();
+
+        try {
+            vendaList = new ListarVendaTask(vendaDAO).execute().get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Log.d("listavendaBanco", String.valueOf(vendaList));
+        salvarVendaProduto();
+    }
+
+    private void salvarVendaProduto() {
+        vendaProduto = new VendaProduto();
+        listaProdutosDaVenda.forEach(vendaP ->{
+            vendaProduto.setQtd(vendaP.getQtdSelecionada());
+            vendaProduto.setPrecoVenda(vendaP.getPrecoVenda());
+            vendaProduto.setVendaId(2);
+            vendaProduto.setCaixaProdutoId(1);
+            new SalvarVendaProdutoTask(vendaProdutoDAO,vendaProduto).execute();
+        });
+        try {
+            vendaProdutoList = new ListarVendaProdutoTask(vendaProdutoDAO).execute().get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Log.d("VendaPBanco", String.valueOf(vendaProdutoList));
     }
 
 

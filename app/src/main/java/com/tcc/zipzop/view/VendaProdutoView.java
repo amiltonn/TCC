@@ -2,19 +2,28 @@ package com.tcc.zipzop.view;
 
 public class VendaProdutoView {
 
-    private Integer id;
+    private Integer produtoId;
+    private Integer caixaProdutoId;
     private String nome;
     private Integer preco;
     private Integer qtdCaixa;
     private Integer qtdSelecionada;
     private Integer precoVenda;
 
-    public Integer getId() {
-        return id;
+    public Integer getProdutoId() {
+        return produtoId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setProdutoId(Integer produtoId) {
+        this.produtoId = produtoId;
+    }
+
+    public Integer getCaixaProdutoId(){
+        return caixaProdutoId;
+    }
+
+    public void setCaixaProdutoId(Integer caixaProdutoId){
+        this.caixaProdutoId = caixaProdutoId;
     }
 
     public String getNome() {
@@ -58,6 +67,6 @@ public class VendaProdutoView {
     }
 
     public String toString(){
-        return this.id +"----"+ this.nome +"----"+ this.preco +"----"+ qtdCaixa +"----"+ qtdSelecionada +"----"+ precoVenda;
+        return this.produtoId +"----"+ this.nome +"----"+ this.preco +"----"+ qtdCaixa +"----"+ qtdSelecionada +"----"+ precoVenda;
     }
 }

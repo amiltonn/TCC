@@ -62,4 +62,9 @@ public class VendaProduto {
     public void setCaixaProdutoId(Integer caixaProdutoId) {
         this.caixaProdutoId = caixaProdutoId;
     }
+
+    @Override
+    public String toString() {
+        return this.id +"----"+ this.qtd+"----"+this.precoVenda+"----"+this.vendaId+"----"+caixaProdutoId+"////";
+    }
 }

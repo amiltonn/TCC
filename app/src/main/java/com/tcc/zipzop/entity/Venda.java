@@ -25,10 +25,10 @@ public class Venda {
     private Boolean aberta = true;
     @ColumnInfo(defaultValue = "(datetime())")
     @NonNull
-    private Date dataPagamento;
+    private Date dataPagamento = new Date();
 
     @ColumnInfo(index = true)
-    @NonNull
+    //@NonNull
     private Integer vendaLocalId;
     @ColumnInfo(index = true)
     @NonNull
@@ -99,5 +99,10 @@ public class Venda {
 
     public void setCaixaId(Integer caixaId) {
         this.caixaId = caixaId;
+    }
+    @Override
+    public String toString() {
+        return this.id +"----"+ this.valorPago+"----"+this.valorVenda+"----"+this.aberta+"----"+this.dataPagamento
+                +"----"+this.vendaLocalId+"----"+this.formaPagamentoId+"----"+caixaId+"///";
     }
 }
