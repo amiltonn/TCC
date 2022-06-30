@@ -16,10 +16,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.tcc.zipzop.adapter.ProdutoVendaAdapterActivity;
-import com.tcc.zipzop.asynctask.ListarVendaProdutoTask;
-import com.tcc.zipzop.asynctask.ListarVendaTask;
-import com.tcc.zipzop.asynctask.SalvarVendaProdutoTask;
-import com.tcc.zipzop.asynctask.SalvarVendaTask;
+import com.tcc.zipzop.asynctask.venda.ListarVendaProdutoTask;
+import com.tcc.zipzop.asynctask.venda.ListarVendaTask;
+import com.tcc.zipzop.asynctask.venda.SalvarVendaProdutoTask;
+import com.tcc.zipzop.asynctask.venda.SalvarVendaTask;
 import com.tcc.zipzop.asynctask.caixa.BuscarCaixaAbertoTask;
 import com.tcc.zipzop.asynctask.produto.ConsultarProdutoTask;
 import com.tcc.zipzop.asynctask.caixa.caixaProduto.ListaCaixaProdutoAbertoTask;

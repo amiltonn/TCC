@@ -20,5 +20,34 @@ public class ZipZopMigrations {
       );
     }
   };
-  static final Migration[] TODAS_MIGRATIONS = {MIGRATION_1_2};
+  private static final Migration MIGRATION_2_3 = new Migration(2, 3) {
+    @Override
+    public void migrate(@NonNull SupportSQLiteDatabase database) {
+      database.execSQL("PRAGMA foreign_keys = OFF;");
+      database.execSQL("CREATE TEMP TABLE tempVenda AS SELECT * FROM Venda;");
+      database.execSQL("DROP TABLE Venda;");
+      database.execSQL(
+          "CREATE TABLE IF NOT EXISTS Venda(\n" +
+              "\tid INTEGER PRIMARY KEY NOT NULL,\n" +
+              "\tvalorPago INTEGER NOT NULL,\n" +
+              "\tvalorVenda INTEGER NOT NULL,\n" +
+              "\taberta INTEGER NOT NULL DEFAULT 1,\n" +
+              "\tdataPagamento TEXT NOT NULL DEFAULT ((datetime())),\n" +
+              "\tvendaLocalId INTEGER,\n" +
+              "\tformaPagamentoId INTEGER NOT NULL,\n" +
+              "\tcaixaId INTEGER NOT NULL,\n" +
+              "\tFOREIGN KEY (vendaLocalId) REFERENCES VendaLocal (id) ON UPDATE RESTRICT ON DELETE RESTRICT,\n" +
+              "\tFOREIGN KEY (formaPagamentoId) REFERENCES FormaPagamento (id) ON UPDATE RESTRICT ON DELETE RESTRICT,\n" +
+              "\tFOREIGN KEY (caixaId) REFERENCES Caixa (id) ON UPDATE RESTRICT ON DELETE RESTRICT\n" +
+              ");"
+      );
+      database.execSQL("CREATE INDEX index_Venda_vendaLocalId ON Venda (vendaLocalId);");
+      database.execSQL("CREATE INDEX index_Venda_formaPagamentoId ON Venda (formaPagamentoId);");
+      database.execSQL("CREATE INDEX index_Venda_caixaId ON Venda (caixaId);");
+      database.execSQL("INSERT INTO Venda SELECT * FROM tempVenda;");
+      database.execSQL("DROP TABLE tempVenda;");
+      database.execSQL("PRAGMA foreign_keys = ON;");
+    }
+  };
+  static final Migration[] TODAS_MIGRATIONS = {MIGRATION_1_2, MIGRATION_2_3};
 }

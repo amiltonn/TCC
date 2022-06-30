@@ -25,7 +25,7 @@ import com.tcc.zipzop.database.dao.VendaProdutoDAO;
 import com.tcc.zipzop.entity.*;
 import com.tcc.zipzop.typeconverter.DateTimeConverter;
 
-@Database(version = 2,
+@Database(version = 3,
             entities = {
                 OperationActive.class,
                 UnidadeMedida.class,

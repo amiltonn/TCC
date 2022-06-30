@@ -28,7 +28,6 @@ public class Venda {
     private Date dataPagamento = new Date();
 
     @ColumnInfo(index = true)
-    //@NonNull
     private Integer vendaLocalId;
     @ColumnInfo(index = true)
     @NonNull

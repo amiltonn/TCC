@@ -1,4 +1,4 @@
-package com.tcc.zipzop.asynctask;
+package com.tcc.zipzop.asynctask.venda;
 
 import android.os.AsyncTask;
 
