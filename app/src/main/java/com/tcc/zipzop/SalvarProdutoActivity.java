@@ -136,9 +136,9 @@ public class SalvarProdutoActivity extends AppCompatActivity {
 
         String nome = campoNome.getText().toString();
         String auxCustoProducao = campoCustoProducao.getText().toString();
-        Integer custoProducao = converteParaCentavos(auxCustoProducao);
+        Integer custoProducao = MoneyConverter.converteParaCentavos(auxCustoProducao);
         String auxPrecoVenda = campoPrecoVenda.getText().toString();
-        Integer precoVenda = converteParaCentavos(auxPrecoVenda);
+        Integer precoVenda = MoneyConverter.converteParaCentavos(auxPrecoVenda);
         String auxQuantidade = campoQuantidade.getText().toString();
         Integer quantidade = Integer.parseInt(auxQuantidade);
 
@@ -161,31 +161,7 @@ public class SalvarProdutoActivity extends AppCompatActivity {
         }
 
     }
-    public Integer converteParaCentavos(String valor){
-        Integer retorno = null;
 
-        Integer quantosAlgarismos = 0;
-        Integer quantosAtrasVirgula = 0;
-        Boolean ultimoIsVirgula = false;
-
-        for (int i = valor.length() - 1; i >= 0 && quantosAlgarismos < 3; i--) {
-            if(valor.charAt(i) == ',' || valor.charAt(i) == '.') {
-                if(ultimoIsVirgula.equals(false)) {
-                    quantosAtrasVirgula = quantosAlgarismos;
-                    ultimoIsVirgula = true;
-                }
-            } else if(valor.charAt(i) >= '0' || valor.charAt(i) <= '9') {
-                quantosAlgarismos++;
-                ultimoIsVirgula = false;
-            }
-        }
-
-        valor = valor.replaceAll("[\\D]", "");
-        retorno = valor.equals("") ? null : Integer.parseInt(valor) * (int)Math.pow(10, 2 - quantosAtrasVirgula);
-
-
-        return retorno;
-    }
 
     public void salvarComSucesso(){
         finish();

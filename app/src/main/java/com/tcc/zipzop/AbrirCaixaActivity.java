@@ -27,6 +27,7 @@ import com.tcc.zipzop.database.dao.ProdutoDAO;
 import com.tcc.zipzop.entity.Caixa;
 import com.tcc.zipzop.entity.CaixaFundo;
 import com.tcc.zipzop.entity.CaixaProduto;
+import com.tcc.zipzop.typeconverter.MoneyConverter;
 import com.tcc.zipzop.view.CaixaProdutoView;
 import com.tcc.zipzop.entity.Produto;
 
@@ -142,7 +143,7 @@ public class AbrirCaixaActivity extends AppCompatActivity {
         caixaFundo = new CaixaFundo();
         campoFundoCaixa = findViewById(R.id.fundoCaixa);
         String auxFundoCaixa = campoFundoCaixa.getText().toString();
-        Integer fundoCaixa = auxFundoCaixa != null ? Integer.parseInt(auxFundoCaixa) : 0;
+        Integer fundoCaixa = auxFundoCaixa != null ? MoneyConverter.converteParaCentavos(auxFundoCaixa) : 0;
         caixaFundo.setValor(fundoCaixa);
         caixaFundo.setCaixaId(caixaAberto.getId());
         new SalvarCaixaFundoTask(caixaFundoDAO,caixaFundo,this).execute();

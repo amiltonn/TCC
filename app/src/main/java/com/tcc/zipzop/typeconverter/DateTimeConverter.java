@@ -34,4 +34,8 @@ public class DateTimeConverter {
     return df.format(date);
   }
 
+  public static  String dataFormatada(Date date){
+    return new SimpleDateFormat("HH:mm:ss dd/MM/yyyy").format(date);
+  }
+
 }

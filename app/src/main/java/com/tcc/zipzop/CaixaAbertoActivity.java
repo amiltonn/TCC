@@ -27,6 +27,8 @@ import com.tcc.zipzop.entity.Caixa;
 import com.tcc.zipzop.entity.CaixaFundo;
 import com.tcc.zipzop.entity.CaixaProduto;
 import com.tcc.zipzop.entity.Produto;
+import com.tcc.zipzop.typeconverter.DateTimeConverter;
+import com.tcc.zipzop.typeconverter.MoneyConverter;
 import com.tcc.zipzop.view.CaixaProdutoView;
 
 import java.util.ArrayList;
@@ -88,7 +90,7 @@ public class CaixaAbertoActivity extends AppCompatActivity {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        campoDataAbrirCaixa.setText(""+ caixa.getDataAbertura());
+        campoDataAbrirCaixa.setText(""+ DateTimeConverter.dataFormatada(caixa.getDataAbertura()));
     }
     private void prenchercampoTroco() {
         try {
@@ -99,7 +101,7 @@ public class CaixaAbertoActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         troco = findViewById(R.id.troco);
-        troco.setText(""+caixaFundo.getValor());
+        troco.setText(""+ MoneyConverter.toString(caixaFundo.getValor()));
     }
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void preencherListaCaixaProduto() {
