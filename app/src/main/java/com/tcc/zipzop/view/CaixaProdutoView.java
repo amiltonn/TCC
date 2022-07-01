@@ -6,6 +6,7 @@ public class CaixaProdutoView {
     private Integer qtd;
     private Integer produtoId;
     private String produtoNome;
+    private Integer produtoPreco;
 
     public Integer getId() {
         return id;
@@ -37,5 +38,17 @@ public class CaixaProdutoView {
 
     public void setProdutoNome(String produtoNome) {
         this.produtoNome = produtoNome;
+    }
+
+    public Integer getProdutoPreco() {
+        return produtoPreco;
+    }
+
+    public void setProdutoPreco(Integer produtoPreco) {
+        this.produtoPreco = produtoPreco;
+    }
+
+    public String toString(){
+        return this.produtoNome +" Qtd: "+ this.qtd;
     }
 }

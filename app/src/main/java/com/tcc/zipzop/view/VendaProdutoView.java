@@ -7,8 +7,6 @@ public class VendaProdutoView {
     private Integer caixaProdutoId;
     private String produtoNome;
     private Integer produtoPreco;
-    //TODO: parar de usar esse campo
-    private Integer qtdCaixa;
     private Integer qtd;
     private Integer precoVenda;
 
@@ -52,14 +50,6 @@ public class VendaProdutoView {
         this.produtoPreco = produtoPreco;
     }
 
-    public Integer getQtdCaixa() {
-        return qtdCaixa;
-    }
-
-    public void setQtdCaixa(Integer qtdCaixa) {
-        this.qtdCaixa = qtdCaixa;
-    }
-
     public Integer getQtd() {
         return qtd;
     }
@@ -77,6 +67,6 @@ public class VendaProdutoView {
     }
 
     public String toString(){
-        return this.produtoId +"----"+ this.produtoNome +"----"+ this.produtoPreco +"----"+ qtdCaixa +"----"+ qtd +"----"+ precoVenda;
+        return this.produtoId +"----"+ this.produtoNome +"----"+ this.produtoPreco +"----"+ qtd +"----"+ precoVenda;
     }
 }
