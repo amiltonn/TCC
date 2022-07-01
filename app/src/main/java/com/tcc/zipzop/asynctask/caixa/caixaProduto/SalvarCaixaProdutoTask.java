@@ -26,7 +26,7 @@ public class SalvarCaixaProdutoTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... voids) {
-        alterarQtdProduto();
+//        alterarQtdProduto();
         dao.salvar(caixaProduto);
         return null;
     }

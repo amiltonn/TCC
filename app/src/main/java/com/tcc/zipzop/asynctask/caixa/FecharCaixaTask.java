@@ -28,7 +28,7 @@ public class FecharCaixaTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... voids) {
-        restaurarQtdProduto();
+//        restaurarQtdProduto();
         dao.fechar();
         return null;
     }
