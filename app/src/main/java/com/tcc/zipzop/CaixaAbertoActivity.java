@@ -134,7 +134,7 @@ public class CaixaAbertoActivity extends AppCompatActivity {
     }
 
     private void fecharCaixa() {
-        new FecharCaixaTask(caixaDAO).execute();
+        new FecharCaixaTask(caixaDAO, this).execute();
         finish();
         Intent intent = new Intent(CaixaAbertoActivity.this, MainActivity.class);
         startActivity(intent);

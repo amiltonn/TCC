@@ -24,8 +24,5 @@ public class ConsultarProdutoTask extends AsyncTask <Void, Void, Produto> {
         return dao.consultar(this.id);
     }
 
-//    @Override
-//    protected void onPostExecute(Produto produto) {
-//        super.onPostExecute(produto);
-//    }
+
 }

@@ -262,7 +262,7 @@ public class NovaVendaActivity extends AppCompatActivity {
             vendaProduto.setPrecoVenda(vendaP.getPrecoVenda());
             vendaProduto.setVendaId(venda.getId());
             vendaProduto.setCaixaProdutoId(vendaP.getCaixaProdutoId());
-            new SalvarVendaProdutoTask(vendaProdutoDAO,vendaProduto).execute();
+            new SalvarVendaProdutoTask(vendaProdutoDAO, this,vendaProduto).execute();
         });
         new FecharVendaTask(vendaDAO).execute();
         try {
@@ -273,6 +273,8 @@ public class NovaVendaActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         Log.d("VendaPBanco", String.valueOf(vendaProdutoList));
+
+        finish();
     }
 
 

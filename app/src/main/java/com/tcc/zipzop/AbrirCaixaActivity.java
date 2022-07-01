@@ -155,7 +155,7 @@ public class AbrirCaixaActivity extends AppCompatActivity {
             caixaProduto.setCaixaId(caixaAberto.getId());//TODO:Criar DAO para esse evento
             caixaProduto.setProdutoId(caixaPView.getProdutoId());
             caixaProduto.setQtd(caixaPView.getQtd());
-            new SalvarCaixaProdutoTask(caixaProdutoDAO,caixaProduto).execute();
+            new SalvarCaixaProdutoTask(caixaProdutoDAO,this, caixaProduto).execute();
         });
 
         abrirCaixaSucesso();
