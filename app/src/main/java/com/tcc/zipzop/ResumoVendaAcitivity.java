@@ -7,6 +7,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -63,4 +65,17 @@ public class ResumoVendaAcitivity extends AppCompatActivity {
         });
 
     }
+    public boolean onOptionsItemSelected(MenuItem menuItem){
+
+        switch (menuItem.getItemId()){
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(menuItem);
+    }
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
+    }
+
 }
