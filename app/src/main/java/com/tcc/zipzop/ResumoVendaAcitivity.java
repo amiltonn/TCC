@@ -13,16 +13,32 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.tcc.zipzop.asynctask.venda.ConsultarVendaAbertaTask;
+import com.tcc.zipzop.asynctask.venda.FecharVendaTask;
+import com.tcc.zipzop.asynctask.venda.SalvarVendaTask;
+import com.tcc.zipzop.asynctask.venda.vendaProduto.SalvarVendaProdutoActivityTask;
+import com.tcc.zipzop.database.ZipZopDataBase;
+import com.tcc.zipzop.database.dao.CaixaProdutoDAO;
+import com.tcc.zipzop.database.dao.VendaDAO;
+import com.tcc.zipzop.database.dao.VendaProdutoDAO;
+import com.tcc.zipzop.entity.VendaProduto;
 import com.tcc.zipzop.typeconverter.ObjectWrapperForBinder;
 import com.tcc.zipzop.view.VendaProdutoView;
 import com.tcc.zipzop.view.VendaView;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+
 @RequiresApi(api = Build.VERSION_CODES.N)
 
 public class ResumoVendaAcitivity extends AppCompatActivity {
     private VendaView vendaView;
     private List<VendaProdutoView> vendaProdutoViewList;
+
+    //banco
+    private VendaDAO vendaDAO;
+    private VendaProdutoDAO vendaProdutoDAO;
+    private CaixaProdutoDAO caixaProdutoDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,13 +47,18 @@ public class ResumoVendaAcitivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_resumo_venda_acitivity);
 
+        //banco
+        ZipZopDataBase dataBase = ZipZopDataBase.getInstance(this);
+        vendaDAO = dataBase.getVendaDAO();
+        vendaProdutoDAO = dataBase.getVendaProdutoDAO();
+        caixaProdutoDAO = dataBase.getCaixaProdutoDAO();
+
+
         final Object vendaViewReceived = ((ObjectWrapperForBinder)getIntent().getExtras().getBinder("vendaViewValue")).getData();
         vendaView= (VendaView) vendaViewReceived;
         Log.d("Resumo", String.valueOf(vendaView));
 
         resumoProdutoVendatable();
-
-
     }
 
 
@@ -65,17 +86,39 @@ public class ResumoVendaAcitivity extends AppCompatActivity {
         });
 
     }
-    public boolean onOptionsItemSelected(MenuItem menuItem){
 
-        switch (menuItem.getItemId()){
-            case android.R.id.home:
-                finish();
-                return true;
+    public boolean onOptionsItemSelected(MenuItem menuItem){
+        if (menuItem.getItemId() == android.R.id.home) {
+            finish();
         }
+        
         return super.onOptionsItemSelected(menuItem);
     }
+    
     public boolean onCreateOptionsMenu(Menu menu) {
         return true;
     }
 
+
+    private void salvarVenda() {
+        new SalvarVendaTask(vendaDAO, vendaView.getVenda()).execute();
+        try {
+            vendaView.setVenda(new ConsultarVendaAbertaTask(vendaDAO).execute().get());
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        vendaProdutoViewList.forEach(vendaProdutoView ->{
+            VendaProduto vendaProduto = vendaProdutoView.getVendaProduto();
+            vendaProduto.setCaixaProdutoId(vendaProdutoView.getCaixaProdutoView().getCaixaProduto().getId());
+            vendaProduto.setVendaId(vendaView.getVenda().getId());
+            Log.d("VendaProduto", String.valueOf(vendaProduto));
+
+            new SalvarVendaProdutoActivityTask(vendaProdutoDAO, vendaProduto, caixaProdutoDAO).execute();
+        });
+        new FecharVendaTask(vendaDAO).execute();
+
+    }
 }

@@ -21,6 +21,9 @@ public interface ProdutoDAO {
     @Query("SELECT * FROM Produto WHERE id = :id AND ativo = 1 AND atual = 1")
     Produto consultar(Integer id);
 
+    @Query("SELECT * FROM Produto WHERE produtoAntesId = :produtoAntesId")
+    Produto consultarPorProdutoAntesId(Integer produtoAntesId);
+
     @Query("UPDATE Produto SET ativo = 0 WHERE id = :id")
     void deletar(Integer id);
 

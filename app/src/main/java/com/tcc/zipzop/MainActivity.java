@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.tcc.zipzop.asynctask.caixa.ChecarCaixaAbertoTask;
+import com.tcc.zipzop.asynctask.caixa.FecharCaixaTask;
 import com.tcc.zipzop.database.ZipZopDataBase;
 import com.tcc.zipzop.database.dao.CaixaDAO;
 
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this,CaixaAbertoActivity.class);
             startActivity(intent);
         }else{
-            Intent intent = new Intent(MainActivity.this,CaixaActivity.class);
+            Intent intent = new Intent(MainActivity.this, CaixaActivity.class);
             startActivity(intent);
         }
     }

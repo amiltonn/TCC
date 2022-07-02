@@ -16,9 +16,9 @@ import android.widget.Spinner;
 import com.tcc.zipzop.adapter.ProdutoAdapterActivity;
 import com.tcc.zipzop.asynctask.produto.ConsultarProdutoTask;
 import com.tcc.zipzop.asynctask.produto.unidadeMedida.ConsultarUnidadeMedidaTask;
-import com.tcc.zipzop.asynctask.produto.EditarProdutoTask;
+import com.tcc.zipzop.asynctask.produto.EditarProdutoActivityTask;
 import com.tcc.zipzop.asynctask.produto.unidadeMedida.ListarUnidadeMedidaTask;
-import com.tcc.zipzop.asynctask.produto.SalvarProdutoTask;
+import com.tcc.zipzop.asynctask.produto.SalvarProdutoActivityTask;
 import com.tcc.zipzop.database.ZipZopDataBase;
 import com.tcc.zipzop.database.dao.ProdutoDAO;
 import com.tcc.zipzop.database.dao.UnidadeMedidaDAO;
@@ -153,11 +153,11 @@ public class SalvarProdutoActivity extends AppCompatActivity {
         preencheProduto();
         //novo produto
         if(id.equals(0)){
-            new SalvarProdutoTask(dao, this, produto).execute();
+            new SalvarProdutoActivityTask(dao, this, produto).execute();
         }
         //edita o produto
         else{
-            new EditarProdutoTask(dao, this, produto).execute();
+            new EditarProdutoActivityTask(dao, this, produto).execute();
         }
 
     }

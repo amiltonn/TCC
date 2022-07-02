@@ -15,10 +15,10 @@ import android.widget.Spinner;
 
 import com.tcc.zipzop.adapter.ProdutoCaixaAdapterActivity;
 import com.tcc.zipzop.asynctask.caixa.ConsultarCaixaAbertoTask;
-import com.tcc.zipzop.asynctask.produto.ListarProdutoTask;
-import com.tcc.zipzop.asynctask.caixa.caixaFundo.SalvarCaixaFundoTask;
 import com.tcc.zipzop.asynctask.caixa.caixaProduto.SalvarCaixaProdutoTask;
-import com.tcc.zipzop.asynctask.caixa.SalvarCaixaTask;
+import com.tcc.zipzop.asynctask.produto.ListarProdutoTask;
+import com.tcc.zipzop.asynctask.caixa.caixaFundo.SalvarCaixaFundoActivityTask;
+import com.tcc.zipzop.asynctask.caixa.SalvarCaixaActivityTask;
 import com.tcc.zipzop.database.ZipZopDataBase;
 import com.tcc.zipzop.database.dao.CaixaDAO;
 import com.tcc.zipzop.database.dao.CaixaFundoDAO;
@@ -39,11 +39,11 @@ import java.util.stream.Collectors;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class AbrirCaixaActivity extends AppCompatActivity {
-    private AppCompatButton ButtonAbrirCaixa;
+    private AppCompatButton buttonAbrirCaixa;
     private EditText quantidadeProdutos, campoFundoCaixa;
 
     //Produtos do Caixa
-    private ListView listarProdutos;
+    private ListView listViewProdutos;
     private List<CaixaProdutoView> listaCaixaProdutoView;
     private ProdutoCaixaAdapterActivity produtoCaixaAdapterActivity;
 
@@ -90,14 +90,14 @@ public class AbrirCaixaActivity extends AppCompatActivity {
         this.quantidadeProdutos = (EditText) this.findViewById(R.id.Quantidade);
 
         // variaveis e objetos dos produtos do caixa
-        this.listarProdutos = (ListView) this.findViewById(R.id.lsvProdutos);
+        this.listViewProdutos = (ListView) this.findViewById(R.id.lsvProdutos);
         this.listaCaixaProdutoView = new ArrayList<>();
         this.produtoCaixaAdapterActivity = new ProdutoCaixaAdapterActivity(AbrirCaixaActivity.this, this.listaCaixaProdutoView);
-        this.listarProdutos.setAdapter(this.produtoCaixaAdapterActivity);
+        this.listViewProdutos.setAdapter(this.produtoCaixaAdapterActivity);
 
         //Função do botão
-        ButtonAbrirCaixa = findViewById(R.id.Bt_AbrirCaixa);
-        ButtonAbrirCaixa.setOnClickListener(new View.OnClickListener() {
+        buttonAbrirCaixa = findViewById(R.id.Bt_AbrirCaixa);
+        buttonAbrirCaixa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 abrirCaixa();
@@ -112,7 +112,7 @@ public class AbrirCaixaActivity extends AppCompatActivity {
     }
 
     public void eventAddProduto(View view) {
-        CaixaProdutoView produtoDoCaixa = new CaixaProdutoView();
+        CaixaProdutoView caixaProdutoView = new CaixaProdutoView();
 
         ProdutoView produtoSelecionado = (ProdutoView) this.spinnerProdutos.getSelectedItem();
         if (produtoSelecionado != null && !listaCaixaProdutoView.stream().map(CaixaProdutoView::getProdutoView)
@@ -123,25 +123,24 @@ public class AbrirCaixaActivity extends AppCompatActivity {
             }else {
                 quantidadeProduto = Integer.parseInt(this.quantidadeProdutos.getText().toString());
             }
-            produtoDoCaixa.setProdutoView(produtoSelecionado);
+            caixaProdutoView.setProdutoView(produtoSelecionado);
             CaixaProduto cp = new CaixaProduto();
             cp.setQtd(quantidadeProduto);
-            produtoDoCaixa.setCaixaProduto(cp);
+            caixaProdutoView.setCaixaProduto(cp);
 
-            this.produtoCaixaAdapterActivity.addProdutoCaixa(produtoDoCaixa);
+            this.produtoCaixaAdapterActivity.addProdutoCaixa(caixaProdutoView);
         }
     }
 
     public void abrirCaixa(){
-      new SalvarCaixaTask(caixaDAO,this).execute();
-       try {
+        try {
+            listaCaixaProdutoView = new SalvarCaixaActivityTask(caixaDAO, produtoDAO, listaCaixaProdutoView, this).execute().get();
             caixaAberto =  new ConsultarCaixaAbertoTask(caixaDAO).execute().get();
-       } catch (ExecutionException e) {
+        } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
     }
     public void salvarCaixaFundo(){
         caixaFundo = new CaixaFundo();
@@ -150,21 +149,19 @@ public class AbrirCaixaActivity extends AppCompatActivity {
         Integer fundoCaixa = auxFundoCaixa != null ? MoneyConverter.converteParaCentavos(auxFundoCaixa) : 0;
         caixaFundo.setValor(fundoCaixa);
         caixaFundo.setCaixaId(caixaAberto.getId());
-        new SalvarCaixaFundoTask(caixaFundoDAO,caixaFundo,this).execute();
+        new SalvarCaixaFundoActivityTask(caixaFundoDAO,caixaFundo,this).execute();
 
     }
+
     public void salvarCaixaProduto(){
         listaCaixaProdutoView.forEach(caixaPView-> {
             caixaProduto = new CaixaProduto();
             caixaProduto.setCaixaId(caixaAberto.getId());
             caixaProduto.setProdutoId(caixaPView.getProdutoView().getProduto().getId());
             caixaProduto.setQtd(caixaPView.getCaixaProduto().getQtd());
-            new SalvarCaixaProdutoTask(caixaProdutoDAO,this, caixaProduto).execute();
+            new SalvarCaixaProdutoTask(caixaProdutoDAO, caixaProduto).execute();
         });
 
-        abrirCaixaSucesso();
-    }
-    public  void abrirCaixaSucesso(){
         finish();
         Intent intent = new Intent(AbrirCaixaActivity.this,MainActivity.class);
         startActivity(intent);

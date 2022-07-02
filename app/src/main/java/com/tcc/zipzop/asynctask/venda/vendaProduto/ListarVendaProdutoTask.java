@@ -1,4 +1,4 @@
-package com.tcc.zipzop.asynctask.venda;
+package com.tcc.zipzop.asynctask.venda.vendaProduto;
 
 import android.os.AsyncTask;
 
@@ -17,7 +17,6 @@ public class ListarVendaProdutoTask extends AsyncTask<Void, Void, List<VendaProd
 
     @Override
     protected List<VendaProduto> doInBackground(Void... voids) {
-
         return dao.listar();
     }
 }

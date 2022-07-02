@@ -8,15 +8,11 @@ import com.tcc.zipzop.entity.Produto;
 
 public class SalvarProdutoTask extends AsyncTask<Void, Void, Void> {
 
-
     private final ProdutoDAO dao;
-    private final SalvarProdutoActivity salvarProdutoActivity;
     private final Produto produto;
 
-    public SalvarProdutoTask(ProdutoDAO dao, SalvarProdutoActivity salvarProdutoActivity, Produto produto){
-
+    public SalvarProdutoTask(ProdutoDAO dao, Produto produto){
         this.dao = dao;
-        this.salvarProdutoActivity = salvarProdutoActivity;
         this.produto = produto;
     }
 
@@ -25,11 +21,4 @@ public class SalvarProdutoTask extends AsyncTask<Void, Void, Void> {
         dao.salvar(produto);
         return null;
     }
-
-    @Override
-    protected void onPostExecute(Void aVoid) {
-        super.onPostExecute(aVoid);
-        salvarProdutoActivity.salvarComSucesso();
-    }
-
 }

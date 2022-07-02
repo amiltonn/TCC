@@ -8,16 +8,10 @@ import com.tcc.zipzop.entity.Produto;
 public class ExcluirProdutoTask extends AsyncTask<Void, Void, Void> {
 
     private final ProdutoDAO dao;
-    private final ProdutoAdapterActivity adapter;
     private final Produto produto;
 
-    public ExcluirProdutoTask(
-            ProdutoDAO dao,
-            ProdutoAdapterActivity adapter,
-            Produto produto
-    ){
+    public ExcluirProdutoTask(ProdutoDAO dao, Produto produto){
         this.dao = dao;
-        this.adapter = adapter;
         this.produto = produto;
     }
 
@@ -26,11 +20,4 @@ public class ExcluirProdutoTask extends AsyncTask<Void, Void, Void> {
         dao.deletar(produto.getId());
         return null;
     }
-
-    @Override
-    protected void onPostExecute(Void aVoid) {
-        super.onPostExecute(aVoid);
-        adapter.excluir(produto);
-    }
-
 }

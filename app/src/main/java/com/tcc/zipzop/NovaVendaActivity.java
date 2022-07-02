@@ -17,10 +17,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.tcc.zipzop.adapter.ProdutoVendaAdapterActivity;
-import com.tcc.zipzop.asynctask.venda.ConsultarVendaAbertaTask;
-import com.tcc.zipzop.asynctask.venda.FecharVendaTask;
-import com.tcc.zipzop.asynctask.venda.SalvarVendaProdutoTask;
-import com.tcc.zipzop.asynctask.venda.SalvarVendaTask;
 import com.tcc.zipzop.asynctask.caixa.BuscarCaixaAbertoTask;
 import com.tcc.zipzop.asynctask.produto.ConsultarProdutoTask;
 import com.tcc.zipzop.asynctask.caixa.caixaProduto.ListaCaixaProdutoAbertoTask;
@@ -30,8 +26,6 @@ import com.tcc.zipzop.database.dao.CaixaDAO;
 import com.tcc.zipzop.database.dao.CaixaProdutoDAO;
 import com.tcc.zipzop.database.dao.FormaPagamentoDAO;
 import com.tcc.zipzop.database.dao.ProdutoDAO;
-import com.tcc.zipzop.database.dao.VendaDAO;
-import com.tcc.zipzop.database.dao.VendaProdutoDAO;
 import com.tcc.zipzop.entity.Caixa;
 import com.tcc.zipzop.entity.CaixaProduto;
 import com.tcc.zipzop.entity.FormaPagamento;
@@ -61,8 +55,6 @@ public class NovaVendaActivity extends AppCompatActivity {
     private ProdutoVendaAdapterActivity produtoVendaAdapterActivity;
 
     //banco
-    private VendaDAO vendaDAO;
-    private VendaProdutoDAO vendaProdutoDAO;
     private FormaPagamentoDAO formaPagamentoDAO;
     private CaixaDAO caixaDAO;
     private CaixaProdutoDAO caixaProdutoDAO;
@@ -98,8 +90,6 @@ public class NovaVendaActivity extends AppCompatActivity {
         produtoDAO = dataBase.getProdutoDAO();
         caixaDAO = dataBase.getCaixaDAO();
         caixaProdutoDAO = dataBase.getCaixaProdutoDAO();
-        vendaDAO = dataBase.getVendaDAO();
-        vendaProdutoDAO = dataBase.getVendaProdutoDAO();
         formaPagamentoDAO = dataBase.getFormaPagamentoDAO();
         //spinner
         popularSpinner();
@@ -234,9 +224,9 @@ public class NovaVendaActivity extends AppCompatActivity {
     }
     private void finalizarVenda() {
         venda = new Venda();
-        if (valorPago.getText().toString().equals("")){
+        if (valorPago.getText().toString().equals("")) {
             venda.setValorPago(Integer.parseInt(valorTotal.getText().toString()));
-        }else{
+        } else {
             venda.setValorPago(Integer.parseInt(valorPago.getText().toString()));
         }
         venda.setValorVenda(Integer.parseInt(valorTotal.getText().toString()));
@@ -251,32 +241,6 @@ public class NovaVendaActivity extends AppCompatActivity {
         final Bundle bundle = new Bundle();
         bundle.putBinder("vendaViewValue", new ObjectWrapperForBinder(vendaViewSent));
         startActivity(new Intent(this, ResumoVendaAcitivity.class).putExtras(bundle));
-
-        // a partir daqui..
-
-        new SalvarVendaTask(vendaDAO, vendaView.getVenda()).execute();
-        salvarVendaProduto();
-    }
-
-    private void salvarVendaProduto() {
-        try {
-            vendaView.setVenda(new ConsultarVendaAbertaTask(vendaDAO).execute().get());
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        vendaProdutoViewList.forEach(vendaProdutoView ->{
-            VendaProduto vendaProduto = vendaProdutoView.getVendaProduto();
-            vendaProduto.setCaixaProdutoId(vendaProdutoView.getCaixaProdutoView().getCaixaProduto().getId());
-            vendaProduto.setVendaId(venda.getId());
-            Log.d("VendaProduto", String.valueOf(vendaProduto));
-
-            new SalvarVendaProdutoTask(vendaProdutoDAO, this, vendaProduto).execute();
-        });
-        new FecharVendaTask(vendaDAO).execute();
-
     }
 
 

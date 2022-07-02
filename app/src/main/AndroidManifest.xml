@@ -10,7 +10,9 @@
         android:theme="@style/Theme.Zipzop">
         <activity
             android:name=".ResumoVendaAcitivity"
-            android:exported="false" />
+            android:exported="false"
+            android:label="Resumo da Venda"
+            android:parentActivityName=".NovaVendaActivity"/>
         <activity
             android:name=".CaixaAbertoActivity"
             android:exported="false"

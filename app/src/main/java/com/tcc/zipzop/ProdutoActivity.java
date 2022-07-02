@@ -18,13 +18,12 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.tcc.zipzop.adapter.ProdutoAdapterActivity;
 import com.tcc.zipzop.asynctask.caixa.ChecarCaixaAbertoTask;
-import com.tcc.zipzop.asynctask.produto.ExcluirProdutoTask;
+import com.tcc.zipzop.asynctask.produto.ExcluirProdutoActivityTask;
 import com.tcc.zipzop.asynctask.produto.ListarProdutoTask;
 import com.tcc.zipzop.database.ZipZopDataBase;
 import com.tcc.zipzop.database.dao.CaixaDAO;
 import com.tcc.zipzop.database.dao.ProdutoDAO;
 import com.tcc.zipzop.entity.Produto;
-import com.tcc.zipzop.typeconverter.ObjectWrapperForBinder;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -109,7 +108,7 @@ public class ProdutoActivity extends AppCompatActivity {
         switch (menuItem.getItemId()){
             case R.id.excluir:
                 Produto produto = produtoAdapterActivity.getProduto(posicao);
-                new ExcluirProdutoTask(dao, produtoAdapterActivity, produto).execute();
+                new ExcluirProdutoActivityTask(dao, produtoAdapterActivity, produto).execute();
                 break;
             case R.id.editar:
                 intent = new Intent(this, SalvarProdutoActivity.class);

@@ -14,21 +14,21 @@ import java.util.List;
 public class ProdutoCaixaAbertoAdapterActivity extends BaseAdapter {
 
     private Context context;
-    private List<CaixaProdutoView> caixaProdutos;
-    public ProdutoCaixaAbertoAdapterActivity(Context context,List<CaixaProdutoView> caixaProdutos){
+    private List<CaixaProdutoView> caixaProdutoViewList;
+    public ProdutoCaixaAbertoAdapterActivity(Context context,List<CaixaProdutoView> caixaProdutoViewList){
         this.context = context;
-        this.caixaProdutos = caixaProdutos;
+        this.caixaProdutoViewList = caixaProdutoViewList;
     }
 
 
     @Override
     public int getCount() {
-        return caixaProdutos.size();
+        return caixaProdutoViewList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return caixaProdutos.get(position);
+        return caixaProdutoViewList.get(position);
     }
 
     @Override
@@ -42,8 +42,8 @@ public class ProdutoCaixaAbertoAdapterActivity extends BaseAdapter {
         TextView nomeProduto = v.findViewById(R.id.nomeProdutoCaixaAberto);
         TextView qtdProduto = v.findViewById(R.id.qtdProdutoCaixaAberto);
         // colocando os dados no campo
-        nomeProduto.setText(caixaProdutos.get(position).getProdutoView().getProduto().getNome());
-        qtdProduto.setText(""+caixaProdutos.get(position).getCaixaProduto().getQtd());
+        nomeProduto.setText(caixaProdutoViewList.get(position).getProdutoView().getProduto().getNome());
+        qtdProduto.setText(""+ caixaProdutoViewList.get(position).getCaixaProduto().getQtd());
 
         return v;
     }

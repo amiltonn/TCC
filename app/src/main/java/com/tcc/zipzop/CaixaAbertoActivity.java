@@ -16,7 +16,7 @@ import com.tcc.zipzop.adapter.ProdutoCaixaAbertoAdapterActivity;
 import com.tcc.zipzop.asynctask.caixa.BuscarCaixaAbertoTask;
 import com.tcc.zipzop.asynctask.caixa.caixaFundo.BuscarCaixaFundoPeloCaixaAbertoTask;
 import com.tcc.zipzop.asynctask.produto.ConsultarProdutoTask;
-import com.tcc.zipzop.asynctask.caixa.FecharCaixaTask;
+import com.tcc.zipzop.asynctask.caixa.FecharCaixaActivityTask;
 import com.tcc.zipzop.asynctask.caixa.caixaProduto.ListaCaixaProdutoAbertoTask;
 import com.tcc.zipzop.database.ZipZopDataBase;
 import com.tcc.zipzop.database.dao.CaixaDAO;
@@ -52,7 +52,6 @@ public class CaixaAbertoActivity extends AppCompatActivity {
     private CaixaProdutoDAO caixaProdutoDAO;
     private CaixaFundoDAO caixaFundoDAO;
     private ProdutoDAO produtoDAO;
-    private Produto produto;
     private CaixaProdutoView caixaProdutoView;
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -93,6 +92,7 @@ public class CaixaAbertoActivity extends AppCompatActivity {
         }
         campoDataAbrirCaixa.setText(""+ DateTimeConverter.dataFormatada(caixa.getDataAbertura()));
     }
+
     private void prenchercampoTroco() {
         try {
           caixaFundo = new BuscarCaixaFundoPeloCaixaAbertoTask(caixaFundoDAO,caixa.getId()).execute().get();
@@ -117,26 +117,31 @@ public class CaixaAbertoActivity extends AppCompatActivity {
         listaCaixaProduto.forEach(caixaProduto->{
             caixaProdutoView = new CaixaProdutoView();
             ProdutoView produtoView = new ProdutoView();
+            Produto produto = new Produto();
             try {
-                produto = new ConsultarProdutoTask(produtoDAO,caixaProduto.getProdutoId()).execute().get();
-                Log.d("teste", String.valueOf(produto));
+                produto = new ConsultarProdutoTask(produtoDAO, caixaProduto.getProdutoId()).execute().get();
             } catch (ExecutionException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            Log.d("produto teste wii", String.valueOf(produto.getId()));
+
             produtoView.setProduto(produto);
             caixaProdutoView.setProdutoView(produtoView);
             caixaProdutoView.setCaixaProduto(caixaProduto);
             listaCaixaProdutoView.add(caixaProdutoView);
         });
         listViewProdutoCaixaAberto = findViewById(R.id.listaProdutoCaixaAberto);
-        produtoCaixaAbertoAdapterActivity =  new ProdutoCaixaAbertoAdapterActivity(CaixaAbertoActivity.this,listaCaixaProdutoView);
+        produtoCaixaAbertoAdapterActivity =  new ProdutoCaixaAbertoAdapterActivity(CaixaAbertoActivity.this, listaCaixaProdutoView);
         listViewProdutoCaixaAberto.setAdapter(produtoCaixaAbertoAdapterActivity);
     }
 
     private void fecharCaixa() {
-        new FecharCaixaTask(caixaDAO, this).execute();
+        new FecharCaixaActivityTask(caixaDAO, caixaProdutoDAO, produtoDAO, this).execute();
+    }
+
+    public void fecharCaixaSucesso() {
         finish();
         Intent intent = new Intent(CaixaAbertoActivity.this, MainActivity.class);
         startActivity(intent);
