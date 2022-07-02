@@ -29,6 +29,13 @@ public class MainActivity extends AppCompatActivity {
         ZipZopDataBase dataBase = ZipZopDataBase.getInstance(this);
         caixaDAO = dataBase.getCaixaDAO();
         // ------------------------------------//
+        try {
+            existeCaixaAberto = new ChecarCaixaAbertoTask(caixaDAO).execute().get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
 
         bt_Produto = findViewById(R.id.buttonProduto);
@@ -63,14 +70,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void caixaAberto(){
-        try {
-            existeCaixaAberto = new ChecarCaixaAbertoTask(caixaDAO).execute().get();
-            Log.d("teste", String.valueOf(existeCaixaAberto));
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         if (existeCaixaAberto == Boolean.TRUE){
             Intent intent = new Intent(MainActivity.this,CaixaAbertoActivity.class);
             startActivity(intent);

@@ -2,14 +2,13 @@ package com.tcc.zipzop.view;
 
 import com.tcc.zipzop.entity.FormaPagamento;
 import com.tcc.zipzop.entity.Venda;
-import com.tcc.zipzop.entity.VendaProduto;
 
 import java.util.List;
 
 public class VendaView {
     private Venda venda;
     private FormaPagamento formaPagamento;
-    private List<VendaProduto> vendaProdutoList;
+    private List<VendaProdutoView> vendaProdutoViewList;
 
     public Venda getVenda() {
         return venda;
@@ -27,15 +26,15 @@ public class VendaView {
         this.formaPagamento = formaPagamento;
     }
 
-    public List<VendaProduto> getVendaProdutoList() {
-        return vendaProdutoList;
+    public List<VendaProdutoView> getVendaProdutoViewList() {
+        return vendaProdutoViewList;
     }
 
-    public void setVendaProdutoList(List<VendaProduto> vendaProdutoList) {
-        this.vendaProdutoList = vendaProdutoList;
+    public void setVendaProdutoViewList(List<VendaProdutoView> vendaProdutoViewList) {
+        this.vendaProdutoViewList = vendaProdutoViewList;
     }
 
     public String toString(){
-        return this.venda.getValorPago()+"";
+        return "valorPago: " + this.venda.getValorPago();
     }
 }

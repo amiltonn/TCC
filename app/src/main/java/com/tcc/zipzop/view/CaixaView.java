@@ -14,8 +14,8 @@ public class CaixaView {
   private Date dataFechamento;
   private Integer caixaFundoValor;
   private Date caixaFundoDataAlteracao;
-  private List<Produto> estoqueProdutos;
-  private List<CaixaProdutoView> caixaProdutoViews;
+  private List<ProdutoView> estoqueProdutoViewList;
+  private List<CaixaProdutoView> caixaProdutoViewList;
 
   public Integer getId() {
     return id;
@@ -57,19 +57,19 @@ public class CaixaView {
     this.caixaFundoDataAlteracao = caixaFundoDataAlteracao;
   }
 
-  public List<Produto> getEstoqueProdutos() {
-    return estoqueProdutos;
+  public List<ProdutoView> getEstoqueProdutoViewList() {
+    return estoqueProdutoViewList;
   }
 
-  public void setEstoqueProdutos(List<Produto> estoqueProdutos) {
-    this.estoqueProdutos = estoqueProdutos;
+  public void setEstoqueProdutoViewList(List<ProdutoView> estoqueProdutoViewList) {
+    this.estoqueProdutoViewList = estoqueProdutoViewList;
   }
 
-  public List<CaixaProdutoView> getCaixaProdutoViews() {
-    return caixaProdutoViews;
+  public List<CaixaProdutoView> getCaixaProdutoViewList() {
+    return caixaProdutoViewList;
   }
 
-  public void setCaixaProdutoViews(List<CaixaProdutoView> caixaProdutoViews) {
-    this.caixaProdutoViews = caixaProdutoViews;
+  public void setCaixaProdutoViewList(List<CaixaProdutoView> caixaProdutoViewList) {
+    this.caixaProdutoViewList = caixaProdutoViewList;
   }
 }
