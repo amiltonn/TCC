@@ -38,7 +38,7 @@ import java.util.concurrent.ExecutionException;
 
 public class CaixaAbertoActivity extends AppCompatActivity {
     private TextView campoDataAbrirCaixa, troco;
-    private AppCompatButton btfecharCaixa;
+    private AppCompatButton buttonFecharCaixa;
     private ListView listViewProdutoCaixaAberto;
     //listas
     private List<CaixaProduto> listaCaixaProduto;
@@ -72,8 +72,8 @@ public class CaixaAbertoActivity extends AppCompatActivity {
         prenchercampoTroco();
         preencherListaCaixaProduto();
         //botão evento do click
-       btfecharCaixa = findViewById(R.id.btfecharCaixa);
-       btfecharCaixa.setOnClickListener(new View.OnClickListener() {
+       buttonFecharCaixa = findViewById(R.id.btfecharCaixa);
+       buttonFecharCaixa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 fecharCaixa();
