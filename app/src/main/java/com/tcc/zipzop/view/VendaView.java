@@ -34,4 +34,8 @@ public class VendaView {
     public void setVendaProdutoList(List<VendaProduto> vendaProdutoList) {
         this.vendaProdutoList = vendaProdutoList;
     }
+
+    public String toString(){
+        return this.venda.getValorPago()+"";
+    }
 }

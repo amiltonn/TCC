@@ -4,6 +4,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,6 +40,7 @@ import com.tcc.zipzop.entity.FormaPagamento;
 import com.tcc.zipzop.entity.Venda;
 import com.tcc.zipzop.entity.VendaProduto;
 import com.tcc.zipzop.entity.Produto;
+import com.tcc.zipzop.typeconverter.ObjectWrapperForBinder;
 import com.tcc.zipzop.view.CaixaProdutoView;
 import com.tcc.zipzop.view.ProdutoView;
 import com.tcc.zipzop.view.VendaProdutoView;
@@ -83,11 +85,15 @@ public class NovaVendaActivity extends AppCompatActivity {
     //List
     private List<VendaProduto> vendaProdutoList;
 
-    VendaView vendaView;
+    private VendaView vendaView;
 
+    public VendaView getVendaView(){
+        return vendaView;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
         vendaView = new VendaView();
 
@@ -243,12 +249,16 @@ public class NovaVendaActivity extends AppCompatActivity {
 
         vendaView.setFormaPagamento(formaPagamentoSelected);
         vendaView.setVenda(venda);
-        vendaView.setVendaProdutoList((List<VendaProduto>) vendaProdutoViewList.stream().map(VendaProdutoView::getVendaProduto));
+        vendaView.setVendaProdutoList(vendaProdutoViewList.stream().map(VendaProdutoView::getVendaProduto).collect(Collectors.toList()));
+
+        final Object vendaProdutoViewSent = vendaProdutoView;
+        final Bundle bundle = new Bundle();
+        bundle.putBinder("vendaProdutoViewValue", new ObjectWrapperForBinder(vendaProdutoViewSent));
+        startActivity(new Intent(this, ResumoVendaAcitivity.class).putExtras(bundle));
 
         // a partir daqui..
 
         new SalvarVendaTask(vendaDAO, vendaView.getVenda()).execute();
-
         salvarVendaProduto();
     }
 
