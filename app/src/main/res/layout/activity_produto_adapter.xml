@@ -24,7 +24,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Bombom de brigadeiro" />
     <TextView
-        android:id="@+id/qtd"
+        android:id="@+id/valordoProduto"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_marginTop="8dp"
@@ -46,8 +46,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/qtd"
-        app:layout_constraintTop_toBottomOf="@id/qtd" />
+        app:layout_constraintStart_toStartOf="@+id/valordoProduto"
+        app:layout_constraintTop_toBottomOf="@id/valordoProduto" />
 
     <TextView
         android:id="@+id/valor"
@@ -59,7 +59,7 @@
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/qtd"
+        app:layout_constraintStart_toEndOf="@+id/valordoProduto"
         app:layout_constraintTop_toBottomOf="@+id/nomeProdutoCaixaAberto" />
 
     <TextView

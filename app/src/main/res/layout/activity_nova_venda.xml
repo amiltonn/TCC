@@ -56,7 +56,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/layoutQuantidade"
-            app:layout_constraintTop_toBottomOf="@+id/spinnerProdutoVenda"/>
+            app:layout_constraintTop_toBottomOf="@+id/spinnerProdutoVenda" />
 
 
         <androidx.appcompat.widget.AppCompatButton
