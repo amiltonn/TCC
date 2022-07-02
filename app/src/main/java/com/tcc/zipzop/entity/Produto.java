@@ -130,10 +130,5 @@ public class Produto implements Serializable {
         this.formulaId = formulaId;
     }
 
-    //TODO:melhor implementacao?
-    @Override
-    public String toString() {
-        return this.nome + " Qtd:  " + this.qtd;
-    }
 
 }

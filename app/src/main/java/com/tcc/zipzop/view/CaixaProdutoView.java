@@ -1,54 +1,30 @@
 package com.tcc.zipzop.view;
 
+import com.tcc.zipzop.entity.CaixaProduto;
+
 public class CaixaProdutoView {
+    private CaixaProduto caixaProduto;
+    private ProdutoView produtoView;
 
-    private Integer id;
-    private Integer qtd;
-    private Integer produtoId;
-    private String produtoNome;
-    private Integer produtoPreco;
 
-    public Integer getId() {
-        return id;
+
+    public CaixaProduto getCaixaProduto() {
+        return caixaProduto;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setCaixaProduto(CaixaProduto caixaProduto) {
+        this.caixaProduto = caixaProduto;
     }
 
-    public Integer getQtd() {
-        return qtd;
+    public ProdutoView getProdutoView() {
+        return produtoView;
     }
 
-    public void setQtd(Integer qtd) {
-        this.qtd = qtd;
-    }
-
-    public Integer getProdutoId() {
-        return produtoId;
-    }
-
-    public void setProdutoId(Integer produtoId) {
-        this.produtoId = produtoId;
-    }
-
-    public String getProdutoNome() {
-        return produtoNome;
-    }
-
-    public void setProdutoNome(String produtoNome) {
-        this.produtoNome = produtoNome;
-    }
-
-    public Integer getProdutoPreco() {
-        return produtoPreco;
-    }
-
-    public void setProdutoPreco(Integer produtoPreco) {
-        this.produtoPreco = produtoPreco;
+    public void setProdutoView(ProdutoView produtoView) {
+        this.produtoView = produtoView;
     }
 
     public String toString(){
-        return this.produtoNome +" Qtd: "+ this.qtd;
+        return this.produtoView.getProduto().getNome() +" Qtd: "+ this.caixaProduto.getQtd();
     }
 }

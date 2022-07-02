@@ -1,72 +1,32 @@
 package com.tcc.zipzop.view;
 
+import com.tcc.zipzop.entity.CaixaProduto;
+import com.tcc.zipzop.entity.VendaProduto;
+
 public class VendaProdutoView {
+    private VendaProduto vendaProduto;
+    private CaixaProdutoView caixaProdutoView;
 
-    private Integer id;
-    private Integer produtoId;
-    private Integer caixaProdutoId;
-    private String produtoNome;
-    private Integer produtoPreco;
-    private Integer qtd;
-    private Integer precoVenda;
-
-    public Integer getId() {
-        return id;
+    public VendaProduto getVendaProduto() {
+        return vendaProduto;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setVendaProduto(VendaProduto vendaProduto) {
+        this.vendaProduto = vendaProduto;
     }
 
-    public Integer getProdutoId() {
-        return produtoId;
+
+    public CaixaProdutoView getCaixaProdutoView() {
+        return caixaProdutoView;
     }
 
-    public void setProdutoId(Integer produtoId) {
-        this.produtoId = produtoId;
-    }
-
-    public Integer getCaixaProdutoId(){
-        return caixaProdutoId;
-    }
-
-    public void setCaixaProdutoId(Integer caixaProdutoId){
-        this.caixaProdutoId = caixaProdutoId;
-    }
-
-    public String getProdutoNome() {
-        return produtoNome;
-    }
-
-    public void setProdutoNome(String produtoNome) {
-        this.produtoNome = produtoNome;
-    }
-
-    public Integer getProdutoPreco() {
-        return produtoPreco;
-    }
-
-    public void setProdutoPreco(Integer produtoPreco) {
-        this.produtoPreco = produtoPreco;
-    }
-
-    public Integer getQtd() {
-        return qtd;
-    }
-
-    public void setQtd(Integer qtd) {
-        this.qtd = qtd;
-    }
-
-    public Integer getPrecoVenda() {
-        return precoVenda;
-    }
-
-    public void setPrecoVenda(Integer precoVenda) {
-        this.precoVenda = precoVenda;
+    public void setCaixaProdutoView(CaixaProdutoView caixaProdutoView) {
+        this.caixaProdutoView = caixaProdutoView;
     }
 
     public String toString(){
-        return this.produtoId +"----"+ this.produtoNome +"----"+ this.produtoPreco +"----"+ qtd +"----"+ precoVenda;
+        return this.caixaProdutoView.getCaixaProduto().getProdutoId() +"----"+ this.caixaProdutoView.getProdutoView().getProduto().getNome()
+                +"----"+ this.caixaProdutoView.getProdutoView().getProduto().getPreco()
+                +"----"+ this.vendaProduto.getQtd() +"----"+ this.vendaProduto.getPrecoVenda();
     }
 }

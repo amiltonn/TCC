@@ -42,8 +42,8 @@ public class ProdutoCaixaAbertoAdapterActivity extends BaseAdapter {
         TextView nomeProduto = v.findViewById(R.id.nomeProdutoCaixaAberto);
         TextView qtdProduto = v.findViewById(R.id.qtdProdutoCaixaAberto);
         // colocando os dados no campo
-        nomeProduto.setText(caixaProdutos.get(position).getProdutoNome());
-        qtdProduto.setText(""+caixaProdutos.get(position).getQtd());
+        nomeProduto.setText(caixaProdutos.get(position).getProdutoView().getProduto().getNome());
+        qtdProduto.setText(""+caixaProdutos.get(position).getCaixaProduto().getQtd());
 
         return v;
     }

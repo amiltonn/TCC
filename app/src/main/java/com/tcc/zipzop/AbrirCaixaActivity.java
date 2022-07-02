@@ -30,6 +30,7 @@ import com.tcc.zipzop.entity.CaixaProduto;
 import com.tcc.zipzop.typeconverter.MoneyConverter;
 import com.tcc.zipzop.view.CaixaProdutoView;
 import com.tcc.zipzop.entity.Produto;
+import com.tcc.zipzop.view.ProdutoView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +48,7 @@ public class AbrirCaixaActivity extends AppCompatActivity {
     private ProdutoCaixaAdapterActivity produtoCaixaAdapterActivity;
 
     private Spinner spinnerProdutos;
-    List<Produto> listaProdutos;
+    List<ProdutoView> produtoViewList;
     private ProdutoDAO produtoDAO;
     //Abrir Caixa
     private CaixaDAO caixaDAO;
@@ -72,9 +73,13 @@ public class AbrirCaixaActivity extends AppCompatActivity {
         caixaFundoDAO = dataBase.getCaixaFundoDAO();
         caixaProdutoDAO = dataBase.getCaixaProdutoDAO();
 
-
+        produtoViewList = new ArrayList<>();
         try {
-            listaProdutos = new ListarProdutoTask(produtoDAO).execute().get();
+            new ListarProdutoTask(produtoDAO).execute().get().forEach(produto -> {
+                ProdutoView pv = new ProdutoView();
+                pv.setProduto(produto);
+                produtoViewList.add(pv);
+            });
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -82,7 +87,7 @@ public class AbrirCaixaActivity extends AppCompatActivity {
         }
 
         this.spinnerProdutos = (Spinner) this.findViewById(R.id.SpnProduto);
-        ArrayAdapter<Produto> spnProdutoAdapter = new ArrayAdapter<Produto>(this, android.R.layout.simple_dropdown_item_1line, this.listaProdutos);
+        ArrayAdapter<ProdutoView> spnProdutoAdapter = new ArrayAdapter<ProdutoView>(this, android.R.layout.simple_dropdown_item_1line, this.produtoViewList);
         this.spinnerProdutos.setAdapter(spnProdutoAdapter);
         //end spinner
 
@@ -111,18 +116,20 @@ public class AbrirCaixaActivity extends AppCompatActivity {
     public void eventAddProduto(View view) {
         CaixaProdutoView produtoDoCaixa = new CaixaProdutoView();
 
-        Produto produtoSelecionado = (Produto) this.spinnerProdutos.getSelectedItem();
-
-        if (produtoSelecionado != null && !listaCaixaProdutoView.stream().map(prodCaixa -> prodCaixa.getProdutoNome()).collect(Collectors.toList()).contains(produtoSelecionado.getNome())){
+        ProdutoView produtoSelecionado = (ProdutoView) this.spinnerProdutos.getSelectedItem();
+        //TODO: Ver se quebrou aqui
+        if (produtoSelecionado != null && !listaCaixaProdutoView.stream().map(prodCaixa -> prodCaixa.getProdutoView())
+                .collect(Collectors.toList()).contains(produtoSelecionado)){
             int quantidadeProduto = 0;
             if(this.quantidadeProdutos.getText().toString().equals("")){
                 quantidadeProduto = 1;
             }else {
                 quantidadeProduto = Integer.parseInt(this.quantidadeProdutos.getText().toString());
             }
-            produtoDoCaixa.setProdutoId(produtoSelecionado.getId());
-            produtoDoCaixa.setProdutoNome(produtoSelecionado.getNome());
-            produtoDoCaixa.setQtd(quantidadeProduto);
+            produtoDoCaixa.setProdutoView(produtoSelecionado);
+            CaixaProduto cp = new CaixaProduto();
+            cp.setQtd(quantidadeProduto);
+            produtoDoCaixa.setCaixaProduto(cp);
 
 
             this.produtoCaixaAdapterActivity.addProdutoCaixa(produtoDoCaixa);
@@ -153,8 +160,8 @@ public class AbrirCaixaActivity extends AppCompatActivity {
         listaCaixaProdutoView.forEach(caixaPView-> {
             caixaProduto = new CaixaProduto();
             caixaProduto.setCaixaId(caixaAberto.getId());//TODO:Criar DAO para esse evento
-            caixaProduto.setProdutoId(caixaPView.getProdutoId());
-            caixaProduto.setQtd(caixaPView.getQtd());
+            caixaProduto.setProdutoId(caixaPView.getProdutoView().getProduto().getId());
+            caixaProduto.setQtd(caixaPView.getCaixaProduto().getQtd());
             new SalvarCaixaProdutoTask(caixaProdutoDAO,this, caixaProduto).execute();
         });
 

@@ -39,10 +39,10 @@ public class ProdutoVendaAdapterActivity extends BaseAdapter {
     public View getView(int posicao, View view, ViewGroup viewGroup) {
         View v = View.inflate(this.context, R.layout.layout_produto_caixa, null);
         TextView nomeProduto = (TextView) v.findViewById(R.id.nomeProdutoCaixaAberto);
-        TextView qtdProduto = (TextView) v.findViewById(R.id.qtdProdutoCaixaAberto);
+        TextView qtdVendaProduto = (TextView) v.findViewById(R.id.qtdProdutoCaixaAberto);
 
-        nomeProduto.setText(this.produtosDaVenda.get(posicao).getProdutoNome());
-        qtdProduto.setText(String.valueOf(this.produtosDaVenda.get(posicao).getQtd()));
+        nomeProduto.setText(this.produtosDaVenda.get(posicao).getCaixaProdutoView().getProdutoView().getProduto().getNome());
+        qtdVendaProduto.setText(String.valueOf(this.produtosDaVenda.get(posicao).getVendaProduto().getQtd()));
 
         return v;
     }

@@ -30,6 +30,7 @@ import com.tcc.zipzop.entity.Produto;
 import com.tcc.zipzop.typeconverter.DateTimeConverter;
 import com.tcc.zipzop.typeconverter.MoneyConverter;
 import com.tcc.zipzop.view.CaixaProdutoView;
+import com.tcc.zipzop.view.ProdutoView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -113,19 +114,20 @@ public class CaixaAbertoActivity extends AppCompatActivity {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        listaCaixaProduto.forEach(caixaPView->{
+        listaCaixaProduto.forEach(caixaProduto->{
             caixaProdutoView = new CaixaProdutoView();
+            ProdutoView produtoView = new ProdutoView();
             try {
-                produto = new ConsultarProdutoTask(produtoDAO,caixaPView.getProdutoId()).execute().get();
+                produto = new ConsultarProdutoTask(produtoDAO,caixaProduto.getProdutoId()).execute().get();
                 Log.d("teste", String.valueOf(produto));
             } catch (ExecutionException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            caixaProdutoView.setProdutoId(caixaPView.getProdutoId());
-            caixaProdutoView.setProdutoNome(produto.getNome());
-            caixaProdutoView.setQtd(caixaPView.getQtd());
+            produtoView.setProduto(produto);
+            caixaProdutoView.setProdutoView(produtoView);
+            caixaProdutoView.setCaixaProduto(caixaProduto);
             listaCaixaProdutoView.add(caixaProdutoView);
         });
         listViewProdutoCaixaAberto = findViewById(R.id.listaProdutoCaixaAberto);
