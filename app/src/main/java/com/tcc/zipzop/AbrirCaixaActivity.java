@@ -75,11 +75,7 @@ public class AbrirCaixaActivity extends AppCompatActivity {
 
         produtoViewList = new ArrayList<>();
         try {
-            new ListarProdutoTask(produtoDAO).execute().get().forEach(produto -> {
-                ProdutoView pv = new ProdutoView();
-                pv.setProduto(produto);
-                produtoViewList.add(pv);
-            });
+            new ListarProdutoTask(produtoDAO).execute().get().forEach(this::populaProdutoView);
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -107,18 +103,19 @@ public class AbrirCaixaActivity extends AppCompatActivity {
                 abrirCaixa();
             }
         });
-
-
-
     }
 
+    private void populaProdutoView(Produto produto) {
+        ProdutoView pv = new ProdutoView();
+        pv.setProduto(produto);
+        produtoViewList.add(pv);
+    }
 
     public void eventAddProduto(View view) {
         CaixaProdutoView produtoDoCaixa = new CaixaProdutoView();
 
         ProdutoView produtoSelecionado = (ProdutoView) this.spinnerProdutos.getSelectedItem();
-        //TODO: Ver se quebrou aqui
-        if (produtoSelecionado != null && !listaCaixaProdutoView.stream().map(prodCaixa -> prodCaixa.getProdutoView())
+        if (produtoSelecionado != null && !listaCaixaProdutoView.stream().map(CaixaProdutoView::getProdutoView)
                 .collect(Collectors.toList()).contains(produtoSelecionado)){
             int quantidadeProduto = 0;
             if(this.quantidadeProdutos.getText().toString().equals("")){
@@ -131,10 +128,10 @@ public class AbrirCaixaActivity extends AppCompatActivity {
             cp.setQtd(quantidadeProduto);
             produtoDoCaixa.setCaixaProduto(cp);
 
-
             this.produtoCaixaAdapterActivity.addProdutoCaixa(produtoDoCaixa);
         }
     }
+
     public void abrirCaixa(){
       new SalvarCaixaTask(caixaDAO,this).execute();
        try {
@@ -159,7 +156,7 @@ public class AbrirCaixaActivity extends AppCompatActivity {
     public void salvarCaixaProduto(){
         listaCaixaProdutoView.forEach(caixaPView-> {
             caixaProduto = new CaixaProduto();
-            caixaProduto.setCaixaId(caixaAberto.getId());//TODO:Criar DAO para esse evento
+            caixaProduto.setCaixaId(caixaAberto.getId());
             caixaProduto.setProdutoId(caixaPView.getProdutoView().getProduto().getId());
             caixaProduto.setQtd(caixaPView.getCaixaProduto().getQtd());
             new SalvarCaixaProdutoTask(caixaProdutoDAO,this, caixaProduto).execute();

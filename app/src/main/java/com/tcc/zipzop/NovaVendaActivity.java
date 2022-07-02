@@ -42,6 +42,7 @@ import com.tcc.zipzop.entity.Produto;
 import com.tcc.zipzop.view.CaixaProdutoView;
 import com.tcc.zipzop.view.ProdutoView;
 import com.tcc.zipzop.view.VendaProdutoView;
+import com.tcc.zipzop.view.VendaView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,9 +71,7 @@ public class NovaVendaActivity extends AppCompatActivity {
     private ProdutoDAO produtoDAO;
     //entity
     private Venda venda;
-    private VendaProduto vendaProduto;
     private Caixa caixa;
-    private CaixaProduto caixaProduto;
     private CaixaProdutoView caixaProdutoView;
     private Produto produto;
     private VendaProdutoView vendaProdutoView;
@@ -82,11 +81,16 @@ public class NovaVendaActivity extends AppCompatActivity {
     private FormaPagamento formaPagamentoSelected;
     List<FormaPagamento> formaPagamentos;
     //List
-    private List<Venda> vendaList;
     private List<VendaProduto> vendaProdutoList;
+
+    VendaView vendaView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        vendaView = new VendaView();
+
         setTheme(R.style.Actionbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_nova_venda);
@@ -198,7 +202,7 @@ public class NovaVendaActivity extends AppCompatActivity {
 
         CaixaProdutoView caixaProdutoViewSelecionado = (CaixaProdutoView) spinnerCaixaproduto.getSelectedItem();
 
-        if (caixaProdutoViewSelecionado != null && !vendaProdutoViewList.stream().map(prodVenda -> prodVenda.getCaixaProdutoView())
+        if (caixaProdutoViewSelecionado != null && !vendaProdutoViewList.stream().map(VendaProdutoView::getCaixaProdutoView)
                 .collect(Collectors.toList()).contains(caixaProdutoViewSelecionado)){
             int quantidadeVendaProduto;
             if(this.quantidadeProdutos.getText().toString().equals("")) {
@@ -236,22 +240,21 @@ public class NovaVendaActivity extends AppCompatActivity {
         //venda.setVendaLocalId(1);
         venda.setFormaPagamentoId(formaPagamentoSelected.getId());
         venda.setCaixaId(caixa.getId());
-        new SalvarVendaTask(vendaDAO,venda).execute();
 
-        try {
-            vendaList = new ListarVendaTask(vendaDAO).execute().get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        Log.d("listavendaBanco", String.valueOf(vendaList));
+        vendaView.setFormaPagamento(formaPagamentoSelected);
+        vendaView.setVenda(venda);
+        vendaView.setVendaProdutoList((List<VendaProduto>) vendaProdutoViewList.stream().map(VendaProdutoView::getVendaProduto));
+
+        // a partir daqui..
+
+        new SalvarVendaTask(vendaDAO, vendaView.getVenda()).execute();
+
         salvarVendaProduto();
     }
 
     private void salvarVendaProduto() {
         try {
-            venda = new ConsultarVendaAbertaTask(vendaDAO).execute().get();
+            vendaView.setVenda(new ConsultarVendaAbertaTask(vendaDAO).execute().get());
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -259,22 +262,14 @@ public class NovaVendaActivity extends AppCompatActivity {
         }
 
         vendaProdutoViewList.forEach(vendaP ->{
-            vendaProduto = vendaP.getVendaProduto();
+            VendaProduto vendaProduto = vendaP.getVendaProduto();
             vendaProduto.setCaixaProdutoId(vendaP.getCaixaProdutoView().getCaixaProduto().getId());
             vendaProduto.setVendaId(venda.getId());
             Log.d("VendaProduto", String.valueOf(vendaProduto));
 
-            new SalvarVendaProdutoTask(vendaProdutoDAO, this,vendaProduto).execute();
+            new SalvarVendaProdutoTask(vendaProdutoDAO, this, vendaProduto).execute();
         });
         new FecharVendaTask(vendaDAO).execute();
-        try {
-            vendaProdutoList = new ListarVendaProdutoTask(vendaProdutoDAO).execute().get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        Log.d("VendaPBanco", String.valueOf(vendaProdutoList));
 
     }
 
