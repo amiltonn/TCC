@@ -37,5 +37,8 @@ public class DateTimeConverter {
   public static  String dataFormatada(Date date){
     return new SimpleDateFormat("HH:mm:ss dd/MM/yyyy").format(date);
   }
+  public static  String horaFormatada(Date date) {
+    return new SimpleDateFormat("HH:mm:ss").format(date);
+  }
 
 }

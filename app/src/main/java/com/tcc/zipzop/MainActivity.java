@@ -2,6 +2,7 @@ package com.tcc.zipzop;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.backup.BackupManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         ZipZopDataBase dataBase = ZipZopDataBase.getInstance(this);
         caixaDAO = dataBase.getCaixaDAO();
         // ------------------------------------//
-
+        backupNuvem();
         bt_Produto = findViewById(R.id.buttonProduto);
         bt_Produto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,5 +93,11 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Nenhum caixa aberto!", Toast.LENGTH_SHORT).show();
         }
+    }
+
+
+    private void backupNuvem(){
+        BackupManager backupManager = new BackupManager(this);
+        backupManager.dataChanged();
     }
 }

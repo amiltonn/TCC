@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.tcc.zipzop.R;
 import com.tcc.zipzop.entity.Venda;
+import com.tcc.zipzop.typeconverter.DateTimeConverter;
 import com.tcc.zipzop.typeconverter.MoneyConverter;
 
 import java.util.List;
@@ -44,7 +45,7 @@ public class VendaAdapterAcitivity extends BaseAdapter {
         TextView campoPago = (TextView) view.findViewById(R.id.pago);
         TextView campototal = (TextView) view.findViewById(R.id.total);
 
-        campohora.setText(""+vendaList.get(position).getDataPagamento());
+        campohora.setText(DateTimeConverter.horaFormatada(vendaList.get(position).getDataPagamento()));
         campoPago.setText("R$"+MoneyConverter.toString(vendaList.get(position).getValorPago()));
         campototal.setText("R$"+MoneyConverter.toString(vendaList.get(position).getValorVenda()));
         return view;
