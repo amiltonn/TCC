@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.tcc.zipzop.adapter.ProdutoCaixaAbertoAdapterActivity;
 import com.tcc.zipzop.asynctask.caixa.BuscarCaixaAbertoTask;
-import com.tcc.zipzop.asynctask.caixa.caixaFundo.BuscarCaixaFundoPeloCaixaAbertoTask;
+import com.tcc.zipzop.asynctask.caixa.caixaFundo.ConsultarCaixaFundoPeloCaixaIdTask;
 import com.tcc.zipzop.asynctask.produto.ConsultarProdutoTask;
 import com.tcc.zipzop.asynctask.caixa.FecharCaixaActivityTask;
 import com.tcc.zipzop.asynctask.caixa.caixaProduto.ListaCaixaProdutoAbertoTask;
@@ -95,7 +95,7 @@ public class CaixaAbertoActivity extends AppCompatActivity {
 
     private void prenchercampoTroco() {
         try {
-          caixaFundo = new BuscarCaixaFundoPeloCaixaAbertoTask(caixaFundoDAO,caixa.getId()).execute().get();
+          caixaFundo = new ConsultarCaixaFundoPeloCaixaIdTask(caixaFundoDAO,caixa.getId()).execute().get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {

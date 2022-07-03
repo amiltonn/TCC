@@ -22,6 +22,6 @@ public interface CaixaFundoDAO {
     @Query("SELECT * FROM CaixaFundo WHERE id = :id")
     CaixaFundo consultar(Integer id);
 
-    @Query("SELECT * FROM CaixaFundo WHERE caixaId = :caixaId")
-    CaixaFundo buscarpelocaixaaberto(Integer caixaId);
+    @Query("SELECT cf.* FROM CaixaFundo AS cf WHERE cf.caixaId = :caixaId AND cf.dataAlteracao = (SELECT MAX(dataAlteracao) FROM CaixaFundo WHERE caixaId = :caixaId)")
+    CaixaFundo consultarPeloCaixaIdAndDataAlteracaoMax(Integer caixaId);
 }

@@ -5,17 +5,17 @@ import android.os.AsyncTask;
 import com.tcc.zipzop.database.dao.CaixaFundoDAO;
 import com.tcc.zipzop.entity.CaixaFundo;
 
-public class BuscarCaixaFundoPeloCaixaAbertoTask extends AsyncTask<Void, Void, CaixaFundo> {
+public class ConsultarCaixaFundoPeloCaixaIdTask extends AsyncTask<Void, Void, CaixaFundo> {
     CaixaFundoDAO dao;
-    Integer id;
+    Integer caixaId;
 
-    public BuscarCaixaFundoPeloCaixaAbertoTask(CaixaFundoDAO dao, Integer id) {
+    public ConsultarCaixaFundoPeloCaixaIdTask(CaixaFundoDAO dao, Integer caixaId) {
         this.dao = dao;
-        this.id  = id;
+        this.caixaId = caixaId;
     }
 
     @Override
     protected CaixaFundo doInBackground(Void... voids) {
-        return dao.buscarpelocaixaaberto(id);
+        return dao.consultarPeloCaixaIdAndDataAlteracaoMax(this.caixaId);
     }
 }

@@ -14,6 +14,6 @@ public class BuscarCaixaAbertoTask extends AsyncTask<Void, Void, Caixa> {
 
     @Override
     protected Caixa doInBackground(Void... voids) {
-        return dao.caixaAberto();
+        return dao.consultarCaixaAberto();
     }
 }

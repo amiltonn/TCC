@@ -23,7 +23,7 @@ public interface CaixaDAO {
     Boolean existeCaixaAberto();
 
     @Query("SELECT * FROM Caixa WHERE dataFechamento IS NULL LIMIT 1")
-    Caixa caixaAberto();
+    Caixa consultarCaixaAberto();
 
     @Query("UPDATE Caixa SET dataFechamento = datetime() WHERE dataFechamento IS NULL")
     void fechar();

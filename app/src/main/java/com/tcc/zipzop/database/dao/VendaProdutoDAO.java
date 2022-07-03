@@ -19,6 +19,9 @@ public interface VendaProdutoDAO {
     @Query("SELECT * FROM VendaProduto")
     List<VendaProduto> listar();
 
+    @Query("SELECT * FROM VendaProduto WHERE vendaId = :vendaId")
+    List<VendaProduto> listarPorVendaId(Integer vendaId);
+
     @Query("SELECT * FROM VendaProduto WHERE id = :id")
     VendaProduto consultar(Integer id);
 

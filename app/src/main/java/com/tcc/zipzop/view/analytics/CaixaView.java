@@ -2,18 +2,14 @@ package com.tcc.zipzop.view.analytics;
 
 import com.tcc.zipzop.entity.Caixa;
 import com.tcc.zipzop.entity.CaixaFundo;
-import com.tcc.zipzop.view.operations.CaixaProdutoOpView;
-import com.tcc.zipzop.view.operations.ProdutoOpView;
 
-import java.util.List;
+import java.util.Date;
 
 public class CaixaView {
 
   private Caixa caixa;
   private CaixaFundo caixaFundo;
-  private List<ProdutoOpView> estoqueProdutoOpViewList;
-  private List<CaixaProdutoOpView> caixaProdutoOpViewList;
-
+  private EstoqueView estoqueView;
 
   public Caixa getCaixa() {
     return caixa;
@@ -31,19 +27,11 @@ public class CaixaView {
     this.caixaFundo = caixaFundo;
   }
 
-  public List<ProdutoOpView> getEstoqueProdutoViewList() {
-    return estoqueProdutoOpViewList;
+  public EstoqueView getEstoqueView() {
+    return estoqueView;
   }
 
-  public void setEstoqueProdutoViewList(List<ProdutoOpView> estoqueProdutoOpViewList) {
-    this.estoqueProdutoOpViewList = estoqueProdutoOpViewList;
-  }
-
-  public List<CaixaProdutoOpView> getCaixaProdutoViewList() {
-    return caixaProdutoOpViewList;
-  }
-
-  public void setCaixaProdutoViewList(List<CaixaProdutoOpView> caixaProdutoOpViewList) {
-    this.caixaProdutoOpViewList = caixaProdutoOpViewList;
+  public void setEstoqueView(EstoqueView estoqueView) {
+    this.estoqueView = estoqueView;
   }
 }

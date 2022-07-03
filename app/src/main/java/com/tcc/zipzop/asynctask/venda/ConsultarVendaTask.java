@@ -5,15 +5,17 @@ import android.os.AsyncTask;
 import com.tcc.zipzop.database.dao.VendaDAO;
 import com.tcc.zipzop.entity.Venda;
 
-public class ConsultarVendaAbertaTask extends AsyncTask<Void, Void, Venda> {
+public class ConsultarVendaTask extends AsyncTask<Void, Void, Venda> {
   private final VendaDAO dao;
+  private final Integer id;
 
-  public ConsultarVendaAbertaTask(VendaDAO dao) {
+  public ConsultarVendaTask(VendaDAO dao, Integer id) {
     this.dao = dao;
+    this.id = id;
   }
 
   @Override
   protected Venda doInBackground(Void... voids) {
-    return dao.consultarVendaAberta();
+    return dao.consultar(this.id);
   }
 }
