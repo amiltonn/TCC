@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.tcc.zipzop.adapter.ProdutoCaixaAdapterActivity;
 import com.tcc.zipzop.asynctask.caixa.ConsultarCaixaAbertoTask;
@@ -105,6 +106,10 @@ public class AbrirCaixaActivity extends AppCompatActivity {
         });
     }
 
+    public void corrigirSpinner(List<CaixaProdutoView> listaCPV) {
+        this.produtoCaixaAdapterActivity.atualizar(listaCPV);
+    }
+
     private void populaProdutoView(Produto produto) {
         ProdutoView pv = new ProdutoView();
         pv.setProduto(produto);
@@ -128,7 +133,10 @@ public class AbrirCaixaActivity extends AppCompatActivity {
             cp.setQtd(quantidadeProduto);
             caixaProdutoView.setCaixaProduto(cp);
 
-            this.produtoCaixaAdapterActivity.addProdutoCaixa(caixaProdutoView);
+            if(caixaProdutoView.getProdutoView().getProduto().getQtd() >= caixaProdutoView.getCaixaProduto().getQtd())
+                this.produtoCaixaAdapterActivity.addProdutoCaixa(caixaProdutoView);
+            else
+                Toast.makeText(this, "Quantidade de Produtos do Caixa passou a de Produtos!", Toast.LENGTH_LONG).show();
         }
     }
 
