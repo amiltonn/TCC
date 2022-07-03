@@ -30,7 +30,7 @@ public interface CaixaProdutoDAO {
     @Query("UPDATE CaixaProduto SET ativo = 0 WHERE id = :id")
     void deletar(Integer id);
 
-    @Query("SELECT * FROM CaixaProduto WHERE caixaId = :caixaId")
+    @Query("SELECT * FROM CaixaProduto WHERE caixaId = :caixaId AND ativo = 1 AND atual = 1")
     List<CaixaProduto> listarCaixaProdutoAberto(Integer caixaId);
 
     @Update
