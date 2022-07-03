@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.tcc.zipzop.adapter.VendaAdapterAcitivity;
+import com.tcc.zipzop.asynctask.venda.ListarVendaCaixaAbertoTask;
 import com.tcc.zipzop.asynctask.venda.ListarVendaTask;
 import com.tcc.zipzop.database.ZipZopDataBase;
 import com.tcc.zipzop.database.dao.VendaDAO;
@@ -55,7 +56,7 @@ public class VendaActivity extends AppCompatActivity {
     private void popularVendaList() {
         List<Venda> vendaList = new ArrayList<>();
         try {
-            vendaList = new ListarVendaTask(vendaDAO).execute().get();
+            vendaList = new ListarVendaCaixaAbertoTask(vendaDAO).execute().get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {

@@ -18,6 +18,9 @@ public interface VendaDAO {
     @Query("SELECT * FROM Venda")
     List<Venda> listar();
 
+    @Query("SELECT * FROM Venda AS v INNER JOIN Caixa AS c ON c.id = v.caixaId WHERE c.dataFechamento IS NULL")
+    List<Venda> listarVendaCaixaAberto();
+
     @Query("SELECT * FROM Venda WHERE id = :id")
     Venda consultar(Long id);
 
