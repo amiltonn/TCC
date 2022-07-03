@@ -49,5 +49,11 @@ public class ZipZopMigrations {
       database.execSQL("PRAGMA foreign_keys = ON;");
     }
   };
-  static final Migration[] TODAS_MIGRATIONS = {MIGRATION_1_2, MIGRATION_2_3};
+  private static final Migration MIGRATION_3_4 = new Migration(3, 4) {
+    @Override
+    public void migrate(@NonNull SupportSQLiteDatabase database) {
+      database.execSQL("INSERT INTO UnidadeMedida (nome) VALUES ('cm');");
+    }
+  };
+  static final Migration[] TODAS_MIGRATIONS = {MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4};
 }

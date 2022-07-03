@@ -481,7 +481,8 @@ public class ZipZopCallbacks {
                     "\t\t\t('g'),\n" +
                     "\t\t\t('l'),\n" +
                     "\t\t\t('ml'),\n" +
-                    "\t\t\t('m');"
+                    "\t\t\t('m')," +
+                    "\t\t\t('cm');"
             );
             database.execSQL(
                 "INSERT INTO FormaPagamento (nome)\n" +
