@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tcc.zipzop.adapter.ProdutoVendaAdapterActivity;
 import com.tcc.zipzop.asynctask.caixa.BuscarCaixaAbertoTask;
@@ -32,6 +33,7 @@ import com.tcc.zipzop.entity.FormaPagamento;
 import com.tcc.zipzop.entity.Venda;
 import com.tcc.zipzop.entity.VendaProduto;
 import com.tcc.zipzop.entity.Produto;
+import com.tcc.zipzop.typeconverter.MoneyConverter;
 import com.tcc.zipzop.typeconverter.ObjectWrapperForBinder;
 import com.tcc.zipzop.view.CaixaProdutoView;
 import com.tcc.zipzop.view.ProdutoView;
@@ -194,22 +196,32 @@ public class NovaVendaActivity extends AppCompatActivity {
 
         caixaProdutoViewSelected = (CaixaProdutoView) spinnerCaixaproduto.getSelectedItem();
 
-        if (caixaProdutoViewSelected != null && !vendaProdutoViewList.stream().map(VendaProdutoView::getCaixaProdutoView).collect(Collectors.toList()).contains(caixaProdutoViewSelected)){
+        if (caixaProdutoViewSelected != null) {
+            if (!vendaProdutoViewList.stream().map(VendaProdutoView::getCaixaProdutoView).collect(Collectors.toList()).contains(caixaProdutoViewSelected)) {
 
-            Integer quantidadeVendaProduto;
-            if(this.quantidadeProdutos.getText().toString().equals("")) {
-                quantidadeVendaProduto = 1;
+                Integer quantidadeVendaProduto;
+                if (this.quantidadeProdutos.getText().toString().equals("")) {
+                    quantidadeVendaProduto = 1;
+                } else {
+                    quantidadeVendaProduto = Integer.parseInt(this.quantidadeProdutos.getText().toString());
+                }
+
+                vendaProdutoView.setCaixaProdutoView(caixaProdutoViewSelected);
+                vendaProduto.setQtd(quantidadeVendaProduto);
+                vendaProduto.setPrecoVenda(caixaProdutoViewSelected.getProdutoView().getProduto().getPreco() * quantidadeVendaProduto);
+                vendaProdutoView.setVendaProduto(vendaProduto);
+
+                if (vendaProdutoView.getCaixaProdutoView().getCaixaProduto().getQtd() >= vendaProdutoView.getVendaProduto().getQtd()){
+                    produtoVendaAdapterActivity.addProdutoVenda(vendaProdutoView);
+
+                }else {
+                    Toast.makeText(this, "Quantidade de Produtos da Venda passou a de Produtos do Caixa!", Toast.LENGTH_LONG).show();
+                }
             } else {
-                quantidadeVendaProduto = Integer.parseInt(this.quantidadeProdutos.getText().toString());
+                Toast.makeText(this, "Produto já Selecionado na Venda!", Toast.LENGTH_LONG).show();
             }
-
-            vendaProdutoView.setCaixaProdutoView(caixaProdutoViewSelected);
-            vendaProduto.setQtd(quantidadeVendaProduto);
-            vendaProduto.setPrecoVenda(caixaProdutoViewSelected.getProdutoView().getProduto().getPreco() * quantidadeVendaProduto);
-            vendaProdutoView.setVendaProduto(vendaProduto);
-
-            produtoVendaAdapterActivity.addProdutoVenda(vendaProdutoView);
         }
+        quantidadeProdutos.setText("");
         preencherValorTotal();
         Log.d("ListaProdutodaVenda", String.valueOf(vendaProdutoViewList));
     }
@@ -220,22 +232,23 @@ public class NovaVendaActivity extends AppCompatActivity {
         for (VendaProdutoView vendaPView : vendaProdutoViewList) {
             somaValorTotal += vendaPView.getVendaProduto().getPrecoVenda();
         }
-        valorTotal.setText(""+somaValorTotal);
+        valorTotal.setText(""+ MoneyConverter.toString(somaValorTotal));
     }
     private void finalizarVenda() {
         venda = new Venda();
         if (valorPago.getText().toString().equals("")) {
-            venda.setValorPago(Integer.parseInt(valorTotal.getText().toString()));
+            venda.setValorPago(MoneyConverter.converteParaCentavos(valorTotal.getText().toString()));
         } else {
-            venda.setValorPago(Integer.parseInt(valorPago.getText().toString()));
+            venda.setValorPago(MoneyConverter.converteParaCentavos(valorPago.getText().toString()));
         }
-        venda.setValorVenda(Integer.parseInt(valorTotal.getText().toString()));
+        venda.setValorVenda(MoneyConverter.converteParaCentavos(valorTotal.getText().toString()));
         venda.setFormaPagamentoId(formaPagamentoSelected.getId());
         venda.setCaixaId(caixa.getId());
 
         vendaView.setFormaPagamento(formaPagamentoSelected);
         vendaView.setVenda(venda);
         vendaView.setVendaProdutoViewList(vendaProdutoViewList);
+
 
         final Object vendaViewSent = vendaView;
         final Bundle bundle = new Bundle();

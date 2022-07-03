@@ -120,24 +120,29 @@ public class AbrirCaixaActivity extends AppCompatActivity {
         CaixaProdutoView caixaProdutoView = new CaixaProdutoView();
 
         ProdutoView produtoSelecionado = (ProdutoView) this.spinnerProdutos.getSelectedItem();
-        if (produtoSelecionado != null && !listaCaixaProdutoView.stream().map(CaixaProdutoView::getProdutoView)
-                .collect(Collectors.toList()).contains(produtoSelecionado)){
-            int quantidadeProduto = 0;
-            if(this.quantidadeProdutos.getText().toString().equals("")){
-                quantidadeProduto = 1;
-            }else {
-                quantidadeProduto = Integer.parseInt(this.quantidadeProdutos.getText().toString());
-            }
-            caixaProdutoView.setProdutoView(produtoSelecionado);
-            CaixaProduto cp = new CaixaProduto();
-            cp.setQtd(quantidadeProduto);
-            caixaProdutoView.setCaixaProduto(cp);
+        if (produtoSelecionado != null) {
+            if (!listaCaixaProdutoView.stream().map(CaixaProdutoView::getProdutoView)
+                    .collect(Collectors.toList()).contains(produtoSelecionado)) {
+                int quantidadeProduto = 0;
+                if (this.quantidadeProdutos.getText().toString().equals("")) {
+                    quantidadeProduto = 1;
+                } else {
+                    quantidadeProduto = Integer.parseInt(this.quantidadeProdutos.getText().toString());
+                }
+                caixaProdutoView.setProdutoView(produtoSelecionado);
+                CaixaProduto cp = new CaixaProduto();
+                cp.setQtd(quantidadeProduto);
+                caixaProdutoView.setCaixaProduto(cp);
 
-            if(caixaProdutoView.getProdutoView().getProduto().getQtd() >= caixaProdutoView.getCaixaProduto().getQtd())
-                this.produtoCaixaAdapterActivity.addProdutoCaixa(caixaProdutoView);
-            else
-                Toast.makeText(this, "Quantidade de Produtos do Caixa passou a de Produtos!", Toast.LENGTH_LONG).show();
+                if (caixaProdutoView.getProdutoView().getProduto().getQtd() >= caixaProdutoView.getCaixaProduto().getQtd())
+                    this.produtoCaixaAdapterActivity.addProdutoCaixa(caixaProdutoView);
+                else
+                    Toast.makeText(this, "Quantidade de Produtos do Caixa passou a de Produtos!", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this, "Produto já Selecionado no Caixa!", Toast.LENGTH_LONG).show();
+            }
         }
+        quantidadeProdutos.setText("");
     }
 
     public void abrirCaixa(){
