@@ -7,6 +7,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -146,23 +147,29 @@ public class AbrirCaixaActivity extends AppCompatActivity {
     }
 
     public void abrirCaixa(){
-        try {
-            listaCaixaProdutoView = new SalvarCaixaActivityTask(caixaDAO, produtoDAO, listaCaixaProdutoView, this).execute().get();
-            caixaAberto =  new ConsultarCaixaAbertoTask(caixaDAO).execute().get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-    public void salvarCaixaFundo(){
         caixaFundo = new CaixaFundo();
         campoFundoCaixa = findViewById(R.id.fundoCaixa);
+        if (TextUtils.isEmpty(campoFundoCaixa.getText())){
+            campoFundoCaixa.setError("Campo Obrigatorio!");
+        }else{
+            try {
+                listaCaixaProdutoView = new SalvarCaixaActivityTask(caixaDAO, produtoDAO, listaCaixaProdutoView, this).execute().get();
+                caixaAberto =  new ConsultarCaixaAbertoTask(caixaDAO).execute().get();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+    public void salvarCaixaFundo(){
         String auxFundoCaixa = campoFundoCaixa.getText().toString();
-        Integer fundoCaixa = auxFundoCaixa != null ? MoneyConverter.converteParaCentavos(auxFundoCaixa) : 0;
+        Integer fundoCaixa = MoneyConverter.converteParaCentavos(auxFundoCaixa);
         caixaFundo.setValor(fundoCaixa);
         caixaFundo.setCaixaId(caixaAberto.getId());
         new SalvarCaixaFundoActivityTask(caixaFundoDAO,caixaFundo,this).execute();
+
 
     }
 
