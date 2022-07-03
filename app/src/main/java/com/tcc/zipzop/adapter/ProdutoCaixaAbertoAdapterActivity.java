@@ -7,28 +7,28 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.tcc.zipzop.R;
-import com.tcc.zipzop.view.CaixaProdutoView;
+import com.tcc.zipzop.view.operations.CaixaProdutoOpView;
 
 import java.util.List;
 
 public class ProdutoCaixaAbertoAdapterActivity extends BaseAdapter {
 
     private Context context;
-    private List<CaixaProdutoView> caixaProdutoViewList;
-    public ProdutoCaixaAbertoAdapterActivity(Context context,List<CaixaProdutoView> caixaProdutoViewList){
+    private List<CaixaProdutoOpView> caixaProdutoOpViewList;
+    public ProdutoCaixaAbertoAdapterActivity(Context context,List<CaixaProdutoOpView> caixaProdutoOpViewList){
         this.context = context;
-        this.caixaProdutoViewList = caixaProdutoViewList;
+        this.caixaProdutoOpViewList = caixaProdutoOpViewList;
     }
 
 
     @Override
     public int getCount() {
-        return caixaProdutoViewList.size();
+        return caixaProdutoOpViewList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return caixaProdutoViewList.get(position);
+        return caixaProdutoOpViewList.get(position);
     }
 
     @Override
@@ -42,8 +42,8 @@ public class ProdutoCaixaAbertoAdapterActivity extends BaseAdapter {
         TextView nomeProduto = v.findViewById(R.id.nomeProdutoCaixaAberto);
         TextView qtdProduto = v.findViewById(R.id.qtdProdutoCaixaAberto);
         // colocando os dados no campo
-        nomeProduto.setText(caixaProdutoViewList.get(position).getProdutoView().getProduto().getNome());
-        qtdProduto.setText(""+ caixaProdutoViewList.get(position).getCaixaProduto().getQtd());
+        nomeProduto.setText(caixaProdutoOpViewList.get(position).getProdutoView().getProduto().getNome());
+        qtdProduto.setText(""+ caixaProdutoOpViewList.get(position).getCaixaProduto().getQtd());
 
         return v;
     }

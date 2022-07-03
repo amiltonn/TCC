@@ -27,8 +27,8 @@ import com.tcc.zipzop.database.dao.VendaProdutoDAO;
 import com.tcc.zipzop.entity.VendaProduto;
 import com.tcc.zipzop.typeconverter.MoneyConverter;
 import com.tcc.zipzop.typeconverter.ObjectWrapperForBinder;
-import com.tcc.zipzop.view.VendaProdutoView;
-import com.tcc.zipzop.view.VendaView;
+import com.tcc.zipzop.view.operations.VendaProdutoOpView;
+import com.tcc.zipzop.view.operations.VendaOpView;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -39,8 +39,8 @@ public class ResumoVendaAcitivity extends AppCompatActivity {
    private AppCompatButton btSalvarVenda;
    private TextView campoValorTotal,campoFormaPagamento;
 
-    private VendaView vendaView;
-    private List<VendaProdutoView> vendaProdutoViewList;
+    private VendaOpView vendaOpView;
+    private List<VendaProdutoOpView> vendaProdutoOpViewList;
 
     //banco
     private VendaDAO vendaDAO;
@@ -60,8 +60,8 @@ public class ResumoVendaAcitivity extends AppCompatActivity {
         vendaProdutoDAO = dataBase.getVendaProdutoDAO();
         caixaProdutoDAO = dataBase.getCaixaProdutoDAO();
         final Object vendaViewReceived = ((ObjectWrapperForBinder)getIntent().getExtras().getBinder("vendaViewValue")).getData();
-        vendaView= (VendaView) vendaViewReceived;
-        Log.d("Resumo", String.valueOf(vendaView));
+        vendaOpView = (VendaOpView) vendaViewReceived;
+        Log.d("Resumo", String.valueOf(vendaOpView));
         resumoProdutoVendatable();
         preenchercampos();
         ///botão salvar venda
@@ -78,9 +78,9 @@ public class ResumoVendaAcitivity extends AppCompatActivity {
 
 
     private void resumoProdutoVendatable() {
-        vendaProdutoViewList = vendaView.getVendaProdutoViewList();
+        vendaProdutoOpViewList = vendaOpView.getVendaProdutoViewList();
         TableLayout tableLayoutVendaProduto = findViewById(R.id.tableLayoutVendaProduto);
-        vendaProdutoViewList.forEach(vPVenda ->{
+        vendaProdutoOpViewList.forEach(vPVenda ->{
             String [] visualizacaoVendaProduto = {vPVenda.getCaixaProdutoView().getProdutoView().getProduto().getNome(),
             String.valueOf(MoneyConverter.toString(vPVenda.getCaixaProdutoView().getProdutoView().getProduto().getPreco())),
                     String.valueOf(vPVenda.getVendaProduto().getQtd()),
@@ -119,28 +119,28 @@ public class ResumoVendaAcitivity extends AppCompatActivity {
 
     private void preenchercampos() {
         campoValorTotal = findViewById(R.id.valorPagoResumo);
-        campoValorTotal.setText(""+MoneyConverter.toString(vendaView.getVenda().getValorPago()));
+        campoValorTotal.setText(""+MoneyConverter.toString(vendaOpView.getVenda().getValorPago()));
         campoFormaPagamento = findViewById(R.id.formaPagamentoResumo);
-        campoFormaPagamento.setText(""+vendaView.getFormaPagamento().getNome());
+        campoFormaPagamento.setText(""+ vendaOpView.getFormaPagamento().getNome());
     }
 
 
 
 
     private void salvarVenda() {
-        new SalvarVendaTask(vendaDAO, vendaView.getVenda()).execute();
+        new SalvarVendaTask(vendaDAO, vendaOpView.getVenda()).execute();
         try {
-            vendaView.setVenda(new ConsultarVendaAbertaTask(vendaDAO).execute().get());
+            vendaOpView.setVenda(new ConsultarVendaAbertaTask(vendaDAO).execute().get());
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        vendaProdutoViewList.forEach(vendaProdutoView ->{
-            VendaProduto vendaProduto = vendaProdutoView.getVendaProduto();
-            vendaProduto.setCaixaProdutoId(vendaProdutoView.getCaixaProdutoView().getCaixaProduto().getId());
-            vendaProduto.setVendaId(vendaView.getVenda().getId());
+        vendaProdutoOpViewList.forEach(vendaProdutoOpView ->{
+            VendaProduto vendaProduto = vendaProdutoOpView.getVendaProduto();
+            vendaProduto.setCaixaProdutoId(vendaProdutoOpView.getCaixaProdutoView().getCaixaProduto().getId());
+            vendaProduto.setVendaId(vendaOpView.getVenda().getId());
             Log.d("VendaProduto", String.valueOf(vendaProduto));
 
             new SalvarVendaProdutoActivityTask(vendaProdutoDAO, vendaProduto, caixaProdutoDAO).execute();

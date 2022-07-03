@@ -30,9 +30,9 @@ import com.tcc.zipzop.entity.Caixa;
 import com.tcc.zipzop.entity.CaixaFundo;
 import com.tcc.zipzop.entity.CaixaProduto;
 import com.tcc.zipzop.typeconverter.MoneyConverter;
-import com.tcc.zipzop.view.CaixaProdutoView;
+import com.tcc.zipzop.view.operations.CaixaProdutoOpView;
 import com.tcc.zipzop.entity.Produto;
-import com.tcc.zipzop.view.ProdutoView;
+import com.tcc.zipzop.view.operations.ProdutoOpView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,11 +46,11 @@ public class AbrirCaixaActivity extends AppCompatActivity {
 
     //Produtos do Caixa
     private ListView listViewProdutos;
-    private List<CaixaProdutoView> listaCaixaProdutoView;
+    private List<CaixaProdutoOpView> listaCaixaProdutoOpView;
     private ProdutoCaixaAdapterActivity produtoCaixaAdapterActivity;
 
     private Spinner spinnerProdutos;
-    List<ProdutoView> produtoViewList;
+    List<ProdutoOpView> produtoOpViewList;
     private ProdutoDAO produtoDAO;
     //Abrir Caixa
     private CaixaDAO caixaDAO;
@@ -75,7 +75,7 @@ public class AbrirCaixaActivity extends AppCompatActivity {
         caixaFundoDAO = dataBase.getCaixaFundoDAO();
         caixaProdutoDAO = dataBase.getCaixaProdutoDAO();
 
-        produtoViewList = new ArrayList<>();
+        produtoOpViewList = new ArrayList<>();
         try {
             new ListarProdutoTask(produtoDAO).execute().get().forEach(this::populaProdutoView);
         } catch (ExecutionException e) {
@@ -85,7 +85,7 @@ public class AbrirCaixaActivity extends AppCompatActivity {
         }
 
         this.spinnerProdutos = (Spinner) this.findViewById(R.id.SpnProduto);
-        ArrayAdapter<ProdutoView> spnProdutoAdapter = new ArrayAdapter<ProdutoView>(this, android.R.layout.simple_dropdown_item_1line, this.produtoViewList);
+        ArrayAdapter<ProdutoOpView> spnProdutoAdapter = new ArrayAdapter<ProdutoOpView>(this, android.R.layout.simple_dropdown_item_1line, this.produtoOpViewList);
         this.spinnerProdutos.setAdapter(spnProdutoAdapter);
         //end spinner
 
@@ -93,8 +93,8 @@ public class AbrirCaixaActivity extends AppCompatActivity {
 
         // variaveis e objetos dos produtos do caixa
         this.listViewProdutos = (ListView) this.findViewById(R.id.lsvProdutos);
-        this.listaCaixaProdutoView = new ArrayList<>();
-        this.produtoCaixaAdapterActivity = new ProdutoCaixaAdapterActivity(AbrirCaixaActivity.this, this.listaCaixaProdutoView);
+        this.listaCaixaProdutoOpView = new ArrayList<>();
+        this.produtoCaixaAdapterActivity = new ProdutoCaixaAdapterActivity(AbrirCaixaActivity.this, this.listaCaixaProdutoOpView);
         this.listViewProdutos.setAdapter(this.produtoCaixaAdapterActivity);
 
         //Função do botão
@@ -107,22 +107,22 @@ public class AbrirCaixaActivity extends AppCompatActivity {
         });
     }
 
-    public void corrigirSpinner(List<CaixaProdutoView> listaCPV) {
+    public void corrigirSpinner(List<CaixaProdutoOpView> listaCPV) {
         this.produtoCaixaAdapterActivity.atualizar(listaCPV);
     }
 
     private void populaProdutoView(Produto produto) {
-        ProdutoView pv = new ProdutoView();
+        ProdutoOpView pv = new ProdutoOpView();
         pv.setProduto(produto);
-        produtoViewList.add(pv);
+        produtoOpViewList.add(pv);
     }
 
     public void eventAddProduto(View view) {
-        CaixaProdutoView caixaProdutoView = new CaixaProdutoView();
+        CaixaProdutoOpView caixaProdutoOpView = new CaixaProdutoOpView();
 
-        ProdutoView produtoSelecionado = (ProdutoView) this.spinnerProdutos.getSelectedItem();
+        ProdutoOpView produtoSelecionado = (ProdutoOpView) this.spinnerProdutos.getSelectedItem();
         if (produtoSelecionado != null) {
-            if (!listaCaixaProdutoView.stream().map(CaixaProdutoView::getProdutoView)
+            if (!listaCaixaProdutoOpView.stream().map(CaixaProdutoOpView::getProdutoView)
                     .collect(Collectors.toList()).contains(produtoSelecionado)) {
                 int quantidadeProduto = 0;
                 if (this.quantidadeProdutos.getText().toString().equals("")) {
@@ -130,13 +130,13 @@ public class AbrirCaixaActivity extends AppCompatActivity {
                 } else {
                     quantidadeProduto = Integer.parseInt(this.quantidadeProdutos.getText().toString());
                 }
-                caixaProdutoView.setProdutoView(produtoSelecionado);
+                caixaProdutoOpView.setProdutoView(produtoSelecionado);
                 CaixaProduto cp = new CaixaProduto();
                 cp.setQtd(quantidadeProduto);
-                caixaProdutoView.setCaixaProduto(cp);
+                caixaProdutoOpView.setCaixaProduto(cp);
 
-                if (caixaProdutoView.getProdutoView().getProduto().getQtd() >= caixaProdutoView.getCaixaProduto().getQtd())
-                    this.produtoCaixaAdapterActivity.addProdutoCaixa(caixaProdutoView);
+                if (caixaProdutoOpView.getProdutoView().getProduto().getQtd() >= caixaProdutoOpView.getCaixaProduto().getQtd())
+                    this.produtoCaixaAdapterActivity.addProdutoCaixa(caixaProdutoOpView);
                 else
                     Toast.makeText(this, "Quantidade de Produtos do Caixa passou a de Produtos!", Toast.LENGTH_LONG).show();
             } else {
@@ -153,7 +153,7 @@ public class AbrirCaixaActivity extends AppCompatActivity {
             campoFundoCaixa.setError("Campo Obrigatorio!");
         }else{
             try {
-                listaCaixaProdutoView = new SalvarCaixaActivityTask(caixaDAO, produtoDAO, listaCaixaProdutoView, this).execute().get();
+                listaCaixaProdutoOpView = new SalvarCaixaActivityTask(caixaDAO, produtoDAO, listaCaixaProdutoOpView, this).execute().get();
                 caixaAberto =  new ConsultarCaixaAbertoTask(caixaDAO).execute().get();
             } catch (ExecutionException e) {
                 e.printStackTrace();
@@ -174,7 +174,7 @@ public class AbrirCaixaActivity extends AppCompatActivity {
     }
 
     public void salvarCaixaProduto(){
-        listaCaixaProdutoView.forEach(caixaPView-> {
+        listaCaixaProdutoOpView.forEach(caixaPView-> {
             caixaProduto = new CaixaProduto();
             caixaProduto.setCaixaId(caixaAberto.getId());
             caixaProduto.setProdutoId(caixaPView.getProdutoView().getProduto().getId());

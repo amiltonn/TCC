@@ -29,8 +29,8 @@ import com.tcc.zipzop.entity.CaixaProduto;
 import com.tcc.zipzop.entity.Produto;
 import com.tcc.zipzop.typeconverter.DateTimeConverter;
 import com.tcc.zipzop.typeconverter.MoneyConverter;
-import com.tcc.zipzop.view.CaixaProdutoView;
-import com.tcc.zipzop.view.ProdutoView;
+import com.tcc.zipzop.view.operations.CaixaProdutoOpView;
+import com.tcc.zipzop.view.operations.ProdutoOpView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +42,7 @@ public class CaixaAbertoActivity extends AppCompatActivity {
     private ListView listViewProdutoCaixaAberto;
     //listas
     private List<CaixaProduto> listaCaixaProduto;
-    private List<CaixaProdutoView> listaCaixaProdutoView = new ArrayList<>();
+    private List<CaixaProdutoOpView> listaCaixaProdutoOpView = new ArrayList<>();
     //adapter
     private ProdutoCaixaAbertoAdapterActivity produtoCaixaAbertoAdapterActivity;
     //banco / entity
@@ -52,7 +52,7 @@ public class CaixaAbertoActivity extends AppCompatActivity {
     private CaixaProdutoDAO caixaProdutoDAO;
     private CaixaFundoDAO caixaFundoDAO;
     private ProdutoDAO produtoDAO;
-    private CaixaProdutoView caixaProdutoView;
+    private CaixaProdutoOpView caixaProdutoOpView;
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,8 +115,8 @@ public class CaixaAbertoActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         listaCaixaProduto.forEach(caixaProduto->{
-            caixaProdutoView = new CaixaProdutoView();
-            ProdutoView produtoView = new ProdutoView();
+            caixaProdutoOpView = new CaixaProdutoOpView();
+            ProdutoOpView produtoOpView = new ProdutoOpView();
             Produto produto = new Produto();
             try {
                 produto = new ConsultarProdutoTask(produtoDAO, caixaProduto.getProdutoId()).execute().get();
@@ -127,13 +127,13 @@ public class CaixaAbertoActivity extends AppCompatActivity {
             }
             Log.d("produto teste wii", String.valueOf(produto.getId()));
 
-            produtoView.setProduto(produto);
-            caixaProdutoView.setProdutoView(produtoView);
-            caixaProdutoView.setCaixaProduto(caixaProduto);
-            listaCaixaProdutoView.add(caixaProdutoView);
+            produtoOpView.setProduto(produto);
+            caixaProdutoOpView.setProdutoView(produtoOpView);
+            caixaProdutoOpView.setCaixaProduto(caixaProduto);
+            listaCaixaProdutoOpView.add(caixaProdutoOpView);
         });
         listViewProdutoCaixaAberto = findViewById(R.id.listaProdutoCaixaAberto);
-        produtoCaixaAbertoAdapterActivity =  new ProdutoCaixaAbertoAdapterActivity(CaixaAbertoActivity.this, listaCaixaProdutoView);
+        produtoCaixaAbertoAdapterActivity =  new ProdutoCaixaAbertoAdapterActivity(CaixaAbertoActivity.this, listaCaixaProdutoOpView);
         listViewProdutoCaixaAberto.setAdapter(produtoCaixaAbertoAdapterActivity);
     }
 

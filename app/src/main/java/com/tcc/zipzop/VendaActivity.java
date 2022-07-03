@@ -11,14 +11,11 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.tcc.zipzop.adapter.VendaAdapterAcitivity;
-import com.tcc.zipzop.asynctask.caixa.ChecarCaixaAbertoTask;
-import com.tcc.zipzop.asynctask.produto.ConsultarProdutoTask;
 import com.tcc.zipzop.asynctask.venda.ListarVendaTask;
 import com.tcc.zipzop.database.ZipZopDataBase;
 import com.tcc.zipzop.database.dao.VendaDAO;
 import com.tcc.zipzop.entity.Venda;
-import com.tcc.zipzop.typeconverter.ObjectWrapperForBinder;
-import com.tcc.zipzop.view.VendaView;
+import com.tcc.zipzop.view.operations.VendaOpView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +23,7 @@ import java.util.concurrent.ExecutionException;
 
 public class VendaActivity extends AppCompatActivity {
     private Button buttonNovaVenda;
-    private VendaView vendaView;
+    private VendaOpView vendaOpView;
     private ListView vendaListView;
     //banco
     VendaDAO vendaDAO;

@@ -1,9 +1,9 @@
-package com.tcc.zipzop.view;
+package com.tcc.zipzop.view.operations;
 
 import com.tcc.zipzop.entity.Produto;
 import com.tcc.zipzop.entity.UnidadeMedida;
 
-public class ProdutoView {
+public class ProdutoOpView {
     private Produto produto;
     private UnidadeMedida unidadeMedida;
 
