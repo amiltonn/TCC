@@ -1,40 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
+    android:layout_height="wrap_content"
     android:background="@color/botao"
-    android:layout_height="match_parent">
+    android:layout_margin="5dp">
+
 
     <TextView
-        android:id="@+id/nomeProdutoCaixaAberto"
-        android:layout_width="match_parent"
+        android:id="@+id/nomeProdutoVendaList"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="50dp"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Bombom de brigadeiro" />
+
+    <TextView
+        android:id="@+id/valordoProduto"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Nome"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:gravity="left"
+        android:text="Quantidada: "
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/qtdProdutoVendaList"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nomeProdutoVendaList" />
+
+    <TextView
+        android:id="@+id/qtdProdutoVendaList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="16dp"
+        android:gravity="left"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/valotTextView"
+        app:layout_constraintStart_toEndOf="@+id/valordoProduto"
+        app:layout_constraintTop_toBottomOf="@+id/nomeProdutoVendaList"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/valotTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:text="valor: R$"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/valorPagoEdit"
+        app:layout_constraintStart_toEndOf="@+id/qtdProdutoVendaList"
+        app:layout_constraintTop_toBottomOf="@+id/nomeProdutoVendaList" />
+
+    <EditText
+        android:id="@+id/valorPagoEdit"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="13dp"
+        android:digits="0123456789,."
+        android:ems="10"
+        android:imeOptions="actionDone"
+        android:inputType="number"
+        android:padding="2dp"
         android:textColor="@color/letra"
-        android:textAlignment="center"
-        android:textAllCaps="true"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textStyle="bold"></TextView>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/valotTextView"
+        app:layout_constraintTop_toBottomOf="@+id/nomeProdutoVendaList" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Quantidade: ">
-        </TextView>
-
-        <TextView
-            android:id="@+id/qtdProdutoCaixaAberto"
-            android:textColor="@color/letra"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-        </TextView>
-
-    </LinearLayout>
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

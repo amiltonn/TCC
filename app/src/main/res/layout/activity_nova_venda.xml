@@ -90,7 +90,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appCompatButton2" />
 
-        <ListView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/listVendaProduto"
             android:layout_width="match_parent"
             android:layout_height="250dp"

@@ -3,6 +3,8 @@ package com.tcc.zipzop;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Build;
@@ -52,7 +54,7 @@ public class NovaVendaActivity extends AppCompatActivity {
     private TextView valorTotal;
 
     //Produtos da VendaProduto/adapter
-    private ListView listViewDeVendaProdutos;
+    private RecyclerView listViewDeVendaProdutos;
     private List<VendaProdutoOpView> vendaProdutoOpViewList;
     private ProdutoVendaAdapterActivity produtoVendaAdapterActivity;
 
@@ -100,10 +102,11 @@ public class NovaVendaActivity extends AppCompatActivity {
         valorPago = findViewById(R.id.valorPago);
 
         // variaveis e objetos dos produtos da venda
-        this.listViewDeVendaProdutos = (ListView) this.findViewById(R.id.listVendaProduto);
+        this.listViewDeVendaProdutos = findViewById(R.id.listVendaProduto);
         this.vendaProdutoOpViewList = new ArrayList<>();
-        this.produtoVendaAdapterActivity = new ProdutoVendaAdapterActivity(NovaVendaActivity.this, this.vendaProdutoOpViewList);
+        this.produtoVendaAdapterActivity = new ProdutoVendaAdapterActivity(NovaVendaActivity.this, this.vendaProdutoOpViewList, this);
         this.listViewDeVendaProdutos.setAdapter(this.produtoVendaAdapterActivity);
+        this.listViewDeVendaProdutos.setLayoutManager(new LinearLayoutManager(this));
 
 
         //Função do botão
@@ -226,7 +229,7 @@ public class NovaVendaActivity extends AppCompatActivity {
         Log.d("ListaProdutodaVenda", String.valueOf(vendaProdutoOpViewList));
     }
 
-    private void preencherValorTotal() {
+    public void preencherValorTotal() {
         valorTotal = findViewById(R.id.valorTotal);
         Integer somaValorTotal = 0;
         for (VendaProdutoOpView vendaPView : vendaProdutoOpViewList) {
