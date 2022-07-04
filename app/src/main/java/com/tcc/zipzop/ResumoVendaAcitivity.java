@@ -37,7 +37,7 @@ import java.util.concurrent.ExecutionException;
 
 public class ResumoVendaAcitivity extends AppCompatActivity {
    private AppCompatButton btSalvarVenda;
-   private TextView campoValorTotal,campoFormaPagamento;
+   private TextView campoValorTotal,campoFormaPagamento,campoTroco,trocoTextView;
 
     private VendaOpView vendaOpView;
     private List<VendaProdutoOpView> vendaProdutoOpViewList;
@@ -122,6 +122,14 @@ public class ResumoVendaAcitivity extends AppCompatActivity {
         campoValorTotal.setText(""+MoneyConverter.toString(vendaOpView.getVenda().getValorPago()));
         campoFormaPagamento = findViewById(R.id.formaPagamentoResumo);
         campoFormaPagamento.setText(""+ vendaOpView.getFormaPagamento().getNome());
+        trocoTextView = findViewById(R.id.trocoTextView);
+        campoTroco = findViewById(R.id.campoTroco);
+        if (vendaOpView.getFormaPagamento().getNome().equals("DINHEIRO")){
+            trocoTextView.setVisibility(View.VISIBLE);
+            campoTroco.setVisibility(View.VISIBLE);
+            campoTroco.setText(""+MoneyConverter.toString(vendaOpView.getVenda().getValorPago()-
+                    vendaOpView.getVenda().getValorVenda()));
+        }
     }
 
 
