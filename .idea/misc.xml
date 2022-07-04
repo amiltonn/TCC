@@ -72,8 +72,15 @@
         <entry key="app/src/main/res/layout/activity_novo_item.xml" value="0.333786231884058" />
         <entry key="app/src/main/res/layout/activity_produto.xml" value="0.16" />
         <entry key="app/src/main/res/layout/activity_produto_adapter.xml" value="0.21965579710144928" />
+<<<<<<< HEAD
+=======
+        <entry key="app/src/main/res/layout/activity_relatorio.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_resumo_venda_acitivity.xml" value="0.33" />
+>>>>>>> fffd7a43bdfe467b73c3c3fe4d8a1d66c3a2609d
         <entry key="app/src/main/res/layout/activity_salvar_item.xml" value="0.31476449275362317" />
         <entry key="app/src/main/res/layout/activity_salvar_produto.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_venda.xml" value="0.1875" />
+        <entry key="app/src/main/res/layout/activity_venda_adapter.xml" value="0.1875" />
         <entry key="app/src/main/res/layout/layout_produto_caixa.xml" value="0.21965579710144928" />
       </map>
     </option>

@@ -42,8 +42,8 @@ public class SalvarProdutoActivity extends AppCompatActivity {
     private UnidadeMedida unidadeMedidaSelected;
     List<UnidadeMedida> unidadeMedidas;
     private EditText    campoNome,
-                        campoCustoProducao,
-                        campoPrecoVenda,
+                        campoCusto,
+                        campoPreco,
                         campoQuantidade;
     Intent intent;
     Integer id = 0;
@@ -80,8 +80,8 @@ public class SalvarProdutoActivity extends AppCompatActivity {
 
     private void inicializaCampos() {
         campoNome = findViewById(R.id.Nome);
-        campoCustoProducao = findViewById(R.id.CustoProducao);
-        campoPrecoVenda = findViewById(R.id.PrecoVenda);
+        campoCusto = findViewById(R.id.Custo);
+        campoPreco = findViewById(R.id.Preco);
         campoQuantidade = findViewById(R.id.Quantidade);
         spinnerUnidadeMedidas = (Spinner) findViewById(R.id.listaUnidadeMedida);
         spinnerUnidadeMedidas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -118,8 +118,8 @@ public class SalvarProdutoActivity extends AppCompatActivity {
         //edita o produto
         else{
             campoNome.setText(produto.getNome());
-            campoCustoProducao.setText("" + MoneyConverter.toString(produto.getCusto()));
-            campoPrecoVenda.setText("" + MoneyConverter.toString(produto.getPreco()));
+            campoCusto.setText("" + MoneyConverter.toString(produto.getCusto()));
+            campoPreco.setText("" + MoneyConverter.toString(produto.getPreco()));
             campoQuantidade.setText("" + produto.getQtd());
             try {
                 unidadeMedidaSelected = new ConsultarUnidadeMedidaTask(unidadeMedidaDAO, produto.getUnidadeMedidaId()).execute().get();
@@ -135,9 +135,9 @@ public class SalvarProdutoActivity extends AppCompatActivity {
     private void preencheProduto() {
 
         String nome = campoNome.getText().toString();
-        String auxCustoProducao = campoCustoProducao.getText().toString();
+        String auxCustoProducao = campoCusto.getText().toString();
         Integer custoProducao = MoneyConverter.converteParaCentavos(auxCustoProducao);
-        String auxPrecoVenda = campoPrecoVenda.getText().toString();
+        String auxPrecoVenda = campoPreco.getText().toString();
         Integer precoVenda = MoneyConverter.converteParaCentavos(auxPrecoVenda);
         String auxQuantidade = campoQuantidade.getText().toString();
         Integer quantidade = Integer.parseInt(auxQuantidade);
@@ -165,18 +165,21 @@ public class SalvarProdutoActivity extends AppCompatActivity {
 
     public void salvarComSucesso(){
         finish();
-
     }
+
     public void  verifcarCampo(){
         if(TextUtils.isEmpty(campoNome.getText())){
             campoNome.setError("Campo Obrigatorio!");
-        }else if (TextUtils.isEmpty(campoCustoProducao.getText())) {
-            campoPrecoVenda.setError("Campo Obrigatorio!");
-        }else if (TextUtils.isEmpty(campoPrecoVenda.getText())) {
-            campoCustoProducao.setError("Campo Obrigatorio!");
+        }else if (TextUtils.isEmpty(campoCusto.getText())) {
+            campoCusto.setError("Campo Obrigatorio!");
+        }else if (TextUtils.isEmpty(campoPreco.getText())) {
+            campoPreco.setError("Campo Obrigatorio!");
         }else if (TextUtils.isEmpty(campoQuantidade.getText())) {
             campoQuantidade.setError("Campo Obrigatorio!");
-        }else {
+        }else if (MoneyConverter.converteParaCentavos(campoCusto.getText().toString()) >= MoneyConverter.converteParaCentavos(campoPreco.getText().toString())) {
+            campoCusto.setError("Custo deve ser menor que preço!");
+            campoPreco.setError("Preço deve ser maior que custo!");
+        } else {
             finalizaFormulario();
         }
     }

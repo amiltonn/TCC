@@ -65,7 +65,7 @@ public class ConsultarCaixaViewTask extends AsyncTask<Void, Void, CaixaView> {
     this.caixaView.setEstoqueView(this.estoqueView);
     for (ProdutoView produtoView : this.caixaView.getEstoqueView().getProdutoViewList()) {
       Optional<CaixaProdutoView> caixaProdutoViewOptional = caixaProdutoViewList.stream()
-          .filter(caixaProdutoView -> caixaProdutoView.getCaixaProduto().getProdutoId() == produtoView.getProduto().getId()).findFirst();
+          .filter(caixaProdutoView -> caixaProdutoView.getCaixaProduto().getProdutoId().equals(produtoView.getProduto().getId())).findFirst();
       if(caixaProdutoViewOptional.isPresent())
         produtoView.setCaixaProdutoView(caixaProdutoViewOptional.get());
     }
