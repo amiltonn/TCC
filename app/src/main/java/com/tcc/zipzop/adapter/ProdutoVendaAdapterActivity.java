@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -50,6 +51,7 @@ public class ProdutoVendaAdapterActivity extends RecyclerView.Adapter<ProdutoVen
                 .getProduto().getNome());
         holder.qtdVendaProduto.setText(String.valueOf(this.produtosDaVenda.get(position).getVendaProduto().getQtd())+" ");
         holder.campoValor.setText(MoneyConverter.toString(produtosDaVenda.get(position).getVendaProduto().getPrecoVenda()));
+        final Integer precoMax = produtosDaVenda.get(position).getVendaProduto().getPrecoVenda();
 
         holder.campoValor.addTextChangedListener(new TextWatcher() {
             @Override
@@ -61,19 +63,25 @@ public class ProdutoVendaAdapterActivity extends RecyclerView.Adapter<ProdutoVen
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
                 produtosDaVenda.get(holder.getAdapterPosition()).getVendaProduto().setPrecoVenda(
-                        MoneyConverter.converteParaCentavos(holder.campoValor.getText().toString())
+                    MoneyConverter.converteParaCentavos(holder.campoValor.getText().toString())
                 );
-                if (produtosDaVenda.get(holder.getAdapterPosition()).getVendaProduto().getPrecoVenda() == null){
+                if (produtosDaVenda.get(holder.getAdapterPosition()).getVendaProduto().getPrecoVenda() == null) {
                     produtosDaVenda.get(holder.getAdapterPosition()).getVendaProduto().setPrecoVenda(0);
                     novaVendaActivity.preencherValorTotal();
-                }else {
+                } else if (produtosDaVenda.get(holder.getAdapterPosition()).getVendaProduto().getPrecoVenda() > precoMax) {
+                    Toast.makeText(context, "Alterações permitidas apenas para valores abaixo!", Toast.LENGTH_LONG).show();
+                } else {
                     novaVendaActivity.preencherValorTotal();
                 }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                if (produtosDaVenda.get(holder.getAdapterPosition()).getVendaProduto().getPrecoVenda() > precoMax) {
+                    produtosDaVenda.get(holder.getAdapterPosition()).getVendaProduto().setPrecoVenda(precoMax);
+                    holder.campoValor.setText(MoneyConverter.toString(produtosDaVenda.get(holder.getAdapterPosition()).getVendaProduto().getPrecoVenda()));
+                    novaVendaActivity.preencherValorTotal();
+                }
             }
         });
 

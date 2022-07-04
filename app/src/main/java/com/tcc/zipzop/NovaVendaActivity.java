@@ -237,6 +237,7 @@ public class NovaVendaActivity extends AppCompatActivity {
         }
         valorTotal.setText(""+ MoneyConverter.toString(somaValorTotal));
     }
+
     private void finalizarVenda() {
         venda = new Venda();
         if (valorPago.getText().toString().equals("")) {

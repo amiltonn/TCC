@@ -53,12 +53,12 @@ public class RelatorioActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                     });
+                    List treco = vendaViewList;
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-
 
                 Intent intent = new Intent(RelatorioActivity.this, MainActivity.class);
                 startActivity(intent);
@@ -83,6 +83,7 @@ public class RelatorioActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                     });
+                    List treco = caixaViewList;
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 } catch (InterruptedException e) {
