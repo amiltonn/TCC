@@ -93,15 +93,33 @@ public class ResumoVendaAcitivity extends AppCompatActivity {
                     String.valueOf(MoneyConverter.toString(vPVenda.getVendaProduto().getPrecoVenda()))};
             Log.d("VIZUALIZAÇAO", String.valueOf(visualizacaoVendaProduto));
             TableRow row = new TableRow(getBaseContext());
+            TextView textViewFirst = null;
             TextView textView = null;
             for (int i=0;i<4;i++) {
                 textView = new TextView(getBaseContext());
-                textView.setGravity(Gravity.CENTER);
-                textView.setPadding(10, 10, 10, 10);
+                switch (i) {
+                    case 0:
+                        textViewFirst = findViewById(R.id.nome);
+                        break;
+                    case 1:
+                        textViewFirst = findViewById(R.id.preco);
+                        break;
+                    case 2:
+                        textViewFirst = findViewById(R.id.qtd);
+                        break;
+                    case 3:
+                        textViewFirst = findViewById(R.id.valortotal);
+                        break;
+                    default:
+                        throw new IllegalStateException("Unexpected value: " + i);
+                }
+                textView.setPadding(textViewFirst.getPaddingLeft(), textViewFirst.getCompoundPaddingTop(), textViewFirst.getCompoundPaddingRight(), textViewFirst.getCompoundPaddingBottom());
+                textView.setLayoutParams(textViewFirst.getLayoutParams());
                 textView.setBackgroundResource(R.color.botao);
                 textView.setText(visualizacaoVendaProduto[i]);
                 textView.setTextColor(getResources().getColor(R.color.letra));
                 row.addView(textView);
+                row.setGravity(Gravity.CENTER);
             }
             tableLayoutVendaProduto.addView(row);
         });

@@ -96,7 +96,8 @@ public class RelatorioVendaActivity extends AppCompatActivity {
         }
         textView.setPadding(textViewFirst.getPaddingLeft(), textViewFirst.getCompoundPaddingTop(), textViewFirst.getCompoundPaddingRight(), textViewFirst.getCompoundPaddingBottom());
         textView.setLayoutParams(textViewFirst.getLayoutParams());
-        textView.setBackgroundResource(R.color.cordefundo);
+        textView.setBackgroundResource(R.color.botao);
+        textView.setTextColor(getResources().getColor(R.color.letra));
         textView.setText(visualizacaoVendaView[i]);
         row.addView(textView);
         row.setGravity(Gravity.CENTER);
