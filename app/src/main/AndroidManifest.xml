@@ -9,6 +9,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Zipzop">
         <activity
+            android:name=".RelatorioActivity"
+            android:exported="false"
+            android:label="Relatórios/Análise"
+            android:parentActivityName=".MainActivity"/>
+        <activity
             android:name=".ResumoVendaAcitivity"
             android:exported="false"
             android:label="Resumo da Venda"
@@ -17,37 +22,37 @@
             android:name=".CaixaAbertoActivity"
             android:exported="false"
             android:label="Caixa Aberto"
-            android:parentActivityName=".MainActivity"></activity>
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".NovaVendaActivity"
             android:exported="false"
             android:label="Nova Venda"
-            android:parentActivityName=".VendaActivity"></activity>
+            android:parentActivityName=".VendaActivity"/>
         <activity
             android:name=".VendaActivity"
             android:exported="false"
             android:label="Lista de Vendas"
-            android:parentActivityName=".MainActivity"></activity>
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".AbrirCaixaActivity"
             android:exported="false"
             android:label="Novo Caixa"
-            android:parentActivityName=".CaixaActivity"></activity>
+            android:parentActivityName=".CaixaActivity"/>
         <activity
             android:name=".CaixaActivity"
             android:exported="false"
             android:label="Caixa"
-            android:parentActivityName=".MainActivity"></activity>
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".SalvarProdutoActivity"
             android:exported="false"
             android:label="Produto"
-            android:parentActivityName=".ProdutoActivity"></activity>
+            android:parentActivityName=".ProdutoActivity"/>
         <activity
             android:name=".ProdutoActivity"
             android:exported="false"
             android:label="Lista de Produtos"
-            android:parentActivityName=".MainActivity"></activity>
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".MainActivity"
             android:exported="true">

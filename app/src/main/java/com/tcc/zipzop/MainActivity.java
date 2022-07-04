@@ -1,25 +1,34 @@
 package com.tcc.zipzop;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.backup.BackupManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.tcc.zipzop.asynctask.caixa.ChecarCaixaAbertoTask;
-import com.tcc.zipzop.asynctask.caixa.FecharCaixaTask;
+import com.tcc.zipzop.asynctask.relatorio.vendaView.ConsultarVendaViewTask;
+import com.tcc.zipzop.asynctask.venda.ListarVendaTask;
 import com.tcc.zipzop.database.ZipZopDataBase;
 import com.tcc.zipzop.database.dao.CaixaDAO;
+import com.tcc.zipzop.entity.Venda;
+import com.tcc.zipzop.view.analytics.VendaView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
     private Button bt_Produto;
     private Button bt_Caixa;
     private Button bt_Venda;
+    private Button bt_Relatorio;
     private CaixaDAO caixaDAO;
     private Boolean existeCaixaAberto;
 
@@ -58,6 +67,16 @@ public class MainActivity extends AppCompatActivity {
                 listarVenda();
             }
 
+        });
+
+        bt_Relatorio = findViewById(R.id.buttonRelatorio);
+        bt_Relatorio.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, RelatorioActivity.class);
+                startActivity(intent);
+            }
         });
 
     }
