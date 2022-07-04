@@ -143,10 +143,10 @@ public class ResumoVendaAcitivity extends AppCompatActivity {
 
     private void salvarVenda() {
         new SalvarVendaTask(vendaDAO, vendaOpView.getVenda()).execute();
-        CaixaFundo caixaFundo = new CaixaFundo();
+//        CaixaFundo caixaFundo = new CaixaFundo();
         try {
             vendaOpView.setVenda(new ConsultarVendaAbertaTask(vendaDAO).execute().get());
-            caixaFundo = new ConsultarCaixaFundoPeloCaixaIdTask(caixaFundoDAO, vendaOpView.getVenda().getCaixaId()).execute().get();
+//            caixaFundo = new ConsultarCaixaFundoPeloCaixaIdTask(caixaFundoDAO, vendaOpView.getVenda().getCaixaId()).execute().get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -162,10 +162,10 @@ public class ResumoVendaAcitivity extends AppCompatActivity {
             new SalvarVendaProdutoActivityTask(vendaProdutoDAO, vendaProduto, caixaProdutoDAO).execute();
         });
 
-        caixaFundo.setDataAlteracao(null);
-        caixaFundo.setId(null);
-        caixaFundo.setValor(caixaFundo.getValor() - MoneyConverter.converteParaCentavos(campoTroco.toString()));
-        new SalvarCaixaFundoTask(caixaFundoDAO, caixaFundo).execute();
+//        caixaFundo.setDataAlteracao(null);
+//        caixaFundo.setId(null);
+//        caixaFundo.setValor(caixaFundo.getValor() - MoneyConverter.converteParaCentavos(campoTroco.getText().toString()));
+//        new SalvarCaixaFundoTask(caixaFundoDAO, caixaFundo).execute();
 
         new FecharVendaTask(vendaDAO).execute();
 
