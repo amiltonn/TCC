@@ -45,6 +45,7 @@ public class VendaActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(VendaActivity.this, NovaVendaActivity.class);
+                finish();
                 startActivity(intent);
 
             }

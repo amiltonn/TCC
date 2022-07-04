@@ -132,10 +132,10 @@
 
             <TextView
                 android:id="@+id/totalText"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:text="Total: "
+                android:text="Total:"
                 android:textColor="@color/letra"
                 android:textSize="14dp"
                 android:textStyle="bold" />
@@ -152,7 +152,7 @@
 
             <TextView
                 android:id="@+id/descontosText"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
                 android:text="Descontos / Produto:"
@@ -178,10 +178,10 @@
 
             <TextView
                 android:id="@+id/pagoText"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:text="Pago: "
+                android:text="Pago:"
                 android:textColor="@color/letra"
                 android:textSize="14dp"
                 android:textStyle="bold" />
@@ -198,7 +198,7 @@
 
             <TextView
                 android:id="@+id/todalDescontoText"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
                 android:text="Desconto total:"
@@ -224,10 +224,10 @@
 
             <TextView
                 android:id="@+id/totalCustoText"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:text="Custo: "
+                android:text="Custo:"
                 android:textColor="@color/letra"
                 android:textSize="14dp"
                 android:textStyle="bold" />
@@ -244,7 +244,7 @@
 
             <TextView
                 android:id="@+id/lucroText"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
                 android:text="Lucro calculado:"
