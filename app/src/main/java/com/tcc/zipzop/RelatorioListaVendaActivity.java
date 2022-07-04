@@ -15,6 +15,7 @@ import com.tcc.zipzop.asynctask.relatorio.vendaView.ConsultarVendaViewTask;
 import com.tcc.zipzop.asynctask.venda.ListarVendaTask;
 import com.tcc.zipzop.database.ZipZopDataBase;
 import com.tcc.zipzop.entity.Venda;
+import com.tcc.zipzop.typeconverter.ObjectWrapperForBinder;
 import com.tcc.zipzop.view.analytics.VendaView;
 
 import java.util.ArrayList;
@@ -59,8 +60,10 @@ public class RelatorioListaVendaActivity extends AppCompatActivity {
   }
 
   public void onSelectedVendaView(VendaView vendaView) {
-    Intent intent = new Intent(this, RelatorioVendaActivity.class);
-    startActivity(intent);
+    final Object vendaViewSent = vendaView;
+    final Bundle bundle = new Bundle();
+    bundle.putBinder("vendaViewValue", new ObjectWrapperForBinder(vendaViewSent));
+    startActivity(new Intent(this, RelatorioVendaActivity.class).putExtras(bundle));
   }
 
 }
