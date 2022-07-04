@@ -171,5 +171,6 @@ public class ResumoVendaAcitivity extends AppCompatActivity {
 
 
         startActivity(new Intent(this, VendaActivity.class));
+        finish();
     }
 }

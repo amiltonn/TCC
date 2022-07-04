@@ -107,17 +107,17 @@ public class RelatorioVendaActivity extends AppCompatActivity {
     campoData = findViewById(R.id.dataVenda);
     campoData.setText(DateTimeConverter.dataFormatada(vendaView.getVenda().getDataPagamento()));
     campoTotal = findViewById(R.id.total);
-    campoTotal.setText("R$" + MoneyConverter.toString(total));
+    campoTotal.setText("R$"+MoneyConverter.toString(total));
     campoPago = findViewById(R.id.pago);
-    campoPago.setText("R$" + MoneyConverter.toString(pago));
+    campoPago.setText("R$"+MoneyConverter.toString(pago));
     campoTotalCusto = findViewById(R.id.totalCusto);
-    campoTotalCusto.setText("R$" + MoneyConverter.toString(totalCusto));
+    campoTotalCusto.setText("R$"+MoneyConverter.toString(totalCusto));
     campoDescontos = findViewById(R.id.descontos);
-    campoDescontos.setText("R$" + MoneyConverter.toString(descontos));
+    campoDescontos.setText("R$"+MoneyConverter.toString(descontos));
     campoTotalDesconto = findViewById(R.id.totalDesconto);
-    campoTotalDesconto.setText("R$" + MoneyConverter.toString(totalDesconto));
+    campoTotalDesconto.setText("R$"+MoneyConverter.toString(totalDesconto));
     campoLucro = findViewById(R.id.lucro);
-    campoLucro.setText("R$" + MoneyConverter.toString(lucro));
+    campoLucro.setText("R$"+MoneyConverter.toString(lucro));
 
   }
 }

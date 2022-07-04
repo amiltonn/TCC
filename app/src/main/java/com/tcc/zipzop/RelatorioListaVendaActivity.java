@@ -59,6 +59,7 @@ public class RelatorioListaVendaActivity extends AppCompatActivity {
     recyclerView.setLayoutManager(new LinearLayoutManager(this));
   }
 
+  @RequiresApi(api = Build.VERSION_CODES.N)
   public void onSelectedVendaView(VendaView vendaView) {
     final Object vendaViewSent = vendaView;
     final Bundle bundle = new Bundle();
