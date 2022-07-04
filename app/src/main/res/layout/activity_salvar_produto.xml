@@ -52,7 +52,7 @@
         app:layout_constraintTop_toBottomOf="@+id/layout_caixaAbertoData">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/CustoProducao"
+            android:id="@+id/Custo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/edit_text"
@@ -79,7 +79,7 @@
         app:layout_constraintTop_toBottomOf="@+id/layout_CustoProdução">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/PrecoVenda"
+            android:id="@+id/Preco"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/edit_text"

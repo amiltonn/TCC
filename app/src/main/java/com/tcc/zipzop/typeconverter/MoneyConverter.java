@@ -31,7 +31,7 @@ public class MoneyConverter {
     Boolean ultimoIsVirgula = false;
 
     for (int i = valor.length() - 1; i >= 0 && quantosAlgarismos < 3; i--) {
-      if(valor.charAt(i) == ',' || valor.charAt(i) == '.') {
+      if(valor.charAt(i).equals(',') || valor.charAt(i).equals('.')) {
         if(ultimoIsVirgula.equals(false)) {
           quantosAtrasVirgula = quantosAlgarismos;
           ultimoIsVirgula = true;
