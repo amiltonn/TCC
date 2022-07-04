@@ -134,10 +134,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="32dp"
             android:hint="Valor Pago: "
             android:textColorHint="@color/black"
-            app:layout_constraintEnd_toStartOf="@+id/listaFormaPagamento"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/valorTotal">
 
@@ -146,39 +146,42 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/edit_text"
-                android:digits="0123456789"
+                android:digits="0123456789,."
                 android:imeOptions="actionDone"
                 android:inputType="number"
                 android:padding="18dp"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             android:id="@+id/valorTotalText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="155dp"
+            android:layout_height="15dp"
             android:layout_marginStart="32dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="4dp"
             android:text="Valor Total:"
             android:textColor="@color/letra"
             android:textSize="15dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/valorTotal"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/listVendaProduto" />
 
-        <TextView
+        <EditText
             android:id="@+id/valorTotal"
             style="@style/Edit_Text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
             android:textColor="@color/letra"
             android:textSize="15dp"
             android:textStyle="bold"
+            android:digits="0123456789,."
+            android:imeOptions="actionDone"
+            android:inputType="number"
             app:layout_constraintEnd_toStartOf="@+id/listaFormaPagamento"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/valorTotalText" />
@@ -186,30 +189,30 @@
         <Spinner
             android:id="@+id/listaFormaPagamento"
             android:layout_width="0dp"
-            android:layout_height="57dp"
-            android:layout_marginStart="2dp"
-            android:layout_marginTop="8dp"
+            android:layout_height="46dp"
+            android:layout_marginStart="8dp"
             android:layout_marginEnd="32dp"
             android:background="@drawable/style_spinner"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/layoutValorPago"
-            app:layout_constraintTop_toBottomOf="@+id/valorTotal" />
+            app:layout_constraintStart_toEndOf="@+id/valorTotal"
+            app:layout_constraintTop_toBottomOf="@+id/formadePagamento" />
 
         <TextView
             android:id="@+id/formadePagamento"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="19dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="32dp"
-            android:layout_marginBottom="8dp"
             android:text="Forma de Pagamaneto:"
             android:textColor="@color/letra"
             android:textSize="13dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/listaFormaPagamento"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/layoutValorPago"
-            app:layout_constraintTop_toBottomOf="@+id/valorTotal" />
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/valorTotal"
+            app:layout_constraintTop_toBottomOf="@+id/listVendaProduto" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

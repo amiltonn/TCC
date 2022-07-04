@@ -40,27 +40,7 @@ public class RelatorioActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
-                try {
-                    ZipZopDataBase dataBase = ZipZopDataBase.getInstance(RelatorioActivity.this);
-                    List<Venda> vendaList = new ListarVendaTask(dataBase.getVendaDAO()).execute().get();
-                    List<VendaView> vendaViewList = new ArrayList<>();
-                    vendaList.forEach(venda -> {
-                        try {
-                            vendaViewList.add(new ConsultarVendaViewTask(RelatorioActivity.this, venda.getId()).execute().get());
-                        } catch (ExecutionException e) {
-                            e.printStackTrace();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    });
-                    List treco = vendaViewList;
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                Intent intent = new Intent(RelatorioActivity.this, MainActivity.class);
+                Intent intent = new Intent(RelatorioActivity.this, RelatorioListaVendaActivity.class);
                 startActivity(intent);
             }
         });

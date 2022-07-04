@@ -17,17 +17,13 @@ import com.tcc.zipzop.database.ZipZopDataBase;
 import com.tcc.zipzop.database.dao.ProdutoDAO;
 import com.tcc.zipzop.entity.Produto;
 import com.tcc.zipzop.typeconverter.MoneyConverter;
-
-import java.util.ArrayList;
 import java.util.List;
 
 
 public class ProdutoAdapterActivity extends RecyclerView.Adapter<ProdutoAdapterActivity.MyViewHolder> {
 
-    private List<Produto> produtos = new ArrayList<>();
+    private List<Produto> produtos;
     private Context context;
-    private ProdutoDAO dao;
-    private  int longClickPosition;
     private Integer id;
     public Integer getId(){
         return id;
@@ -39,8 +35,6 @@ public class ProdutoAdapterActivity extends RecyclerView.Adapter<ProdutoAdapterA
     public ProdutoAdapterActivity(List<Produto> produtos, Context context) {
         this.produtos = produtos;
         this.context = context;
-        ZipZopDataBase dataBase = ZipZopDataBase.getInstance(context);
-        this.dao = dataBase.getProdutoDAO();
 
     }
 

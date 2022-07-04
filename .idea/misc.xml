@@ -21,11 +21,11 @@
         <entry key="..\:/AULAS CEUB/2022/zipzop/app/src/main/res/layout/activity_itens.xml" value="0.1" />
         <entry key="..\:/AULAS CEUB/2022/zipzop/app/src/main/res/layout/activity_lista_produto_adapter_caixa_aberto.xml" value="0.25" />
         <entry key="..\:/AULAS CEUB/2022/zipzop/app/src/main/res/layout/activity_main.xml" value="0.25" />
-        <entry key="..\:/AULAS CEUB/2022/zipzop/app/src/main/res/layout/activity_nova_venda.xml" value="0.25" />
+        <entry key="..\:/AULAS CEUB/2022/zipzop/app/src/main/res/layout/activity_nova_venda.xml" value="0.33" />
         <entry key="..\:/AULAS CEUB/2022/zipzop/app/src/main/res/layout/activity_novo_item.xml" value="0.33" />
         <entry key="..\:/AULAS CEUB/2022/zipzop/app/src/main/res/layout/activity_produto.xml" value="0.33" />
         <entry key="..\:/AULAS CEUB/2022/zipzop/app/src/main/res/layout/activity_produto_adapter.xml" value="0.18" />
-        <entry key="..\:/AULAS CEUB/2022/zipzop/app/src/main/res/layout/activity_resumo_venda_acitivity.xml" value="0.22" />
+        <entry key="..\:/AULAS CEUB/2022/zipzop/app/src/main/res/layout/activity_resumo_venda_acitivity.xml" value="0.25" />
         <entry key="..\:/AULAS CEUB/2022/zipzop/app/src/main/res/layout/activity_resumo_venda_adapter.xml" value="0.25" />
         <entry key="..\:/AULAS CEUB/2022/zipzop/app/src/main/res/layout/activity_salvar_produto.xml" value="0.25" />
         <entry key="..\:/AULAS CEUB/2022/zipzop/app/src/main/res/layout/activity_teste.xml" value="0.1" />
@@ -33,8 +33,8 @@
         <entry key="..\:/AULAS CEUB/2022/zipzop/app/src/main/res/layout/activity_venda_adapter.xml" value="0.25" />
         <entry key="..\:/AULAS CEUB/2022/zipzop/app/src/main/res/layout/custom_actionbar.xml" value="0.1585144927536232" />
         <entry key="..\:/AULAS CEUB/2022/zipzop/app/src/main/res/layout/edit_actionbar.xml" value="0.1585144927536232" />
-        <entry key="..\:/AULAS CEUB/2022/zipzop/app/src/main/res/layout/layout_produto_caixa.xml" value="0.25" />
-        <entry key="..\:/AULAS CEUB/2022/zipzop/app/src/main/res/layout/layout_produto_venda.xml" value="0.14356884057971014" />
+        <entry key="..\:/AULAS CEUB/2022/zipzop/app/src/main/res/layout/layout_produto_caixa.xml" value="0.5" />
+        <entry key="..\:/AULAS CEUB/2022/zipzop/app/src/main/res/layout/layout_produto_venda.xml" value="0.25" />
         <entry key="..\:/AULAS CEUB/2022/zipzop/app/src/main/res/layout/layout_textview.xml" value="0.5" />
         <entry key="..\:/AULAS CEUB/2022/zipzop/app/src/main/res/layout/teste.xml" value="0.1585144927536232" />
         <entry key="..\:/AULAS CEUB/2022/zipzop/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1175" />
@@ -73,11 +73,14 @@
         <entry key="app/src/main/res/layout/activity_novo_item.xml" value="0.333786231884058" />
         <entry key="app/src/main/res/layout/activity_produto.xml" value="0.16" />
         <entry key="app/src/main/res/layout/activity_produto_adapter.xml" value="0.21965579710144928" />
+<<<<<<< HEAD
+=======
         <entry key="app/src/main/res/layout/activity_relatorio.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_relatorio_l_venda.xml" value="0.2" />
         <entry key="app/src/main/res/layout/activity_relatorio_l_venda_adapter.xml" value="0.2" />
         <entry key="app/src/main/res/layout/activity_relatorio_lista_venda.xml" value="0.2203125" />
         <entry key="app/src/main/res/layout/activity_resumo_venda_acitivity.xml" value="0.33" />
+>>>>>>> fffd7a43bdfe467b73c3c3fe4d8a1d66c3a2609d
         <entry key="app/src/main/res/layout/activity_salvar_item.xml" value="0.31476449275362317" />
         <entry key="app/src/main/res/layout/activity_salvar_produto.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_venda.xml" value="0.1875" />

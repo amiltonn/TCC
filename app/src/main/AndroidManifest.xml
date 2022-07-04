@@ -9,50 +9,53 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Zipzop">
         <activity
+            android:name=".RelatorioListaVendaActivity"
+            android:exported="false" />
+        <activity
             android:name=".RelatorioActivity"
             android:exported="false"
             android:label="Relatórios/Análise"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".ResumoVendaAcitivity"
             android:exported="false"
             android:label="Resumo da Venda"
-            android:parentActivityName=".NovaVendaActivity"/>
+            android:parentActivityName=".NovaVendaActivity" />
         <activity
             android:name=".CaixaAbertoActivity"
             android:exported="false"
             android:label="Caixa Aberto"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".NovaVendaActivity"
             android:exported="false"
             android:label="Nova Venda"
-            android:parentActivityName=".VendaActivity"/>
+            android:parentActivityName=".VendaActivity" />
         <activity
             android:name=".VendaActivity"
             android:exported="false"
             android:label="Lista de Vendas"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".AbrirCaixaActivity"
             android:exported="false"
             android:label="Novo Caixa"
-            android:parentActivityName=".CaixaActivity"/>
+            android:parentActivityName=".CaixaActivity" />
         <activity
             android:name=".CaixaActivity"
             android:exported="false"
             android:label="Caixa"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".SalvarProdutoActivity"
             android:exported="false"
             android:label="Produto"
-            android:parentActivityName=".ProdutoActivity"/>
+            android:parentActivityName=".ProdutoActivity" />
         <activity
             android:name=".ProdutoActivity"
             android:exported="false"
             android:label="Lista de Produtos"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

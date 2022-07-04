@@ -19,6 +19,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.textfield.TextInputLayout;
 import com.tcc.zipzop.adapter.ProdutoVendaAdapterActivity;
 import com.tcc.zipzop.asynctask.caixa.BuscarCaixaAbertoTask;
 import com.tcc.zipzop.asynctask.produto.ConsultarProdutoTask;
@@ -51,7 +52,9 @@ import java.util.stream.Collectors;
 public class NovaVendaActivity extends AppCompatActivity {
     private AppCompatButton ButtonNovaVenda;
     private EditText quantidadeProdutos, valorPago;
-    private TextView valorTotal;
+    private EditText valorTotal;
+    private TextInputLayout layoutValorPago;
+    private Integer somaValorTotal;
 
     //Produtos da VendaProduto/adapter
     private RecyclerView listViewDeVendaProdutos;
@@ -95,11 +98,12 @@ public class NovaVendaActivity extends AppCompatActivity {
         caixaDAO = dataBase.getCaixaDAO();
         caixaProdutoDAO = dataBase.getCaixaProdutoDAO();
         formaPagamentoDAO = dataBase.getFormaPagamentoDAO();
+        venda = new Venda();
         //spinner
         popularSpinner();
-
         inicializaCampos();
         valorPago = findViewById(R.id.valorPago);
+        layoutValorPago = findViewById(R.id.layoutValorPago);
 
         // variaveis e objetos dos produtos da venda
         this.listViewDeVendaProdutos = findViewById(R.id.listVendaProduto);
@@ -114,7 +118,7 @@ public class NovaVendaActivity extends AppCompatActivity {
         ButtonNovaVenda.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finalizarVenda();
+               verificarCampos();
             }
         });
 
@@ -138,12 +142,21 @@ public class NovaVendaActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 formaPagamentoSelected = (FormaPagamento) parent.getItemAtPosition(position);
+                if (formaPagamentoSelected.getNome().equals("DINHEIRO")){
+                    layoutValorPago.setVisibility(View.VISIBLE);
+                }else{
+                    layoutValorPago.setVisibility(View.INVISIBLE);
+                    valorPago.setText("");
+                    venda.setValorPago(MoneyConverter.converteParaCentavos(valorTotal.getText().toString()));
+                }
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 formaPagamentoSelected = null;
             }
         });
+
+
     }
 
     private void popularSpinner() {
@@ -231,15 +244,28 @@ public class NovaVendaActivity extends AppCompatActivity {
 
     public void preencherValorTotal() {
         valorTotal = findViewById(R.id.valorTotal);
-        Integer somaValorTotal = 0;
+        somaValorTotal = 0;
         for (VendaProdutoOpView vendaPView : vendaProdutoOpViewList) {
             somaValorTotal += vendaPView.getVendaProduto().getPrecoVenda();
         }
         valorTotal.setText(""+ MoneyConverter.toString(somaValorTotal));
     }
+    private void verificarCampos() {
+        if (MoneyConverter.converteParaCentavos(valorTotal.getText().toString()) > somaValorTotal ){
+            valorTotal.setError("Valor maior que o Valor Total da Venda");
+            valorTotal.setText(""+ MoneyConverter.toString(somaValorTotal));
+        }else if (!valorPago.getText().toString().equals("") &&
+                (MoneyConverter.converteParaCentavos(valorPago.getText().toString()) <
+                        MoneyConverter.converteParaCentavos(valorTotal.getText().toString()))
+        ){
+            valorPago.setError("Valor pago em Dinheiro maior que Valor Total");
+            valorPago.setText(valorTotal.getText());
+        } else{
+            finalizarVenda();
+        }
+    }
 
     private void finalizarVenda() {
-        venda = new Venda();
         if (valorPago.getText().toString().equals("")) {
             venda.setValorPago(MoneyConverter.converteParaCentavos(valorTotal.getText().toString()));
         } else {
