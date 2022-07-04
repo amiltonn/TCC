@@ -16,14 +16,18 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.tcc.zipzop.asynctask.caixa.caixaFundo.ConsultarCaixaFundoPeloCaixaIdTask;
+import com.tcc.zipzop.asynctask.caixa.caixaFundo.SalvarCaixaFundoTask;
 import com.tcc.zipzop.asynctask.venda.ConsultarVendaAbertaTask;
 import com.tcc.zipzop.asynctask.venda.FecharVendaTask;
 import com.tcc.zipzop.asynctask.venda.SalvarVendaTask;
 import com.tcc.zipzop.asynctask.venda.vendaProduto.SalvarVendaProdutoActivityTask;
 import com.tcc.zipzop.database.ZipZopDataBase;
+import com.tcc.zipzop.database.dao.CaixaFundoDAO;
 import com.tcc.zipzop.database.dao.CaixaProdutoDAO;
 import com.tcc.zipzop.database.dao.VendaDAO;
 import com.tcc.zipzop.database.dao.VendaProdutoDAO;
+import com.tcc.zipzop.entity.CaixaFundo;
 import com.tcc.zipzop.entity.VendaProduto;
 import com.tcc.zipzop.typeconverter.MoneyConverter;
 import com.tcc.zipzop.typeconverter.ObjectWrapperForBinder;
@@ -46,6 +50,7 @@ public class ResumoVendaAcitivity extends AppCompatActivity {
     private VendaDAO vendaDAO;
     private VendaProdutoDAO vendaProdutoDAO;
     private CaixaProdutoDAO caixaProdutoDAO;
+    private CaixaFundoDAO caixaFundoDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +64,7 @@ public class ResumoVendaAcitivity extends AppCompatActivity {
         vendaDAO = dataBase.getVendaDAO();
         vendaProdutoDAO = dataBase.getVendaProdutoDAO();
         caixaProdutoDAO = dataBase.getCaixaProdutoDAO();
+        caixaFundoDAO = dataBase.getCaixaFundoDAO();
         final Object vendaViewReceived = ((ObjectWrapperForBinder)getIntent().getExtras().getBinder("vendaViewValue")).getData();
         vendaOpView = (VendaOpView) vendaViewReceived;
         Log.d("Resumo", String.valueOf(vendaOpView));
@@ -137,8 +143,10 @@ public class ResumoVendaAcitivity extends AppCompatActivity {
 
     private void salvarVenda() {
         new SalvarVendaTask(vendaDAO, vendaOpView.getVenda()).execute();
+        CaixaFundo caixaFundo = new CaixaFundo();
         try {
             vendaOpView.setVenda(new ConsultarVendaAbertaTask(vendaDAO).execute().get());
+            caixaFundo = new ConsultarCaixaFundoPeloCaixaIdTask(caixaFundoDAO, vendaOpView.getVenda().getCaixaId()).execute().get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -153,6 +161,12 @@ public class ResumoVendaAcitivity extends AppCompatActivity {
 
             new SalvarVendaProdutoActivityTask(vendaProdutoDAO, vendaProduto, caixaProdutoDAO).execute();
         });
+
+        caixaFundo.setDataAlteracao(null);
+        caixaFundo.setId(null);
+        caixaFundo.setValor(caixaFundo.getValor() - MoneyConverter.converteParaCentavos(campoTroco.toString()));
+        new SalvarCaixaFundoTask(caixaFundoDAO, caixaFundo).execute();
+
         new FecharVendaTask(vendaDAO).execute();
 
 
