@@ -31,13 +31,13 @@ import java.util.concurrent.ExecutionException;
 
 public class ProdutoActivity extends AppCompatActivity {
 
-    RecyclerView recyclerView;
-    ProdutoAdapterActivity produtoAdapterActivity;
+    private RecyclerView recyclerView;
+    private ProdutoAdapterActivity produtoAdapterActivity;
     private ProdutoDAO dao;
     private CaixaDAO caixaDAO;
-    List<Produto> produtos;
+    private List<Produto> produtos;
     private FloatingActionButton buttonNovoProduto;
-    Intent intent;
+    private Intent intent;
 
 
     @Override
@@ -104,7 +104,7 @@ public class ProdutoActivity extends AppCompatActivity {
     public boolean onContextItemSelected(@NonNull MenuItem menuItem) {
 
         Integer id = produtoAdapterActivity.getId();
-        int posicao = ((produtoAdapterActivity.getPosicao()));
+        int posicao = produtoAdapterActivity.getPosicao();
         switch (menuItem.getItemId()){
             case R.id.excluir:
                 Produto produto = produtoAdapterActivity.getProduto(posicao);

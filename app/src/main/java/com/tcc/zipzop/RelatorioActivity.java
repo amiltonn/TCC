@@ -37,7 +37,6 @@ public class RelatorioActivity extends AppCompatActivity {
         //Função do botão
         buttonListarVendas = findViewById(R.id.Bt_ListarVendas);
         buttonListarVendas.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(RelatorioActivity.this, RelatorioListaVendaActivity.class);

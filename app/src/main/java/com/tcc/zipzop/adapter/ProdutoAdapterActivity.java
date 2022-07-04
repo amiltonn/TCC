@@ -13,8 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.tcc.zipzop.R;
-import com.tcc.zipzop.database.ZipZopDataBase;
-import com.tcc.zipzop.database.dao.ProdutoDAO;
 import com.tcc.zipzop.entity.Produto;
 import com.tcc.zipzop.typeconverter.MoneyConverter;
 import java.util.List;

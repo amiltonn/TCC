@@ -9,8 +9,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Zipzop">
         <activity
+            android:name=".RelatorioVendaActivity"
+            android:exported="false"
+            android:label="Relatório de Venda"
+            android:parentActivityName=".RelatorioActivity" />
+        <activity
             android:name=".RelatorioListaVendaActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:label="Relatórios/Análise"
+            android:parentActivityName=".RelatorioActivity" />
         <activity
             android:name=".RelatorioActivity"
             android:exported="false"
