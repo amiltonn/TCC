@@ -71,7 +71,7 @@ public class RelatorioVendaActivity extends AppCompatActivity {
       totalDesconto = total - pago;
       lucro = pago - totalCusto;
       TableRow row = new TableRow(getBaseContext());
-      TextView textViewFirst;
+      TextView textViewFirst = null;
       TextView textView = null;
       for(int i=0; i < 5; i++) {
         textView = new TextView(getBaseContext());
