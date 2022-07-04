@@ -67,12 +67,16 @@
         <entry key="app/src/main/res/layout/activity_caixa_aberto.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_item.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_item_adapter.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_lista_produto_adapter_caixa_aberto.xml" value="0.2" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.16767983789260385" />
         <entry key="app/src/main/res/layout/activity_nova_venda.xml" value="0.2265625" />
         <entry key="app/src/main/res/layout/activity_novo_item.xml" value="0.333786231884058" />
         <entry key="app/src/main/res/layout/activity_produto.xml" value="0.16" />
         <entry key="app/src/main/res/layout/activity_produto_adapter.xml" value="0.21965579710144928" />
         <entry key="app/src/main/res/layout/activity_relatorio.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_relatorio_l_venda.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/activity_relatorio_l_venda_adapter.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/activity_relatorio_lista_venda.xml" value="0.2203125" />
         <entry key="app/src/main/res/layout/activity_resumo_venda_acitivity.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_salvar_item.xml" value="0.31476449275362317" />
         <entry key="app/src/main/res/layout/activity_salvar_produto.xml" value="0.25" />
